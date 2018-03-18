@@ -174,4 +174,38 @@ public class VehicleTest {
         assertEquals(correct, result);   
     }
     
+    
+    @Test
+    public void BikeTest(){
+        Junction sourceJunction = new Junction("j1");
+        Junction destinationJunction = new Junction("j2");
+        Road road = new Road("r1", 40, 20, sourceJunction, destinationJunction);
+        sourceJunction.addOutGoingRoad(road, destinationJunction);
+        destinationJunction.addIncomingRoad(road);
+        ArrayList<Junction> itinerary = new ArrayList<>();
+        itinerary.add(sourceJunction);
+        itinerary.add(destinationJunction);
+        Bike bike = new Bike("b1", 10, itinerary); 
+        IniSection result = bike.generateReport(0);
+        IniSection correct = new IniSection("vehicle_report");
+        
+        correct.setValue("id", "b1");
+        correct.setValue("time", "0");
+        correct.setValue("type", "bike");
+        correct.setValue("speed", "0");
+        correct.setValue("kilometrage", "0");
+        correct.setValue("faulty", "0");
+        correct.setValue("location", "(r1,0)");
+        
+        assertEquals(correct, result);
+        road.advance();
+        result = bike.generateReport(1);
+        
+        correct.setValue("time", "1");
+        correct.setValue("speed", "10");
+        correct.setValue("kilometrage", "10");
+        correct.setValue("location", "(r1,10)");
+       
+        assertEquals(correct, result);
+    }
 }
