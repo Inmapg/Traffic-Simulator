@@ -1,2 +1,2 @@
 # Text-Traffic-Simulator
-Traffic simulator for Technologies Programming in U.C.M.
+Traffic simulator project. Technologies Programming at University Complutense of Madrid (UCM).
