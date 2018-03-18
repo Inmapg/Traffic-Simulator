@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pr4.ini.IniSection;
 import pr4.model.Junction;
+import pr4.model.Bike;
 import pr4.model.Road;
 import pr4.model.Vehicle;
 
