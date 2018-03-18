@@ -144,10 +144,8 @@ public class Main {
 				+ (equalOutput ? "OK!" : ("not equal to expected output +'" + expectedOutFile + "'")));
 	}
 
-	/**
-	 * Run the simulator in batch mode
-	 * 
-	 * @throws IOException
+	/** Run the simulator in batch mode.
+	 *
 	 */
 	private static void startBatchMode() {
             try {
