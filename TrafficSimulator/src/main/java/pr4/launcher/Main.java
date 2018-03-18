@@ -182,7 +182,7 @@ public class Main {
 
 		// Call test in order to test the simulator on all examples in a directory.
 		//
-                test("C:\\Users\\Arturacu\\Desktop\\2º CUATRIMESTRE\\Simulador de Trafico Def\\Practica4\\resources\\examples\\advanced");    
+               // test("test_path");    
                 // Call start to start the simulator from command line, etc.
              //  test("08_simpleJunction.ini", "08_simpleJunction.ini.out", "08_simpleJunction.ini.eout", 10);
               // start(args);
