@@ -1,3 +1,4 @@
+// Not finished. Not working
 package pr4.model;
 
 /**Defines a congested junction.
