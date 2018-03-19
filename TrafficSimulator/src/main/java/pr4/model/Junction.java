@@ -172,7 +172,7 @@ public class Junction extends SimulatedObject {
         outgoingRoadMap.put(newJunction, newRoad);
     }
     
-    /**Creates an incoming road queue
+    /**Creates an incoming road queue.
      * 
      * @param r Road
      * @return Incoming road queue
@@ -201,7 +201,9 @@ public class Junction extends SimulatedObject {
         
     }
     
-    /**Changes the trafficlights of the roads*/
+    /**Changes the trafficlights of the roads.
+    *
+    */
     protected void switchLights() {
         if (nextRoad == null || !nextRoad.hasNext()) {
             nextRoad = incomingRoadMap.keySet().iterator();
@@ -227,7 +229,7 @@ public class Junction extends SimulatedObject {
              incomingRoadMap.values().forEach((ir) -> {
             sb.append('(').append(ir.road.getId()).append(',').append(ir.lightToString()).append(',').append(ir.printQueue()).append("),");
             });
-             sec.setValue("queues", sb.substring(0, sb.length() - 1));
+            sec.setValue("queues", sb.substring(0, sb.length() - 1));
         }
         else{
             sec.setValue("queues", "");
