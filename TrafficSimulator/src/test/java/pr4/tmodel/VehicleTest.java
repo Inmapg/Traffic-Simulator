@@ -6,6 +6,7 @@ import org.junit.Test;
 import pr4.ini.IniSection;
 import pr4.model.Junction;
 import pr4.model.Bike;
+import pr4.model.Car;
 import pr4.model.Road;
 import pr4.model.Vehicle;
 
@@ -208,5 +209,40 @@ public class VehicleTest {
         correct.setValue("location", "(r1,10)");
        
         assertEquals(correct, result);
+    }
+    
+    @Test
+    public void CarTest(){
+        Junction sourceJunction = new Junction("j1");
+        Junction destinationJunction = new Junction("j2");
+        Road road = new Road("r1", 70, 50, sourceJunction, destinationJunction);
+        sourceJunction.addOutGoingRoad(road, destinationJunction);
+        destinationJunction.addIncomingRoad(road);
+        ArrayList<Junction> itinerary = new ArrayList<>();
+        itinerary.add(sourceJunction);
+        itinerary.add(destinationJunction);
+        Car car = new Car("c1", 10, itinerary, 15, 1.0, 2, 0);
+        
+        IniSection result = car.generateReport(0);
+        IniSection correct = new IniSection("vehicle_report");
+        
+        correct.setValue("id", "c1");
+        correct.setValue("time", "0");
+        correct.setValue("type", "car");
+        correct.setValue("speed", "0");
+        correct.setValue("kilometrage", "0");
+        correct.setValue("faulty", "0");
+        correct.setValue("location", "(r1,0)");
+        assertEquals(correct, result);
+        road.advance();
+        
+        correct.setValue("time", "1");
+        correct.setValue("speed", "10");
+        correct.setValue("kilometrage", "10");
+        correct.setValue("location", "(r1,10)");
+        result = car.generateReport(1);   
+        
+        assertEquals(correct, result);
+        
     }
 }
