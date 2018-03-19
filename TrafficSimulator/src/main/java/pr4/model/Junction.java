@@ -169,8 +169,6 @@ public class Junction extends SimulatedObject {
      * @param newJunction Junction
      */
     public void addOutGoingRoad(Road newRoad, Junction newJunction) {
-        // Deberíamos de capturar un posible ArrayList que devolviera put
-        // indicándonos que la carretera ya había sido añadida
         outgoingRoadMap.put(newJunction, newRoad);
     }
     
