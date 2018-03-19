@@ -26,7 +26,7 @@ public class Junction extends SimulatedObject {
          */
         private ArrayDeque<Vehicle> waiting = new ArrayDeque<>();
         /**Incoming road*/
-        private Road road;
+        private final Road road;
         
         /**Class consctructor specifying road.
          * greenLight is false-initialized.
