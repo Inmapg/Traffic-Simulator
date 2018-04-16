@@ -5,7 +5,7 @@ package pr5.model;
  * 
  * @author Inmapg
  * @author Arturacu
- * @version 2.0
+ * @version 3.0
  * @see Junction
  */
 public class TimeSliceJunction extends Junction {

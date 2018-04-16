@@ -7,7 +7,7 @@ import pr5.model.RoundRobinJunction;
 /**Creates a new round robin junction.
  * @author Inmapg
  * @author Arturacu
- * @version 2.0
+ * @version 3.0
  */
 public class RoundRobinJunctionEvent extends JunctionEvent{
     /**Minimum time slice*/
