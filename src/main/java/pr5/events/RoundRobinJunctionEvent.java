@@ -9,7 +9,7 @@ import pr5.model.RoundRobinJunction;
  * @author Arturacu
  * @version 2.0
  */
-public class RoundRobinJunctionEvent extends TimeSliceJunctionEvent{
+public class RoundRobinJunctionEvent extends JunctionEvent{
     /**Minimum time slice*/
     private int minTimeSlice;
     /**Maximum time slice*/
