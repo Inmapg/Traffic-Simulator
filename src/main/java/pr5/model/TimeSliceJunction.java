@@ -1,4 +1,3 @@
-// Not finished. Not working
 package pr5.model;
 
 /**Defines a time slice junction.
