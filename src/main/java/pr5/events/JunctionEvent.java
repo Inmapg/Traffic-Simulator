@@ -11,7 +11,7 @@ import pr5.model.RoadMap;
  */
 public class JunctionEvent extends Event {
     /**Identification value*/
-    private final String id;
+    final String id;
     
     /**Class constructor specifying time and id.
      * 

@@ -1,7 +1,7 @@
 // Not finished. Not working
 package pr5.model;
 
-/**Defines a congested junction.
+/**Defines a time slice junction.
  * 
  * @author Inmapg
  * @author Arturacu
