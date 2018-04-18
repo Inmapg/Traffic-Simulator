@@ -1,5 +1,8 @@
 package pr5.model;
 
+import java.util.Iterator;
+import pr5.ini.IniSection;
+
 /**Creates a new most crowded junction.
  * @author Inmapg
  * @author Arturacu
@@ -7,24 +10,20 @@ package pr5.model;
  */
 public class MostCrowdedJunction extends TimeSliceJunction{
     
+    private static final String TYPE = "mc";
+    
     public MostCrowdedJunction(String id) {
         super(id);
         
     }
  @Override
     protected void switchLights() {
-        if (nextRoad == null || !nextRoad.hasNext()) {
-            nextRoad = incomingRoadMap.keySet().iterator();
-        }
-        if(currentRoad == null){
-            currentRoad = nextRoad.next();
-            incomingRoadMap.get(currentRoad).onGreenLight();
-            incomingRoadMap.get(currentRoad).advanceFirstVehicle();
-           // lastGreenLightRoad = currentRoad; not needed here, the switching lights control has been modified in this type of junction
-        }
-        else{
-            
-        }
-        
+        // Ops... Error 404 code not found
+    }
+    
+    
+     protected void fillReportDetails(IniSection sec) {
+        sec.setValue("type", TYPE);
+        super.fillReportDetails(sec);
     }
 }

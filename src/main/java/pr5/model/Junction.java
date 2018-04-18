@@ -111,12 +111,12 @@ public class Junction extends SimulatedObject {
     /**Current road
      * @see Road
      */
-    protected Road currentRoad;
+    protected IncomingRoad currentRoad;
     
     /**Road with green light
      * @see Road
      */
-    protected Road lastGreenLightRoad;
+    protected IncomingRoad lastGreenLightRoad;
     
     /**Associates roads with their respective incoming roads
      * @see Road
@@ -194,31 +194,28 @@ public class Junction extends SimulatedObject {
     public void advance() {
         if(!incomingRoadMap.isEmpty()){
             if(currentRoad != null){
-                incomingRoadMap.get(currentRoad).advanceFirstVehicle();
+                currentRoad.advanceFirstVehicle();
             }
             switchLights();
         }
         
     }
     
-    /**Changes the trafficlights of the roads.
-    *
-    */
-    protected void switchLights() {
+    protected IncomingRoad getNextRoad(){
         if (nextRoad == null || !nextRoad.hasNext()) {
             nextRoad = incomingRoadMap.keySet().iterator();
         }
-        if(currentRoad == null){
-            currentRoad = nextRoad.next();
-            incomingRoadMap.get(currentRoad).advanceFirstVehicle();
-        }
-        else{
-            currentRoad = nextRoad.next();
-        }
+        return incomingRoadMap.get(nextRoad.next());
+    }
+    
+    /**Changes the trafficlights of the roads.
+    */
+    protected void switchLights() {
+        currentRoad = getNextRoad();
         if(lastGreenLightRoad != null){
-            incomingRoadMap.get(lastGreenLightRoad).offGreenLight();
+            lastGreenLightRoad.offGreenLight();
         }
-        incomingRoadMap.get(currentRoad).onGreenLight();
+        currentRoad.onGreenLight();
         lastGreenLightRoad = currentRoad; 
     }
     

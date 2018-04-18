@@ -81,6 +81,13 @@ public class TimeSliceJunction extends Junction {
             this.intervalTime = intervalTime;
         }
         
+        public int getIntervalTime(){
+            return intervalTime;
+        }
+        
+        public void resetSpentTime(){
+            timeSpent = 0;
+        }
     } // End of the internal class TimeSliceIncomingRoad
     
     /**Class constructor specifying the id. 

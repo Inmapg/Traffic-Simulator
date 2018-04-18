@@ -1,6 +1,8 @@
 // Not finished. Not working
 package pr5.model;
 
+import pr5.ini.IniSection;
+
 /**Defines a circular junction.
  * 
  * @author Inmapg
@@ -16,6 +18,8 @@ public class RoundRobinJunction extends TimeSliceJunction {
     /**Maximum time slice*/
     private final int maxTimeSlice;
     
+    protected TimeSliceIncomingRoad currentRoad;
+    
     /**Class constructor specifying id, minimum time slice and maximum time slice.
      * 
      * @param id Identification
@@ -26,6 +30,7 @@ public class RoundRobinJunction extends TimeSliceJunction {
         super(id);
         this.minTimeSlice = minTimeSlice;
         this.maxTimeSlice = maxTimeSlice;
+        currentRoad = null;
     }
     
     @Override
@@ -35,26 +40,39 @@ public class RoundRobinJunction extends TimeSliceJunction {
         return newIncomingRoad;
     }
     
-    @Override
-    protected void switchLights() {
+    protected IncomingRoad getNextRoad(){
         if (nextRoad == null || !nextRoad.hasNext()) {
             nextRoad = incomingRoadMap.keySet().iterator();
         }
-        if(currentRoad == null){
-            currentRoad = nextRoad.next();
-            incomingRoadMap.get(currentRoad).onGreenLight();
-            incomingRoadMap.get(currentRoad).advanceFirstVehicle();
-            lastGreenLightRoad = currentRoad;
-        }
-        else{
-            TimeSliceIncomingRoad currentSliceIncomingRoad = (TimeSliceIncomingRoad) incomingRoadMap.get(currentRoad);
-            if(currentSliceIncomingRoad.timeIsOver()){
-                currentSliceIncomingRoad.offGreenLight();
-                if(currentSliceIncomingRoad.completelyUsed()){
-                  //  currentSliceIncomingRoad.setIntervalTime(Math.min());
-                }
-            }  
-        }
+        return incomingRoadMap.get(nextRoad.next());
     }
+    @Override
+    protected void switchLights() {
+        if(currentRoad == null){
+            super.switchLights(); // the first road will be set on
+        }
+        else if(currentRoad.timeIsOver()){ // if the interval time is used up
+                currentRoad.offGreenLight(); // set the lights off
+                if(currentRoad.completelyUsed()){ // time completely used
+                    currentRoad.setIntervalTime(Math.min(currentRoad.getIntervalTime()+1, maxTimeSlice));
+                }
+                else if(!currentRoad.used()){ // there was no reduction in time
+                    currentRoad.setIntervalTime(Math.max(currentRoad.getIntervalTime()-1, minTimeSlice));
+                }
+                currentRoad.resetSpentTime(); // set spent-time to zero
+                super.switchLights();
+            }
+         else{
+            currentRoad.advanceFirstVehicle();
+         }
+           
+     }
+
     
+    protected void fillReportDetails(IniSection sec) {
+        sec.setValue("type", TYPE);
+        sec.setValue("max_time_slice", maxTimeSlice);
+        sec.setValue("min_time_slice", minTimeSlice);
+        super.fillReportDetails(sec);
+    }
 }
