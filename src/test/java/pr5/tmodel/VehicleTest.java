@@ -109,7 +109,7 @@ public class VehicleTest {
         assertEquals(correct, result);
         vehicle.makeFaulty(2);
         correct.setValue("time", "2");
-        correct.setValue("speed", "10");
+        correct.setValue("speed", "0");
         correct.setValue("faulty", "2");
         result = vehicle.generateReport(2);
         assertEquals(correct, result);
