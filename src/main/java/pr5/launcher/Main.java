@@ -23,7 +23,7 @@ public class Main {
 	private static Integer _timeLimit = null;
 	private static String _inFile = null;
 	private static String _outFile = null;
-
+        private static String split = System.getProperty("file.separator");
 	private static void parseArgs(String[] args) {
 
 		// define the validd command line options
@@ -167,23 +167,10 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
-
-		// example command lines:
-		//
-		// -i resources/examples/events/basic/ex1.ini
-		// -i resources/examples/events/basic/ex1.ini -o ex1.out
-		// -i resources/examples/events/basic/ex1.ini -t 20
-		// -i resources/examples/events/basic/ex1.ini -o ex1.out -t 20
-		// --help
-		//
-
-		// Call test in order to test the simulator on all examples in a directory.
-		//
-               // test("test_path");    
-                // Call start to start the simulator from command line, etc.
-             //  test("08_simpleJunction.ini", "08_simpleJunction.ini.out", "08_simpleJunction.ini.eout", 10);
-              // start(args);
-                
+            // Check
+               test("src" + split + "test" + split + "resources" + split + "examples" + split + "basic");
+               test("src" + split + "test" + split + "resources" + split + "examples" + split + "advanced");
+               test("src" + split + "test" + split + "resources" + split + "examples" + split + "err");
 	}
 
 }
