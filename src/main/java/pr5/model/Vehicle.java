@@ -74,6 +74,7 @@ public class Vehicle extends SimulatedObject {
      */
     public void makeFaulty(int counter){
         faulty += counter;
+        setSpeed(0);
     }    
     
     /**Sets the speed of the vehicle.
