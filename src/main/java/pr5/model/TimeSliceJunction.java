@@ -34,13 +34,20 @@ public class TimeSliceJunction extends Junction {
             used = false;
             completelyUsed = false;
         }
-         public TimeSliceIncomingRoad(Road r, int intervalTime) {
-            super(r);
+        
+        /**
+         * Class constructor specifying road and interval time.
+         * @param road Road
+         * @param intervalTime Interval time
+         */
+        public TimeSliceIncomingRoad(Road road, int intervalTime) {
+            super(road);
             timeSpent = 0;
             this.intervalTime = intervalTime;
             used = false;
             completelyUsed = false;
         }
+        
         @Override
         protected void onGreenLight(){
            super.onGreenLight();
@@ -84,16 +91,23 @@ public class TimeSliceJunction extends Junction {
         
         /**Sets the interval time.
          * 
-         * @param intervalTime Interval time 
+         * @param intervalTime interval time 
          */
         public void setIntervalTime(int intervalTime){
             this.intervalTime = intervalTime;
         }
         
+        /**
+         * Returns the interval time.
+         * @return interval time
+         */
         public int getIntervalTime(){
             return intervalTime;
         }
         
+        /**
+         * Resets time spent to zero.
+         */
         public void reset(){
             timeSpent = 0;
         }
@@ -101,7 +115,7 @@ public class TimeSliceJunction extends Junction {
     
     /**Class constructor specifying the id. 
      * 
-     * @param id Identification
+     * @param id Identifier
      */
     public TimeSliceJunction(String id) {
         super(id);
@@ -112,6 +126,7 @@ public class TimeSliceJunction extends Junction {
         return new TimeSliceIncomingRoad(r);
     }
     
+    @Override
     protected void fillReportDetails(IniSection sec) {
             StringBuilder sb = new StringBuilder();
             if(!incomingRoadMap.isEmpty()){

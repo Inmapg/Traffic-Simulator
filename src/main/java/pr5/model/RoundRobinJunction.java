@@ -18,8 +18,9 @@ public class RoundRobinJunction extends TimeSliceJunction {
     private final int minTimeSlice;
     /**Maximum time slice*/
     private final int maxTimeSlice;
-    
+    /**Chosen road*/
     private TimeSliceIncomingRoad currentRoad;
+    /**Last chosen road*/
     private TimeSliceIncomingRoad lastGreenLightRoad;
     
     /**Class constructor specifying id, minimum time slice and maximum time slice.
@@ -41,11 +42,12 @@ public class RoundRobinJunction extends TimeSliceJunction {
 
         return newIncomingRoad;
     }
+    
+    @Override
     public void addIncomingRoad(Road newRoad) {
         incomingRoadMap.put(newRoad, createIncomingRoadQueue(newRoad));
     }
 
-    int time = 1;
     @Override
     protected void switchLights() { 
        if(currentRoad == null){
@@ -76,7 +78,7 @@ public class RoundRobinJunction extends TimeSliceJunction {
            
      }
 
-    
+    @Override
     protected void fillReportDetails(IniSection sec) {
         super.fillReportDetails(sec);
         sec.setValue("type", TYPE);    

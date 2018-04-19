@@ -1,6 +1,5 @@
 package pr5.model;
 
-import java.util.Iterator;
 import pr5.ini.IniSection;
 
 /**Creates a new most crowded junction.
@@ -9,15 +8,23 @@ import pr5.ini.IniSection;
  * @version 2.0
  */
 public class MostCrowdedJunction extends TimeSliceJunction{
-    
+    /**Type of junction*/
     private static final String TYPE = "mc";
+    /**Most crowded road*/
     protected TimeSliceIncomingRoad currentRoad;
     
+    /**
+     * Class constructor specifying id
+     * @param id Identifier
+     */
     public MostCrowdedJunction(String id) {
         super(id);
         
     }
     
+    /**
+     * Selects the following most crowded road.
+     */
     private void updateCurrentRoad(){
         if(incomingRoadMap.values().size() > 1){
              if (nextRoad == null || !nextRoad.hasNext()) {
@@ -33,6 +40,7 @@ public class MostCrowdedJunction extends TimeSliceJunction{
         }
         
     }
+    
     @Override
     protected void switchLights() { 
         if(currentRoad == null){
@@ -55,6 +63,7 @@ public class MostCrowdedJunction extends TimeSliceJunction{
      }
 
     
+    @Override
      protected void fillReportDetails(IniSection sec) {
         super.fillReportDetails(sec);
         sec.setValue("type", TYPE);

@@ -201,6 +201,10 @@ public class Junction extends SimulatedObject {
         
     }
     
+    /**
+     * Returns the next road on the incoming road map.
+     * @return next road
+     */
     protected IncomingRoad getNextRoad(){
         if (nextRoad == null || !nextRoad.hasNext()) {
             nextRoad = incomingRoadMap.keySet().iterator();
@@ -208,8 +212,9 @@ public class Junction extends SimulatedObject {
         return incomingRoadMap.get(nextRoad.next());
     }
     
-    /**Changes the trafficlights of the roads.
-    */
+    /**
+     * Changes the trafficlights of the roads.
+     */
     protected void switchLights() {
         currentRoad = getNextRoad();
         if(lastGreenLightRoad != null){
