@@ -32,6 +32,8 @@ public class Controller {
         new VehicleFaultyEvent.Builder(),
         new CarEvent.Builder(),
         new BikeEvent.Builder(),
+        new MostCrowdedJunctionEvent.Builder(),
+        new RoundRobinJunctionEvent.Builder(),
         new JunctionEvent.Builder(),
         new RoadEvent.Builder(),
         new VehicleEvent.Builder()
@@ -104,7 +106,12 @@ public class Controller {
         catch(IOException | SimulatorError e){
             throw new SimulatorError("Error while loading events...", e);
         }
-        trafficSim.run(timeLimit);
+        try{
+            trafficSim.run(timeLimit);
+        }catch(SimulatorError e){
+            throw new SimulatorError("Error when executing running method in Traffic Simulator...", e);
+        }
+        
     }
 
 }

@@ -43,8 +43,8 @@ public class RoundRobinJunctionEvent extends JunctionEvent{
         return new RoundRobinJunctionEvent(
                 parseInt(sec, "time", 0),
                 parseString(sec, "id"),
-                parseInt(sec, "max_time_slice", 1),
-                parseInt(sec, "min_time_slice", 1));
+                parseInt(sec, "min_time_slice", 1),
+                parseInt(sec, "max_time_slice", 1));
       }       
     }
     

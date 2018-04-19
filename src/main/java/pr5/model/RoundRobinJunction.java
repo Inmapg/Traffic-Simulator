@@ -2,6 +2,7 @@
 package pr5.model;
 
 import pr5.ini.IniSection;
+import pr5.model.Junction.IncomingRoad;
 
 /**Defines a circular junction.
  * 
@@ -18,7 +19,8 @@ public class RoundRobinJunction extends TimeSliceJunction {
     /**Maximum time slice*/
     private final int maxTimeSlice;
     
-    protected TimeSliceIncomingRoad currentRoad;
+    private TimeSliceIncomingRoad currentRoad;
+    private TimeSliceIncomingRoad lastGreenLightRoad;
     
     /**Class constructor specifying id, minimum time slice and maximum time slice.
      * 
@@ -35,32 +37,38 @@ public class RoundRobinJunction extends TimeSliceJunction {
     
     @Override
     protected IncomingRoad createIncomingRoadQueue(Road r) {
-        TimeSliceIncomingRoad newIncomingRoad = new TimeSliceIncomingRoad(r);
-        newIncomingRoad.setIntervalTime(maxTimeSlice);
+        TimeSliceIncomingRoad newIncomingRoad = new TimeSliceIncomingRoad(r, maxTimeSlice);
+
         return newIncomingRoad;
     }
-    
-    protected IncomingRoad getNextRoad(){
-        if (nextRoad == null || !nextRoad.hasNext()) {
-            nextRoad = incomingRoadMap.keySet().iterator();
-        }
-        return incomingRoadMap.get(nextRoad.next());
+    public void addIncomingRoad(Road newRoad) {
+        incomingRoadMap.put(newRoad, createIncomingRoadQueue(newRoad));
     }
+
+    int time = 1;
     @Override
-    protected void switchLights() {
-        if(currentRoad == null){
-            super.switchLights(); // the first road will be set on
+    protected void switchLights() { 
+       if(currentRoad == null){
+            nextRoad = incomingRoadMap.keySet().iterator();
+            currentRoad = (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
+            currentRoad.onGreenLight();
         }
-        else if(currentRoad.timeIsOver()){ // if the interval time is used up
+       else if(currentRoad.timeIsOver()){ // if the interval time is used up
                 currentRoad.offGreenLight(); // set the lights off
-                if(currentRoad.completelyUsed()){ // time completely used
-                    currentRoad.setIntervalTime(Math.min(currentRoad.getIntervalTime()+1, maxTimeSlice));
-                }
-                else if(!currentRoad.used()){ // there was no reduction in time
+                 if(!currentRoad.used()){ // there was no reduction in time
                     currentRoad.setIntervalTime(Math.max(currentRoad.getIntervalTime()-1, minTimeSlice));
                 }
-                currentRoad.resetSpentTime(); // set spent-time to zero
-                super.switchLights();
+                else if(currentRoad.completelyUsed()){ // time completely used
+                    currentRoad.setIntervalTime(Math.min(currentRoad.getIntervalTime()+1, maxTimeSlice));
+                }
+               
+                currentRoad.reset(); // set spent-time to zero
+                
+                if (nextRoad == null || !nextRoad.hasNext()) {
+                    nextRoad = incomingRoadMap.keySet().iterator();
+                }
+                currentRoad = (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
+                currentRoad.onGreenLight();
             }
          else{
             currentRoad.advanceFirstVehicle();
@@ -70,9 +78,7 @@ public class RoundRobinJunction extends TimeSliceJunction {
 
     
     protected void fillReportDetails(IniSection sec) {
-        sec.setValue("type", TYPE);
-        sec.setValue("max_time_slice", maxTimeSlice);
-        sec.setValue("min_time_slice", minTimeSlice);
         super.fillReportDetails(sec);
+        sec.setValue("type", TYPE);    
     }
 }

@@ -168,9 +168,17 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
             // Check
+            try{
                test("src" + split + "test" + split + "resources" + split + "examples" + split + "basic");
                test("src" + split + "test" + split + "resources" + split + "examples" + split + "advanced");
                test("src" + split + "test" + split + "resources" + split + "examples" + split + "err");
+        
+            }catch(Exception e){
+                e.printStackTrace();
+               
+            }
+              
+              
 	}
 
 }

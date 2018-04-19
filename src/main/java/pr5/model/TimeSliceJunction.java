@@ -1,5 +1,7 @@
 package pr5.model;
 
+import pr5.ini.IniSection;
+
 /**Defines a time slice junction.
  * 
  * @author Inmapg
@@ -15,7 +17,7 @@ public class TimeSliceJunction extends Junction {
         /**Interval of time*/
         private int intervalTime;
         /**Time spent*/
-        private int timeSpent;       
+        protected int timeSpent;       
         /**Time completely used*/
         private boolean completelyUsed;
         /**Time used*/
@@ -32,11 +34,18 @@ public class TimeSliceJunction extends Junction {
             used = false;
             completelyUsed = false;
         }
-        
+         public TimeSliceIncomingRoad(Road r, int intervalTime) {
+            super(r);
+            timeSpent = 0;
+            this.intervalTime = intervalTime;
+            used = false;
+            completelyUsed = false;
+        }
         @Override
         protected void onGreenLight(){
            super.onGreenLight();
            completelyUsed = true;
+           used = false;
            timeSpent = 0;
         }
         
@@ -45,7 +54,7 @@ public class TimeSliceJunction extends Junction {
          * @return If time is spent
          */
         public final boolean timeIsOver(){
-            return timeSpent >= intervalTime;
+            return timeSpent >= intervalTime-1;
         }
         
         @Override
@@ -85,7 +94,7 @@ public class TimeSliceJunction extends Junction {
             return intervalTime;
         }
         
-        public void resetSpentTime(){
+        public void reset(){
             timeSpent = 0;
         }
     } // End of the internal class TimeSliceIncomingRoad
@@ -102,4 +111,24 @@ public class TimeSliceJunction extends Junction {
     protected IncomingRoad createIncomingRoadQueue(Road r) {
         return new TimeSliceIncomingRoad(r);
     }
+    
+    protected void fillReportDetails(IniSection sec) {
+            StringBuilder sb = new StringBuilder();
+            if(!incomingRoadMap.isEmpty()){
+             incomingRoadMap.values().forEach((ir) -> {
+             if(ir.isGreenLight()){
+             sb.append('(').append(ir.road.getId()).append(',').append(ir.lightToString()).append(":").append(
+                    ((TimeSliceIncomingRoad)ir).getIntervalTime() - ((TimeSliceIncomingRoad)ir).timeSpent).append(',').append(ir.printQueue()).append("),");
+             }
+             else{
+                sb.append('(').append(ir.road.getId()).append(',').append(ir.lightToString()).append(',').append(ir.printQueue()).append("),"); 
+                }
+             });
+            sec.setValue("queues", sb.substring(0, sb.length() - 1));
+        }
+        else{
+            sec.setValue("queues", "");
+        }
+     }
+
 }
