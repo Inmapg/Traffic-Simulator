@@ -1,12 +1,9 @@
-package pr5.tmodel;
+package pr5.model;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pr5.ini.IniSection;
-import pr5.model.Junction;
-import pr5.model.Road;
-import pr5.model.Vehicle;
 
 public class RoadTest {
     

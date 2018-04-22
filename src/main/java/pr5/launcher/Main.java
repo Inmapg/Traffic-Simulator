@@ -112,7 +112,7 @@ public class Main {
 	 * 
 	 * @throws IOException
 	 */
-	private static void test(String path) throws IOException {
+	public static void test(String path) throws IOException {
 
 		File dir = new File(path);
 

@@ -1,6 +1,14 @@
 
 *.log
 
+# Project Files #
+.idea
+*.iml
+.settings/
+.project
+.classpath
+
+
 # Maven Files #
 target/
 
