@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pr5.ini.IniSection;
-import pr5.model.Junction;
-import pr5.model.Road;
-import pr5.model.Vehicle;
 
 public class JunctionTest {
     @Test
@@ -57,5 +54,4 @@ public class JunctionTest {
         correct.setValue("queues", "(r1,red,[v1,v2,v3,v4])");
         assertEquals("The junction's state should be ", correct, result);        
     }
-    
 }

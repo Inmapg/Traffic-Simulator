@@ -61,6 +61,9 @@ public class Main {
 
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
+                cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("’batch’ for batch mode and ’gui’ for GUI mode\n" +
+"(default value is ’batch’").build());
+
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
@@ -166,16 +169,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
             // Check
-            try{
-               test("src" + split + "test" + split + "resources" + split + "examples" + split + "basic");
-               test("src" + split + "test" + split + "resources" + split + "examples" + split + "advanced");
-               test("src" + split + "test" + split + "resources" + split + "examples" + split + "err");
-        
-            }catch(Exception e){
-                e.printStackTrace();
-               
-            }
-              
+           start(args);
               
 	}
 

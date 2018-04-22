@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pr5.ini.IniSection;
-import pr5.model.Junction;
-import pr5.model.Bike;
-import pr5.model.Car;
-import pr5.model.Road;
-import pr5.model.Vehicle;
 
 public class VehicleTest {
     
@@ -262,6 +257,5 @@ public class VehicleTest {
         result = car.generateReport(1);   
         
         assertEquals("Car's state should be ", correct, result);
-        
     }
 }
