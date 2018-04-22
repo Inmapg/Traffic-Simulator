@@ -5,40 +5,31 @@ import java.util.List;
 import pr5.ini.IniSection;
 
 /**Defines one of the main types of Simulated Object.
- * 
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+ *
  * @see SimulatedObject
  */
 public class Vehicle extends SimulatedObject {
-    /**Tag name for report*/
     private static final String SECTION_TAG_NAME = "vehicle_report";
-    /**Maximum speed*/
     protected final int maxSpeed;
-    /**Itinerary. Set of junctions*/
     protected final ArrayList<Junction> itinerary;
-    /**Current junction from itinerary*/
     protected int currentJunction;
-    /**Current speed*/
     protected int currentSpeed;
-    /**Kilometrage*/
     protected int kilometrage;
-    /**Location*/
     protected int location;
-    /**Faulty time*/
     protected int faulty;
-    /**Shows if the vehicle has arrived to its destination*/
+    /**
+     * Shows if the vehicle has arrived to its destination
+     */
     protected boolean hasArrived;
-    /**Current road*/
     protected Road currentRoad;
 
-    /**Class constructor.
+    /**
+     * Class constructor.
      * The rest of attributes are zero-initialized.
      * 
-     * @param id Identification
-     * @param maxSpeed Maximum speed
-     * @param itinerary Itinerary
+     * @param id 
+     * @param maxSpeed
+     * @param itinerary 
      */
     public Vehicle(String id, int maxSpeed, List<Junction> itinerary){
         super(id);
@@ -50,8 +41,8 @@ public class Vehicle extends SimulatedObject {
         moveToNextRoad();
     }
     
-    /**Moves itself to next road.
-     * 
+    /**
+     * Moves itself to next road.
      */
     public final void moveToNextRoad(){
         if(currentJunction > 0){
@@ -68,41 +59,41 @@ public class Vehicle extends SimulatedObject {
         
     }
     
-    /**Breaks down the vehicle
+    /**
+     * Breaks down the vehicle.
      * 
-     * @param counter Duration
+     * @param duration 
      */
-    public void makeFaulty(int counter){
-        faulty += counter;
+    public void makeFaulty(int duration){
+        faulty += duration;
         setSpeed(0);
     }    
     
-    /**Sets the speed of the vehicle.
+    /**
+     * Sets the speed of the vehicle.
      * 
-     * @param newSpeed New speed
+     * @param newSpeed
      */
     public void setSpeed(int newSpeed){
-        currentSpeed = (getFaultyTime() == 0 && currentRoad.getLength() != location) ? Math.min(maxSpeed, newSpeed) : 0;
+        currentSpeed = (getFaultyTime() == 0 && currentRoad.getLength() != location) ? 
+                Math.min(maxSpeed, newSpeed): 0;
     }
     
-    /**Returns its breakdown duration.
-     * 
-     * @return Faulty time
+    /** 
+     * @return breakdown duration
      */
     public int getFaultyTime(){
         return faulty;
     }
     
-    /**Returns its location.
-     * 
+    /**
      * @return Location
      */
     public int getLocation(){
         return location;
     }
     
-    /**Returns the road where it is located.
-     * 
+    /**
      * @return Road where the vehicle is
      * @see Road
      */

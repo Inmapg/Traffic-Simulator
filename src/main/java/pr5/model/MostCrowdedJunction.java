@@ -2,20 +2,17 @@ package pr5.model;
 
 import pr5.ini.IniSection;
 
-/**Creates a new most crowded junction.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new most crowded junction.
  */
 public class MostCrowdedJunction extends TimeSliceJunction{
-    /**Type of junction*/
     private static final String TYPE = "mc";
-    /**Most crowded road*/
     protected TimeSliceIncomingRoad currentRoad;
     
     /**
-     * Class constructor specifying id
-     * @param id Identifier
+     * Class constructor specifying id.
+     * 
+     * @param id
      */
     public MostCrowdedJunction(String id) {
         super(id);

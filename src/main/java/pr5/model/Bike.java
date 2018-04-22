@@ -3,22 +3,20 @@ package pr5.model;
 import java.util.List;
 import pr5.ini.IniSection;
 
-/**Defines bike: a type of vehicle.
+/**
+ * Defines bike: a type of vehicle.
  * 
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
  * @see Vehicle
  */
 public class Bike extends Vehicle {
-    /**Type of vehicle*/
     private static final String TYPE = "bike";
     
-    /**Class constructor specifying id, maximum speed and itinerary
+    /**
+     * Class constructor specifying id, maximum speed and itinerary.
      * 
-     * @param id Identification
-     * @param maxSpeed Maximum speed
-     * @param itinerary Itinerary
+     * @param id 
+     * @param maxSpeed
+     * @param itinerary 
      */
     public Bike(String id, int maxSpeed, List<Junction> itinerary) {
         super(id, maxSpeed, itinerary);

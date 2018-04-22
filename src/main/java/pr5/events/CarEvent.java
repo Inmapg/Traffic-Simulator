@@ -4,13 +4,10 @@ import pr5.ini.IniSection;
 import pr5.model.Car;
 import pr5.model.RoadMap;
 
-/**Creates a new car.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new car.
  */
 public class CarEvent extends VehicleEvent {
-    /**Resistance*/
     private final int resistance;
     /**Probability of breaking*/
     private final double faultProbability;
@@ -19,20 +16,22 @@ public class CarEvent extends VehicleEvent {
     /**Seed for random number generator*/
     private final long seed;
     
-    /**Class constructor specifying time, id, itinerary, maximum speed, resistance, probability
-     * of breaking, maximum duration if broken and seed.
+    /**
+     * Class constructor specifying time, id, itinerary, maximum speed,
+     * resistance, probability of breaking, maximum duration if broken and seed.
      * 
      * @param time When the event occurs
-     * @param id Identification
-     * @param itinerary Itinerary followed
-     * @param maxSpeed Maximum speed
-     * @param resistance Resistance
+     * @param id
+     * @param itinerary
+     * @param maxSpeed 
+     * @param resistance 
      * @param faultProbability Probability of breaking
      * @param maxFaultDuration Maximum duration if broken
      * @param seed  Seed for random number generator
      */
-    public CarEvent(int time, String id, String[] itinerary, int maxSpeed, int resistance, 
-            double faultProbability, int maxFaultDuration, long seed){
+    public CarEvent(int time, String id, String[] itinerary, int maxSpeed,
+            int resistance, double faultProbability, int maxFaultDuration,
+            long seed){
         super(time, id, maxSpeed, itinerary);
         this.maxFaultDuration = maxFaultDuration;
         this.resistance = resistance;
@@ -42,18 +41,20 @@ public class CarEvent extends VehicleEvent {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addVehicle(new Car(id, maxSpeed, roadmap.getItinerary(itinerary), resistance, faultProbability, maxFaultDuration, 
-        seed));
+        roadmap.addVehicle(new Car(id, maxSpeed, roadmap.getItinerary(itinerary),
+                resistance, faultProbability, maxFaultDuration, seed));
     }
 
-    /**Builds the car event.
+    /**
+     * Builds the car event.
      * @see Event.Builder
      */
     public static class Builder implements Event.Builder {
 
         @Override
         public Event parse(IniSection sec) {
-            if (!"new_vehicle".equals(sec.getTag()) || !"car".equals(sec.getValue("type"))){
+            if (!"new_vehicle".equals(sec.getTag())
+                    || !"car".equals(sec.getValue("type"))){
                 return null;
             }
             return new CarEvent(

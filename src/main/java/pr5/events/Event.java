@@ -3,30 +3,30 @@ package pr5.events;
 import pr5.ini.IniSection;
 import pr5.model.RoadMap;
 
-/**Creates and executes the different types of events.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates and executes the different types of events.
  */
 public abstract class Event {
-    /**Internal time of the event*/
     private final Integer internalTime;
 
-    /**Class constructor specifying time
+    /**
+     * Class constructor specifying time
      * 
-     * @param internalTime Time
+     * @param internalTime
      */
     public Event(int internalTime){
         this.internalTime = internalTime;
     }
     
-    /**Executes the event.
+    /**
+     * Executes the event.
      * 
      * @param roadmap Information about the current situation in the simulator
      */
     public abstract void execute(RoadMap roadmap);
     
-    /**Returns the time of the event.
+    /**
+     * Returns the time of the event.
      * 
      * @return current internal time
      */
@@ -34,7 +34,8 @@ public abstract class Event {
         return internalTime;
     }
     
-    /**Compares the internal time of two events.
+    /**
+     * Compares the internal time of two events.
      * 
      * @param e Event to compare with
      * @return Result of comparison
@@ -45,18 +46,20 @@ public abstract class Event {
     
     public static interface Builder {
     
-    /**Parses an Event given an IniSection.
+    /**
+     * Parses an Event given an IniSection.
      * 
      * @param ini Information about the event
      * @return parsed event
      */
     public abstract Event parse(IniSection ini);
    
-    /**Parses an identification.
+    /**
+     * Parses an identification.
      * 
      * @param sec Information about the event
      * @param key Identification value
-     * @return Valid ID
+     * @return valid id
      */
     default String parseString(IniSection sec, String key) {
         String v = sec.getValue(key);
@@ -66,17 +69,19 @@ public abstract class Event {
         return v;
     }
     
-    /**Parses an integer value
+    /**
+     * Parses an integer value.
      * 
      * @param sec Information about the event
      * @param key Identification word
-     * @param minValue Minimum value accepted
+     * @param minValue 
      * @return Valid integer value
      */
     default int parseInt(IniSection sec, String key, int minValue) {
        String s = sec.getValue(key);
        if(s == null){
-           throw new NullPointerException("Error at parseInt() with key \"" + key + "\" in " + sec.getTag());
+           throw new NullPointerException("Error at parseInt() with key \"" 
+                   + key + "\" in " + sec.getTag());
        }
        int v = Integer.parseInt(s);
        if(v < minValue)
@@ -86,7 +91,8 @@ public abstract class Event {
         return v;
     }
     
-    /**Parses a list of strings
+    /**
+     * Parses a list of strings.
      * 
      * @param sec Information about the event
      * @param key Identification word
@@ -102,12 +108,13 @@ public abstract class Event {
         return v;
     }
     
-    /**Parses a double value
+    /**
+     * Parses a double value.
      * 
      * @param sec Information about the event
      * @param key Identification word
-     * @param min Minimum value of range
-     * @param max Maximum value of range
+     * @param min
+     * @param max
      * @return Valid value
      */
     default double parseDouble(IniSection sec, String key, double min, double max){
@@ -118,7 +125,8 @@ public abstract class Event {
         return v;
     }
     
-    /**Parses a long value
+    /**
+     * Parses a long value.
      * 
      * @param sec Information about the event
      * @param key Identificacion word

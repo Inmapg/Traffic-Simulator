@@ -4,34 +4,35 @@ import pr5.ini.IniSection;
 import pr5.model.Road;
 import pr5.model.RoadMap;
 
-/**Creates a new road.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new road.
  */
 public class RoadEvent extends Event {
-    /**Identifiaction value*/
     protected final String id;
-    /**Source junction*/
+    /**
+     * Source junction
+     */
     protected final String src; 
-    /**Destination junction*/
+    /**
+     * Destination junction
+     */
     protected final String dest; 
-    /**Maximum speed allowed*/
     protected final int maxSpeed;
-    /**Length*/
     protected final int length;
     
-    /**Class constructor specifying time, id, source junction, destination junction, maximum speed
-     * and length.
+    /**
+     * Class constructor specifying time, id, source junction, destination
+     * junction, maximum speed and length.
      * 
-     * @param time Time
-     * @param id Identification value
-     * @param src Source junction
-     * @param dest Destination junction
-     * @param maxSpeed Maximum speed allowed
-     * @param length Length
+     * @param time 
+     * @param id
+     * @param src 
+     * @param dest 
+     * @param maxSpeed 
+     * @param length 
      */
-    public RoadEvent(int time, String id, String src, String dest, int maxSpeed, int length){
+    public RoadEvent(int time, String id, String src, String dest, int maxSpeed,
+            int length){
         super(time);
         this.id = id;
         this.src = src;
@@ -42,7 +43,8 @@ public class RoadEvent extends Event {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addRoad(new Road(id, length, maxSpeed, roadmap.getJunction(src), roadmap.getJunction(dest) ));
+        roadmap.addRoad(new Road(id, length, maxSpeed, roadmap.getJunction(src),
+                roadmap.getJunction(dest) ));
     }
     
     public static class Builder implements Event.Builder {

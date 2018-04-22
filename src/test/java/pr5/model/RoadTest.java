@@ -1,4 +1,4 @@
-package pr5.tmodel;
+package pr5.model;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -11,7 +11,10 @@ import pr5.model.Vehicle;
 public class RoadTest {
     
     @Test
-    public void OneVehicleTest(){
+    /**
+     * Checks the functionality of a road with one vehicle.
+     */
+    public void oneVehicleTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road oneVehicleRoad = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -27,25 +30,28 @@ public class RoadTest {
         correct.setValue("time", "0");
         correct.setValue("id", "r1");
         correct.setValue("state", "(v1,0)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
         oneVehicleRoad.advance();
         oneVehicleRoad.advance();
         result = oneVehicleRoad.generateReport(2);
         correct.setValue("time", "2");
         correct.setValue("state", "(v1,20)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
         oneVehicleRoad.advance();
         oneVehicleRoad.advance();
         result = oneVehicleRoad.generateReport(4);
         correct.setValue("time", "4");
         correct.setValue("state", "(v1,40)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
     }
     
     @Test
-    public void MultipleVehicleTest(){
+    /**
+     * Checks the functionality of a road with multiple vehicles.
+     */
+    public void multipleVehicleTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road MultipleVehicleRoad = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -64,13 +70,13 @@ public class RoadTest {
         correct.setValue("time", "0");
         correct.setValue("id", "r1");
         correct.setValue("state", "(v1,0),(v2,0),(v3,0),(v4,0)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
         MultipleVehicleRoad.advance();
         result = MultipleVehicleRoad.generateReport(1);
         correct.setValue("time", "1");
         correct.setValue("state", "(v1,6),(v2,6),(v3,6),(v4,5)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
         for(int i = 0; i < 6; i++){
             MultipleVehicleRoad.advance();
@@ -78,22 +84,25 @@ public class RoadTest {
         result = MultipleVehicleRoad.generateReport(7);
         correct.setValue("time", "7");
         correct.setValue("state", "(v1,40),(v2,40),(v3,40),(v4,35)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
         MultipleVehicleRoad.advance();
         result = MultipleVehicleRoad.generateReport(8);
         correct.setValue("time", "8");
         correct.setValue("state", "(v1,40),(v2,40),(v3,40),(v4,40)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
     }
     
     @Test
-    public void CrowdedRoadWithFaultyVehiclesTest(){
+    /**
+     * Checks functionality of a road with faulty vehicles.
+     */
+    public void roadWithFaultyVehiclesTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
-        Road CrowedRoadWithFaultyVehicles = new Road("r1", 20, 20, sourceJunction, destinationJunction);
-        sourceJunction.addOutGoingRoad(CrowedRoadWithFaultyVehicles, destinationJunction);
-        destinationJunction.addIncomingRoad(CrowedRoadWithFaultyVehicles);
+        Road roadWithFaultyV = new Road("r1", 20, 20, sourceJunction, destinationJunction);
+        sourceJunction.addOutGoingRoad(roadWithFaultyV, destinationJunction);
+        destinationJunction.addIncomingRoad(roadWithFaultyV);
         ArrayList<Junction> itinerary = new ArrayList<>();
         itinerary.add(sourceJunction);
         itinerary.add(destinationJunction);
@@ -103,27 +112,27 @@ public class RoadTest {
         Vehicle v4 = new Vehicle("v4", 5, itinerary); 
         v3.makeFaulty(3);
         v2.makeFaulty(2);
-        IniSection result = CrowedRoadWithFaultyVehicles.generateReport(0);
+        IniSection result = roadWithFaultyV.generateReport(0);
         IniSection correct = new IniSection("road_report");
         
         correct.setValue("time", "0");
         correct.setValue("id", "r1");
         correct.setValue("state", "(v1,0),(v2,0),(v3,0),(v4,0)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
-        CrowedRoadWithFaultyVehicles.advance();
-        result = CrowedRoadWithFaultyVehicles.generateReport(1);
+        roadWithFaultyV.advance();
+        result = roadWithFaultyV.generateReport(1);
         correct.setValue("time", "1"); 
         correct.setValue("state", "(v1,6),(v4,3),(v2,0),(v3,0)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
         
-        CrowedRoadWithFaultyVehicles.advance();
-        CrowedRoadWithFaultyVehicles.advance();
-        CrowedRoadWithFaultyVehicles.advance();
-        result = CrowedRoadWithFaultyVehicles.generateReport(4);
+        roadWithFaultyV.advance();
+        roadWithFaultyV.advance();
+        roadWithFaultyV.advance();
+        result = roadWithFaultyV.generateReport(4);
         correct.setValue("time", "4"); 
         correct.setValue("state", "(v1,20),(v4,18),(v2,12),(v3,6)");
-        assertEquals(correct, result);
+        assertEquals("Road's state should be ", correct, result);
     } 
             
     

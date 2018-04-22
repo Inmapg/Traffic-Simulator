@@ -9,23 +9,28 @@ import pr5.ini.Ini;
 import pr5.ini.IniSection;
 import pr5.model.TrafficSimulator;
 
-/**Executes and controls the program.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Executes and controls the program.
  */
 public class Controller {
-    /**Traffic simulator object
+    /**
+     * Traffic simulator object
      * @see TrafficSimulator
      */
     private TrafficSimulator trafficSim;
-    /**Period of time in which the traffic simulator will be running*/
+    /**
+     * Period of time in which the traffic simulator will be running
+     */
     private int time;
-    /**Output stream*/
+    /**
+     * Output stream
+     */
     private OutputStream output;
     
     // The order matters
-    /**List of Traffic Simulator's events*/
+    /**
+     * List of Traffic Simulator's events
+     */
     public static Event.Builder[] availableEventBuilders = { 
         new LaneRoadEvent.Builder(),
         new DirtRoadEvent.Builder(),
@@ -39,10 +44,11 @@ public class Controller {
         new VehicleEvent.Builder()
     };
     
-    /**Class constructor specifying time and output.
+    /**
+     * Class constructor specifying time and output.
      * 
      * @param time Period of time in which the traffic simulator will be running
-     * @param output Output stream
+     * @param output
      */
     public Controller(int time, OutputStream output){
        this.trafficSim = new TrafficSimulator(output);
@@ -50,10 +56,11 @@ public class Controller {
        this.output = output;
     }
     
-    /**Class constructor specifying output.
+    /**
+     * Class constructor specifying output.
      * Time is zero-initialized
      * 
-     * @param output Output stream 
+     * @param output
      */
     public Controller(OutputStream output){
         this.trafficSim = new TrafficSimulator(output);
@@ -61,7 +68,8 @@ public class Controller {
         this.output = output;
     }
     
-    /**Parses the event that will be created
+    /**
+     * Parses the event that will be created
      * 
      * @param sec Information about the event created
      * @return New event created, null if not
@@ -77,7 +85,8 @@ public class Controller {
         return newEvent;
     }
     
-    /**Loads events from a file.
+    /**
+     * Loads events from a file.
      * 
      * @param input File name
      * @throws IOException If an input or output exception occurred
@@ -94,7 +103,8 @@ public class Controller {
         
     }
     
-    /**Runs the program.
+    /**
+     * Runs the program.
      * 
      * @param input File name
      * @param timeLimit Period of time in which the programme will be executing
@@ -109,7 +119,8 @@ public class Controller {
         try{
             trafficSim.run(timeLimit);
         }catch(SimulatorError e){
-            throw new SimulatorError("Error when executing running method in Traffic Simulator...", e);
+            throw new SimulatorError("Error when executing running method in"
+                    + " Traffic Simulator...", e);
         }
         
     }

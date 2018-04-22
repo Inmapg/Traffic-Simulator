@@ -4,20 +4,16 @@ import pr5.ini.IniSection;
 import pr5.model.RoadMap;
 import pr5.model.Vehicle;
 
-/**Creates a new vehicle.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new vehicle.
  */
 public class VehicleEvent extends Event {
-    /**Identification value*/
     protected final String id;
-    /**Maximum speed*/
     protected final int maxSpeed;
-    /**Itinerary followed*/
     protected final String[] itinerary;
     
-    /**Class constructor specifying time, id, maximum speed and itinerary.
+    /**
+     * Class constructor specifying time, id, maximum speed and itinerary.
      * 
      * @param time Time
      * @param id Identification value
@@ -33,10 +29,12 @@ public class VehicleEvent extends Event {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addVehicle(new Vehicle(id, maxSpeed, roadmap.getItinerary(itinerary)));
+        roadmap.addVehicle(new Vehicle(id, maxSpeed, 
+                roadmap.getItinerary(itinerary)));
     }
     
-    /**Builds the vehicle event.
+    /**
+     * Builds the vehicle event.
      * @see Event.Builder
      */ 
     public static class Builder implements Event.Builder{

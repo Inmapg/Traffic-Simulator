@@ -11,11 +11,8 @@ import pr5.control.Controller;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
 
-/**Main class
- * 
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Main class.
  */
 public class Main {
 
@@ -112,7 +109,7 @@ public class Main {
 	 * 
 	 * @throws IOException
 	 */
-	private static void test(String path) throws IOException {
+	public static void test(String path) throws IOException {
 
 		File dir = new File(path);
 
@@ -143,7 +140,8 @@ public class Main {
 				+ (equalOutput ? "OK!" : ("not equal to expected output +'" + expectedOutFile + "'")));
 	}
 
-	/** Run the simulator in batch mode.
+	/** 
+         * Run the simulator in batch mode.
 	 *
 	 */
 	private static void startBatchMode() {

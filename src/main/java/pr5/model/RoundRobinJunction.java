@@ -4,30 +4,24 @@ package pr5.model;
 import pr5.ini.IniSection;
 import pr5.model.Junction.IncomingRoad;
 
-/**Defines a circular junction.
+/**
+ * Defines a circular junction.
  * 
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
  * @see Junction
  */
 public class RoundRobinJunction extends TimeSliceJunction {
-    /**Type of junction*/
     private static final String TYPE = "rr";
-    /**Minimum time slice*/
     private final int minTimeSlice;
-    /**Maximum time slice*/
     private final int maxTimeSlice;
-    /**Chosen road*/
     private TimeSliceIncomingRoad currentRoad;
-    /**Last chosen road*/
     private TimeSliceIncomingRoad lastGreenLightRoad;
     
-    /**Class constructor specifying id, minimum time slice and maximum time slice.
+    /**
+     * Class constructor specifying id, minimum time slice and maximum time slice.
      * 
-     * @param id Identification
-     * @param minTimeSlice Minimum time slice
-     * @param maxTimeSlice Maximum time slice
+     * @param id 
+     * @param minTimeSlice 
+     * @param maxTimeSlice 
      */
     public RoundRobinJunction(String id, int minTimeSlice, int maxTimeSlice) {
         super(id);

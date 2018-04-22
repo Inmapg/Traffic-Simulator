@@ -1,4 +1,4 @@
-package pr5.tmodel;
+package pr5.model;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -9,8 +9,11 @@ import pr5.model.Road;
 import pr5.model.Vehicle;
 
 public class JunctionTest {
-     @Test
-    public void SimpleJunctionTest(){
+    @Test
+    /**
+     * Creates two junctions and checks their queues.
+     */
+    public void simpleJunctionTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road road = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -25,13 +28,16 @@ public class JunctionTest {
         correct.setValue("id", "j1");
         correct.setValue("time", "0");
         correct.setValue("queues", "");
-        assertEquals(correct, result);
-        assertEquals(road, sourceJunction.roadTo(destinationJunction));
+        assertEquals("The junction's state should be ", correct, result);
+        assertEquals("The road's status should be ", road, sourceJunction.roadTo(destinationJunction));
         
     }
     
     @Test
-    public void SimpleJunctionSimpleIncomingRoadQueueTest(){
+    /**
+     * Checks a junction with a simple incoming road queue.
+     */
+    public void simpleJunctionSimpleIncomingRoadQueueTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road road = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -49,7 +55,7 @@ public class JunctionTest {
         correct.setValue("id", "j2");
         correct.setValue("time", "0");
         correct.setValue("queues", "(r1,red,[v1,v2,v3,v4])");
-        assertEquals(correct, result);        
+        assertEquals("The junction's state should be ", correct, result);        
     }
     
 }

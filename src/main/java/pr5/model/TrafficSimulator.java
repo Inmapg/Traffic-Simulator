@@ -7,25 +7,30 @@ import pr5.events.Event;
 import pr5.exception.SimulatorError;
 import pr5.util.MultiTreeMap;
 
-/**Simulates a system of vehicles driving through some roads and around specified junctions.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Simulates a system of vehicles driving through some roads and
+ * around specified junctions.
  */
 public class TrafficSimulator {
-    
-    /**Output stream to process state values*/
     private OutputStream output;
-    /**Map of events to be executed ordered by the time when they will be executed*/
+    /**
+     * Map of events to be executed ordered by the time when they will be
+     * executed
+     */
     private MultiTreeMap<Integer, Event> mapOfEvents = new MultiTreeMap<>( (a,b) -> a-b );
-    /**Internal counter*/
+    /**
+     * Internal counter
+     */
     private int ticks;
-    /**Road map storing all the objects in the simulatation*/
+    /**
+     * Road map storing all the objects in the simulatation
+     */
     private RoadMap roadMap;
     
-    /**Class Constructor specifying output stream.
+    /**
+     * Class Constructor specifying output stream.
      * 
-     * @param output Output stream for exit values
+     * @param output 
      */
     public TrafficSimulator(OutputStream output){
         this.output = output;
@@ -33,24 +38,27 @@ public class TrafficSimulator {
         ticks = 0;
     }
     
-    /**Given a certain SimulatedObject it generates its report.
+    /**
+     * Given a certain SimulatedObject it generates its report.
      * 
-     * @param obj Simulated object
+     * @param simObject 
      * @throws SimulatorError Thrown when there is a problem with the output
      */
-    private void writeReport(SimulatedObject obj) throws SimulatorError{
+    private void writeReport(SimulatedObject simObject) throws SimulatorError{
         try{
-            obj.generateReport(ticks).store(output);
+            simObject.generateReport(ticks).store(output);
             output.write('\n');
         }
         catch(IOException e){
-            throw new SimulatorError("Error with " + obj.getClass() +" while storing report..." , e);
+            throw new SimulatorError("Error with " + simObject.getClass() 
+                    + " while storing report..." , e);
         }
     }
  
-    /**Main loop of the simulator. It executes the events for the current time, 
-     * invoke the method advance for roads and junctions and increases the internal counter.
-     * Finally, it writes the report for all the objects in the simulation.
+    /**
+     * Main loop of the simulator. It executes the events for the current time, 
+     * invoke the method advance for roads and junctions and increases the
+     * internal counter. Finally, it writes the report for all the objects in the simulation.
      * 
      * @param numberOfTicks Number of repetitions
      */
@@ -76,9 +84,9 @@ public class TrafficSimulator {
                 if(!junctionsList.isEmpty()){
                     junctionsList.forEach((Junction j)->j.advance());
                 }
-                // current time increases
+                // Current time increases
                 ticks++;
-                // write report
+                // Write report
                 if(output != null){
                     roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
                     roadMap.getRoads().forEach((Road r)-> writeReport(r));
@@ -91,17 +99,18 @@ public class TrafficSimulator {
         }
     }
     
-    /**Adds a new event to the simulation. Given a new event it is added to the 
+    /**
+     * Adds a new event to the simulation. Given a new event it is added to the 
      * list of events to be executed during the execution of the simulation.
      * 
-     * @param e New event to be added
+     * @param event
      */
-    public void addEvent(Event e){
-        mapOfEvents.putValue(e.getScheduleTime(), e);
+    public void addEvent(Event event){
+        mapOfEvents.putValue(event.getScheduleTime(), event);
     }
     
-    /**Sets to its initial value the simulation.
-     * 
+    /**
+     * Sets to its initial value the simulation.
      */
     public void reset(){
         mapOfEvents = new MultiTreeMap<>( (a,b) -> a-b );
@@ -109,7 +118,9 @@ public class TrafficSimulator {
         ticks = 0;     
     }
     
-    /**Changes the output stream. It changes the object output to a new value of OutputStream.
+    /**
+     * Changes the output stream. It changes the object output to a new value
+     * of OutputStream.
      * 
      * @param output Output stream
      */

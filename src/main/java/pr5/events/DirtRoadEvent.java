@@ -4,40 +4,43 @@ import pr5.ini.IniSection;
 import pr5.model.DirtRoad;
 import pr5.model.RoadMap;
 
-/**Creates a new dirt road.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new dirt road.
  */
 public class DirtRoadEvent extends RoadEvent {
     
-    /**Class constructor specifying time, id, source junction, destination junction, maximum speed
-     * and length.
+    /**
+     * Class constructor specifying time, id, source junction, destination
+     * junction, maximum speed and length.
      * 
      * @param time When the event occurs
-     * @param id Identification
+     * @param id
      * @param src Source junction ID
      * @param dest Destination junction ID
-     * @param maxSpeed Maximum speed
-     * @param length Length
+     * @param maxSpeed
+     * @param length
      */
-    public DirtRoadEvent(int time, String id, String src, String dest, int maxSpeed, int length) {
+    public DirtRoadEvent(int time, String id, String src, String dest,
+            int maxSpeed, int length) {
         super(time, id, src, dest, maxSpeed, length);
     }
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addRoad(new DirtRoad(id, length, maxSpeed, roadmap.getJunction(src), roadmap.getJunction(dest)));
+        roadmap.addRoad(new DirtRoad(id, length, maxSpeed,
+                roadmap.getJunction(src), roadmap.getJunction(dest)));
     }
     
-    /**Builds the dirt road event.
+    /**
+     * Builds the dirt road event.
      * @see Event.Builder
      */
     public static class Builder implements Event.Builder {
 
         @Override
         public Event parse(IniSection sec) {
-            if ( !"new_road".equals(sec.getTag()) || !"dirt".equals(sec.getValue("type"))){
+            if ( !"new_road".equals(sec.getTag())
+                    || !"dirt".equals(sec.getValue("type"))){
                 return null;
             }
             return new DirtRoadEvent(

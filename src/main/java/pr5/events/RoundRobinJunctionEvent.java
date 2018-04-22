@@ -4,24 +4,22 @@ import pr5.ini.IniSection;
 import pr5.model.RoadMap;
 import pr5.model.RoundRobinJunction;
 
-/**Creates a new round robin junction.
- * @author Inmapg
- * @author Arturacu
- * @version 3.0
+/**
+ * Creates a new round robin junction.
  */
 public class RoundRobinJunctionEvent extends JunctionEvent{
-    /**Minimum time slice*/
     private int minTimeSlice;
-    /**Maximum time slice*/
     private int maxTimeSlice;
     /**
      * Class constructor specifying time and id
-     * @param time Internal time
-     * @param id Identifier
-     * @param minTimeSlice Minimum time slice
-     * @param maxTimeSlice Maximum time slice
+     * 
+     * @param time
+     * @param id 
+     * @param minTimeSlice 
+     * @param maxTimeSlice 
      */
-    public RoundRobinJunctionEvent(int time, String id, int minTimeSlice, int maxTimeSlice) {
+    public RoundRobinJunctionEvent(int time, String id, int minTimeSlice,
+            int maxTimeSlice) {
         super(time, id);
         this.minTimeSlice = minTimeSlice;
         this.maxTimeSlice = maxTimeSlice;
@@ -29,17 +27,20 @@ public class RoundRobinJunctionEvent extends JunctionEvent{
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addJunction(new RoundRobinJunction(id, minTimeSlice, maxTimeSlice));
+        roadmap.addJunction(new RoundRobinJunction(id, minTimeSlice,
+                maxTimeSlice));
     }
     
-    /**Builds the round robin junction event.
+    /**
+     * Builds the round robin junction event.
      * @see Event.Builder
      */
     public static class Builder implements Event.Builder {
     
     @Override
     public Event parse(IniSection sec) {
-        if ( !"new_junction".equals(sec.getTag()) || !"rr".equals(sec.getValue("type"))) return null;
+        if ( !"new_junction".equals(sec.getTag()) 
+                || !"rr".equals(sec.getValue("type"))) return null;
         return new RoundRobinJunctionEvent(
                 parseInt(sec, "time", 0),
                 parseString(sec, "id"),

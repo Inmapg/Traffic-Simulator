@@ -3,22 +3,19 @@ package pr5.events;
 import pr5.ini.IniSection;
 import pr5.model.RoadMap;
 
-/**Breaks down an existing vehicle.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Breaks down an existing vehicle.
  */
 public class VehicleFaultyEvent extends Event{
-    /**Duration*/
     private final int duration;
-    /**List of vehicles*/
     private final String[] vehicles;
     
-    /**Class constructor specifying time, list of vehicles and duration 
+    /**
+     * Class constructor specifying time, list of vehicles and duration. 
      * 
-     * @param time Time
-     * @param vehicles List of id from vehicles
-     * @param duration Duration
+     * @param time 
+     * @param vehicles 
+     * @param duration 
      */
     public VehicleFaultyEvent(int time, String[] vehicles, int duration){
         super(time);
@@ -33,9 +30,10 @@ public class VehicleFaultyEvent extends Event{
         }
     }
     
-     /**Builds the vehicle faulty event.
-     * @see Event.Builder
-     */
+     /**
+      * Builds the vehicle faulty event.
+      * @see Event.Builder
+      */
     public static class Builder implements Event.Builder {
 
         @Override

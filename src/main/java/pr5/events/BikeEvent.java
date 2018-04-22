@@ -4,19 +4,18 @@ import pr5.ini.IniSection;
 import pr5.model.Bike;
 import pr5.model.RoadMap;
 
-/**Creates a new bike.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new bike.
  */
 public class BikeEvent extends VehicleEvent{
     
-    /**Class constructor specifying time, id, itinerary and maximum speed.
+    /**
+     * Class constructor specifying time, id, itinerary and maximum speed.
      * 
      * @param time When the event occurs
-     * @param id Identification
-     * @param itinerary Itinerary followed
-     * @param maxSpeed Maximum speed
+     * @param id 
+     * @param itinerary 
+     * @param maxSpeed 
      */
     public BikeEvent(int time, String id, String[] itinerary, int maxSpeed){
         super(time, id, maxSpeed, itinerary);
@@ -24,17 +23,20 @@ public class BikeEvent extends VehicleEvent{
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addVehicle(new Bike(id,  maxSpeed, roadmap.getItinerary(itinerary)));
+        roadmap.addVehicle(new Bike(id,  maxSpeed, 
+                roadmap.getItinerary(itinerary)));
     }
     
-    /**Builds the bike event.
+    /**
+     * Builds the bike event.
      * @see Event.Builder
      */
     public static class Builder implements Event.Builder {
 
        @Override
         public Event parse(IniSection sec) {
-            if (!"new_vehicle".equals(sec.getTag()) || !"bike".equals(sec.getValue("type"))){
+            if (!"new_vehicle".equals(sec.getTag())
+                    || !"bike".equals(sec.getValue("type"))){
                 return null;
             }
             return new BikeEvent(

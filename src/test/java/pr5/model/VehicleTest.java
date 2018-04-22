@@ -1,4 +1,4 @@
-package pr5.tmodel;
+package pr5.model;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -13,7 +13,10 @@ import pr5.model.Vehicle;
 public class VehicleTest {
     
     @Test
-    public void OneRoadTest(){
+    /**
+     * Checks the functionality of one vehicle.
+     */
+    public void oneRoadTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road road = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -33,7 +36,7 @@ public class VehicleTest {
         correct.setValue("faulty", "0");
         correct.setValue("location", "(r1,0)");
         
-        assertEquals(correct, result);
+        assertEquals("Vehicle's state should be ", correct, result);
         road.advance();
         result = vehicle.generateReport(1);
         
@@ -44,11 +47,14 @@ public class VehicleTest {
         correct.setValue("faulty", "0");
         correct.setValue("location", "(r1,15)");
        
-        assertEquals(correct, result);
+        assertEquals("Vehicle's state should be ", correct, result);
     }
     
     @Test
-    public void MultipleVehicleTest(){
+    /**
+     * Checks the functionality of multiple vehicles on a a road.
+     */
+    public void multipleVehicleTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road road = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -80,12 +86,15 @@ public class VehicleTest {
         correct2.setValue("faulty", "0");
         correct2.setValue("location", "(r1,11)");
         
-        assertEquals(correct1, result1);
-        assertEquals(correct2, result2);
+        assertEquals("Vehicle1's state should be ", correct1, result1);
+        assertEquals("Vehicle2's state should be ", correct2, result2);
     }
     
     @Test
-    public void VehicleFaultyTest(){
+    /**
+     * Checks if a vehicle breaks down properly.
+     */
+    public void vehicleFaultyTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         ArrayList<Junction> itinerary = new ArrayList<>();
@@ -106,26 +115,26 @@ public class VehicleTest {
         correct.setValue("faulty", "0");
         correct.setValue("location", "(r1,10)");
         
-        assertEquals(correct, result);
+        assertEquals("Vehicle's state should be ", correct, result);
         vehicle.makeFaulty(2);
         correct.setValue("time", "2");
         correct.setValue("speed", "0");
         correct.setValue("faulty", "2");
         result = vehicle.generateReport(2);
-        assertEquals(correct, result);
+        assertEquals("Vehicle's state should be ", correct, result);
         
         road.advance();
         correct.setValue("time", "3");
         correct.setValue("speed", "0");
         correct.setValue("faulty", "1");
         result = vehicle.generateReport(3);
-        assertEquals(correct, result);
+        assertEquals("Vehicle's state should be ", correct, result);
         
         road.advance();
         correct.setValue("time", "4");
         correct.setValue("faulty", "0");
         result = vehicle.generateReport(4);
-        assertEquals(correct, result); 
+        assertEquals("Vehicle's state should be ", correct, result); 
         
         road.advance();
         result = vehicle.generateReport(5);
@@ -133,11 +142,15 @@ public class VehicleTest {
         correct.setValue("speed", "10");
         correct.setValue("kilometrage", "20");
         correct.setValue("location", "(r1,20)");
-        assertEquals(correct, result); 
+        assertEquals("Vehicle's state should be ", correct, result); 
     }
     
     @Test
-    public void MoveToNextRoadTest(){
+    /**
+     * Checks the functionality of a vehicle moving to its next road on its
+     * itinerary.
+     */
+    public void moveToNextRoadTest(){
         Junction sourceJunction = new Junction("j1");
         Junction middleJunction = new Junction("j2");
         Junction destinationJunction = new Junction("j3");
@@ -165,7 +178,7 @@ public class VehicleTest {
         correct.setValue("faulty", "0");
         correct.setValue("location", "(r1,20)");
         
-        assertEquals(correct, result);
+        assertEquals("Vehicle's state should be ", correct, result);
         
         r2.advance();
         result = vehicle.generateReport(2);
@@ -173,12 +186,15 @@ public class VehicleTest {
         correct.setValue("speed", "0");
         correct.setValue("kilometrage", "20");
         correct.setValue("location", "(r1,20)");
-        assertEquals(correct, result);   
+        assertEquals("Vehicle's state should be ", correct, result);   
     }
     
     
     @Test
-    public void BikeTest(){
+    /**
+     * Checks the functionality of a bike.
+     */
+    public void bikeTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road road = new Road("r1", 40, 20, sourceJunction, destinationJunction);
@@ -199,7 +215,7 @@ public class VehicleTest {
         correct.setValue("faulty", "0");
         correct.setValue("location", "(r1,0)");
         
-        assertEquals(correct, result);
+        assertEquals("Bike's state should be ", correct, result);
         road.advance();
         result = bike.generateReport(1);
         
@@ -208,11 +224,14 @@ public class VehicleTest {
         correct.setValue("kilometrage", "10");
         correct.setValue("location", "(r1,10)");
        
-        assertEquals(correct, result);
+        assertEquals("Bike's state should be ", correct, result);
     }
     
     @Test
-    public void CarTest(){
+    /**
+     * Checks the functionality of a car.
+     */
+    public void carTest(){
         Junction sourceJunction = new Junction("j1");
         Junction destinationJunction = new Junction("j2");
         Road road = new Road("r1", 70, 50, sourceJunction, destinationJunction);
@@ -233,7 +252,7 @@ public class VehicleTest {
         correct.setValue("kilometrage", "0");
         correct.setValue("faulty", "0");
         correct.setValue("location", "(r1,0)");
-        assertEquals(correct, result);
+        assertEquals("Car's state should be ", correct, result);
         road.advance();
         
         correct.setValue("time", "1");
@@ -242,7 +261,7 @@ public class VehicleTest {
         correct.setValue("location", "(r1,10)");
         result = car.generateReport(1);   
         
-        assertEquals(correct, result);
+        assertEquals("Car's state should be ", correct, result);
         
     }
 }

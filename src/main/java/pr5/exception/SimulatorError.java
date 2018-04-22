@@ -1,30 +1,31 @@
 package pr5.exception;
 
-/**Creates a simulation error exception.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a simulation error exception.
  */
 public class SimulatorError extends RuntimeException {
-    /**Class constructor.
+    /**
+     * Class constructor.
      */
     public SimulatorError(){
     }
     
-    /**Class constructor specifying message.
+    /**
+     * Class constructor specifying message.
      * 
-     * @param s Message
+     * @param message
      */
-    public SimulatorError(String s){
-        super(s);
+    public SimulatorError(String message){
+        super(message);
     }
     
-    /**Class constructor specifying message and cause of exception.
+    /**
+     * Class constructor specifying message and cause of exception.
      * 
-     * @param s Message
-     * @param cause Cause of the exception
+     * @param message
+     * @param cause 
      */
-    public SimulatorError(String s, Throwable cause){
-        super(s, cause);
+    public SimulatorError(String message, Throwable cause){
+        super(message, cause);
     }
 }

@@ -4,19 +4,17 @@ import pr5.ini.IniSection;
 import pr5.model.Junction;
 import pr5.model.RoadMap;
 
-/**Creates a new junction.
- * @author Inmapg
- * @author Arturacu
- * @version 2.0
+/**
+ * Creates a new junction.
  */
 public class JunctionEvent extends Event {
-    /**Identification value*/
     final String id;
     
-    /**Class constructor specifying time and id.
+    /**
+     * Class constructor specifying time and id.
      * 
      * @param time When the event occurs
-     * @param id Identification value
+     * @param id 
      */
     public JunctionEvent(int time, String id){
         super(time);
@@ -28,7 +26,8 @@ public class JunctionEvent extends Event {
         roadmap.addJunction(new Junction(id));
     }
 
-    /**Builds the junction event.
+    /**
+     * Builds the junction event.
      * @see Event.Builder
      */
     public static class Builder implements Event.Builder {

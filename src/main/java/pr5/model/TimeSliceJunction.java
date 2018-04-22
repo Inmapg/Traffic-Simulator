@@ -2,33 +2,28 @@ package pr5.model;
 
 import pr5.ini.IniSection;
 
-/**Defines a time slice junction.
- * 
- * @author Inmapg
- * @author Arturacu
- * @version 3.0
+/**
+ * Defines a time slice junction.
  * @see Junction
  */
 public class TimeSliceJunction extends Junction {
-    /**Contains information about an incoming time slice road to the junction.
+    /**
+     * Contains information about an incoming time slice road to the junction.
      * @see IncomingRoad
      */
     protected class TimeSliceIncomingRoad extends IncomingRoad{
-        /**Interval of time*/
         private int intervalTime;
-        /**Time spent*/
-        protected int timeSpent;       
-        /**Time completely used*/
+        protected int timeSpent;   
         private boolean completelyUsed;
-        /**Time used*/
         private boolean used;
         
-        /**Class constructor specifying the road.
+        /**
+         * Class constructor specifying the road.
          * The rest of attributes are zero-initialized.
-         * @param r Road
+         * @param road
          */
-        public TimeSliceIncomingRoad(Road r) {
-            super(r);
+        public TimeSliceIncomingRoad(Road road) {
+            super(road);
             timeSpent = 0;
             intervalTime = 0;
             used = false;
@@ -37,8 +32,8 @@ public class TimeSliceJunction extends Junction {
         
         /**
          * Class constructor specifying road and interval time.
-         * @param road Road
-         * @param intervalTime Interval time
+         * @param road 
+         * @param intervalTime
          */
         public TimeSliceIncomingRoad(Road road, int intervalTime) {
             super(road);
@@ -56,9 +51,8 @@ public class TimeSliceJunction extends Junction {
            timeSpent = 0;
         }
         
-        /**Returns if time is greater than the interval of time.
-         * 
-         * @return If time is spent
+        /**
+         * @return if time is greater than the interval of time.
          */
         public final boolean timeIsOver(){
             return timeSpent >= intervalTime-1;
@@ -73,25 +67,24 @@ public class TimeSliceJunction extends Junction {
            used = used || completelyUsed;
         } 
         
-        /**Returns if the time is completely used.
-         * 
+        /**
          * @return If time completely used.
          */
         public final boolean completelyUsed(){
             return completelyUsed;
         }
         
-        /**Returns if the time is used.
-         * 
+        /**
          * @return If time is used.
          */
         public final boolean used(){
             return used;
         }
         
-        /**Sets the interval time.
+        /**
+         * Sets the interval time.
          * 
-         * @param intervalTime interval time 
+         * @param intervalTime
          */
         public void setIntervalTime(int intervalTime){
             this.intervalTime = intervalTime;
@@ -99,6 +92,7 @@ public class TimeSliceJunction extends Junction {
         
         /**
          * Returns the interval time.
+         * 
          * @return interval time
          */
         public int getIntervalTime(){
@@ -113,9 +107,10 @@ public class TimeSliceJunction extends Junction {
         }
     } // End of the internal class TimeSliceIncomingRoad
     
-    /**Class constructor specifying the id. 
+    /**
+     * Class constructor specifying the id. 
      * 
-     * @param id Identifier
+     * @param id
      */
     public TimeSliceJunction(String id) {
         super(id);
@@ -132,11 +127,17 @@ public class TimeSliceJunction extends Junction {
             if(!incomingRoadMap.isEmpty()){
              incomingRoadMap.values().forEach((ir) -> {
              if(ir.isGreenLight()){
-             sb.append('(').append(ir.road.getId()).append(',').append(ir.lightToString()).append(":").append(
-                    ((TimeSliceIncomingRoad)ir).getIntervalTime() - ((TimeSliceIncomingRoad)ir).timeSpent).append(',').append(ir.printQueue()).append("),");
+             sb.append('(').
+                     append(ir.road.getId()).append(',').append(ir.lightToString())
+                     .append(":").append(
+                    ((TimeSliceIncomingRoad)ir).getIntervalTime() - ((TimeSliceIncomingRoad)ir).timeSpent)
+                     .append(',').append(ir.printQueue())
+                     .append("),");
              }
              else{
-                sb.append('(').append(ir.road.getId()).append(',').append(ir.lightToString()).append(',').append(ir.printQueue()).append("),"); 
+                sb.append('(').append(ir.road.getId()).append(',')
+                        .append(ir.lightToString()).append(',').append(ir.printQueue())
+                        .append("),"); 
                 }
              });
             sec.setValue("queues", sb.substring(0, sb.length() - 1));
