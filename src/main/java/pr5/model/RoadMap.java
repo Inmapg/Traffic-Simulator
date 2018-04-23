@@ -60,15 +60,12 @@ public class RoadMap {
      * @see Vehicle
      */
     public Vehicle getVehicle(String vehicleId){
-        Vehicle rslt = null;
-        try{
-            rslt = simulatedVehicles.get(vehicleId);
-            if(rslt == null) throw new NullPointerException("Vehicle with "
-                    + vehicleId + " id not found in roadmap");
+        Vehicle rslt = simulatedVehicles.get(vehicleId);
+        if(rslt == null){
+            throw new NullPointerException("Vehicle with " + vehicleId
+                    + " id not found in roadmap");
         }
-        catch(NullPointerException e){
-            System.err.println(e.getMessage());
-        }
+
         return rslt; 
     }
     
@@ -78,15 +75,12 @@ public class RoadMap {
      * @see Road
      */
     public Road getRoad(String roadId){
-        Road rslt = null;
-        try{
-            rslt = simulatedRoads.get(roadId);
-            if(rslt == null) throw new NullPointerException("Road with "
-                    + roadId + " id not found in roadmap");
+        Road rslt = simulatedRoads.get(roadId);
+        if(rslt == null){
+            throw new NullPointerException("Road with " + roadId
+                + " id not found in roadmap");
         }
-        catch(NullPointerException e){
-            System.err.println(e.getMessage());
-        }
+        
         return rslt;
     }
     
@@ -96,17 +90,12 @@ public class RoadMap {
      * @see Junction
      */
     public Junction getJunction(String junctionId){
-        Junction rslt = null;
-        try{
-            rslt = simulatedJunctions.get(junctionId);
-            if(rslt == null){
-                throw new NullPointerException("Junction with " + junctionId + " id not found in roadmap");
-            }
+        Junction rslt = simulatedJunctions.get(junctionId);
+        if(rslt == null){
+            throw new NullPointerException("Junction with " + junctionId
+                    + " id not found in roadmap");
         }
-        catch(NullPointerException e){
-            System.err.println(e.getMessage());
-            throw (e);
-        }
+
         return rslt; 
     }
     
@@ -116,7 +105,12 @@ public class RoadMap {
      * @param newJunction
      */
     public void addJunction(Junction newJunction){
-        complainIfIdExists(newJunction);
+        try{
+            complainIfIdExists(newJunction);
+        }
+        catch(IllegalArgumentException e){
+            throw e;
+        }
         simulatedJunctions.put(newJunction.getId(), newJunction);
     }
     
@@ -126,7 +120,12 @@ public class RoadMap {
      * @param newRoad
      */
     public void addRoad(Road newRoad){
-        complainIfIdExists(newRoad);
+        try{
+            complainIfIdExists(newRoad);
+        }
+        catch(IllegalArgumentException e){
+            throw e;
+        }
         simulatedRoads.put(newRoad.getId(), newRoad);
         newRoad.getDestination().addIncomingRoad(newRoad);
         newRoad.getSource().addOutGoingRoad(newRoad, newRoad.getDestination());
@@ -138,7 +137,12 @@ public class RoadMap {
      * @param newVehicle 
      */
     public void addVehicle(Vehicle newVehicle){
-        complainIfIdExists(newVehicle);
+        try{
+            complainIfIdExists(newVehicle);
+        }
+        catch(IllegalArgumentException e){
+            throw e;
+        }
         simulatedVehicles.put(newVehicle.getId(), newVehicle);        
     }
     
@@ -184,22 +188,15 @@ public class RoadMap {
         List<Junction> path = new ArrayList<>();
         Junction previousJ = null;
         for(String junctionId : itinerary){
-            try{
-                Junction j = getJunction(junctionId);                    
-                if(previousJ != null && previousJ.roadTo(j) == null){
-                    throw new SimulatorError("No road connects " 
-                            + previousJ.getId() + " junction with " + j.getId());
-                }
-                previousJ = j;
-                path.add(j);
-            } 
-            catch (NullPointerException e){
-                System.err.println("Itinerary cannot be created, junction id " 
-                        + junctionId + " does not exist");
+            Junction j = getJunction(junctionId);                    
+            if(previousJ != null && previousJ.roadTo(j) == null){
+                throw new SimulatorError("No road connects " 
+                        + previousJ.getId() + " junction with " + j.getId()
+                        + "\nItinerary cannot be created, junction id " 
+                        + j.getId() + " does not exist");
             }
-            catch(SimulatorError e){
-                System.err.println(e.getMessage());
-            }
+            previousJ = j;
+            path.add(j);
         }
         return path;
     }

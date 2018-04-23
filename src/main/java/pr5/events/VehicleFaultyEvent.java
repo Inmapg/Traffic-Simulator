@@ -25,8 +25,13 @@ public class VehicleFaultyEvent extends Event{
 
     @Override
     public void execute(RoadMap roadmap) {
-        for(String vehicleId : vehicles){
-            roadmap.getVehicle(vehicleId).makeFaulty(duration);
+        try{
+            for(String vehicleId : vehicles){
+                roadmap.getVehicle(vehicleId).makeFaulty(duration);
+            }
+        }
+        catch(NullPointerException e){
+            throw e;
         }
     }
     

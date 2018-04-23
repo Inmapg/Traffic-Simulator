@@ -1,5 +1,6 @@
 package pr5.events;
 
+import pr5.exception.SimulatorError;
 import pr5.ini.IniSection;
 import pr5.model.Car;
 import pr5.model.RoadMap;
@@ -41,8 +42,13 @@ public class CarEvent extends VehicleEvent {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addVehicle(new Car(id, maxSpeed, roadmap.getItinerary(itinerary),
-                resistance, faultProbability, maxFaultDuration, seed));
+        try{
+            roadmap.addVehicle(new Car(id, maxSpeed, roadmap.getItinerary(itinerary),
+                    resistance, faultProbability, maxFaultDuration, seed));
+        }
+        catch(SimulatorError e){
+            throw e;
+        }
     }
 
     /**

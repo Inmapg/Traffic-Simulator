@@ -43,8 +43,13 @@ public class RoadEvent extends Event {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addRoad(new Road(id, length, maxSpeed, roadmap.getJunction(src),
-                roadmap.getJunction(dest) ));
+        try{
+            roadmap.addRoad(new Road(id, length, maxSpeed, roadmap.getJunction(src),
+                    roadmap.getJunction(dest) ));
+        }
+        catch(NullPointerException e){
+            throw e;
+        }
     }
     
     public static class Builder implements Event.Builder {

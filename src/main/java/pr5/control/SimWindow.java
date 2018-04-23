@@ -10,17 +10,17 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
 /**
- * Esto es sólo para empezar a jugar con las interfaces
- * de la P5. 
- * 
- * El código <i>no</i> está bien organizado, y meter toda
- * la funcionalidad aquí sería un disparate desde un punto
- * de vista de mantenibilidad.
+ * SimulatedWindow object which represents a GUI interface for the user. This
+ * window provides a new way to configurate a simulator apart from the batch mode.
  */
- // <b>Comentamos algunas partes para que compile</b>
 public class SimWindow extends JFrame {
-	public SimWindow() {
-		super("Prueba 123");
+        int defaultTimeValue;
+        String inFile;
+	public SimWindow(String inFile, int defaultTimeValue) {
+		super("Traffic Simulator");
+                this.defaultTimeValue = defaultTimeValue;
+                this.inFile = inFile;
+                
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		addBars();
@@ -54,9 +54,5 @@ public class SimWindow extends JFrame {
 		JMenuBar menu = new JMenuBar();
 		menu.add(file);
 		setJMenuBar(menu);
-	}
-	
-	public static void main(String ... args) {
-		SwingUtilities.invokeLater(() -> new SimWindow());
 	}
 }

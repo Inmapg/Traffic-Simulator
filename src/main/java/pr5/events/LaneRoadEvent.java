@@ -30,9 +30,14 @@ public class LaneRoadEvent extends RoadEvent {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addRoad(new LaneRoad(id, length, maxSpeed,
-                roadmap.getJunction(src), roadmap.getJunction(dest), 
-                numberOfLanes));
+        try{
+            roadmap.addRoad(new LaneRoad(id, length, maxSpeed,
+                    roadmap.getJunction(src), roadmap.getJunction(dest), 
+                    numberOfLanes));
+        }
+        catch(NullPointerException e){
+            throw e;
+        }
     }
     
     /**

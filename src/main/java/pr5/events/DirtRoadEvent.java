@@ -27,8 +27,13 @@ public class DirtRoadEvent extends RoadEvent {
     
     @Override
     public void execute(RoadMap roadmap) {
-        roadmap.addRoad(new DirtRoad(id, length, maxSpeed,
-                roadmap.getJunction(src), roadmap.getJunction(dest)));
+        try{
+            roadmap.addRoad(new DirtRoad(id, length, maxSpeed,
+                    roadmap.getJunction(src), roadmap.getJunction(dest)));
+        }
+        catch(NullPointerException e){
+            throw e;
+        }
     }
     
     /**
