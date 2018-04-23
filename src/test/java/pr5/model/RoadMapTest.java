@@ -54,18 +54,18 @@ public class RoadMapTest {
         try {
             roadmap.addJunction(new Junction("j1"));
         } catch (java.lang.IllegalArgumentException e) {
-            System.err.println("Error while adding junction in method exceptionsWithIdTest");
+            System.err.println("- Expected exception while adding junction in method exceptionsWithIdTest");
         }
         try {
             roadmap.addJunction(new Junction("j2"));
         } catch (java.lang.IllegalArgumentException e) {
-            System.err.println("Error while adding junction in method exceptionsWithIdTest");
+            System.err.println("- Expected exception while adding junction in method exceptionsWithIdTest");
         }
         try {
             Junction j1 = new Junction("j");
             roadmap.addRoad(new Road("road1", 40, 20, j1, j1));
         } catch (java.lang.IllegalArgumentException e) {
-            System.err.println("Error while adding road in method exceptionsWithIdTest");
+            System.err.println("- Expected exception while adding road in method exceptionsWithIdTest");
         }
         try {
             Junction j1 = new Junction("j");
@@ -73,7 +73,7 @@ public class RoadMapTest {
             path.add(j1);
             roadmap.addVehicle(new Car("car2", 15, path, 15, 0.3, 10, 123456789));
         } catch (java.lang.IllegalArgumentException e) {
-            System.err.println("Error while adding vehicle in method exceptionsWithIdTest");
+            System.err.println("- Expected exception while adding vehicle in method exceptionsWithIdTest");
         }
     }
 

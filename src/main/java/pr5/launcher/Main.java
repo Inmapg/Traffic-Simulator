@@ -177,7 +177,7 @@ public class Main {
      *
      * @throws IOException
      */
-    public static void test(String path) throws IOException {
+    public static void test(String path) throws Exception {
 
         File dir = new File(path);
 
@@ -209,14 +209,26 @@ public class Main {
      * @param expectedOutFile Name of the expected file to be compared.
      * @param timeLimit Number of ticks for the simulator to run.
      */
-    private static void test(String inFile, String outFile, String expectedOutFile, int timeLimit) throws IOException {
+    private static void test(String inFile, String outFile, String expectedOutFile, int timeLimit) throws Exception {
         _outFile = outFile;
         _inFile = inFile;
         _timeLimit = timeLimit;
-        startBatchMode();
+        startBatchModeTest();
         boolean equalOutput = (new Ini(_outFile)).equals(new Ini(expectedOutFile));
         System.out.println("Result for: '" + _inFile + "' : "
                 + (equalOutput ? "OK!" : ("not equal to expected output +'" + expectedOutFile + "'")));
+    }
+
+    /**
+     * Run the simulator in batch test mode. Exceptions are not caught during
+     * the execution of the method so a test method can analyse wether or not
+     * the exception was expected or not according to the configuration given to
+     * the traffic simulator to start simulating.
+     *
+     */
+    private static void startBatchModeTest() throws Exception {
+        Controller control = new Controller(_outFile == null ? System.out : new FileOutputStream(_outFile));
+        control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
     }
 
     /**
@@ -229,10 +241,9 @@ public class Main {
             control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
         } catch (FileNotFoundException e) {
             System.err.println("Error with output file: " + _outFile);
-        }
-        /*catch (SimulatorError e) {
+        } catch (SimulatorError e) {
             System.err.println("Error during controller execution...");
-        }*/
+        }
     }
 
     /**
