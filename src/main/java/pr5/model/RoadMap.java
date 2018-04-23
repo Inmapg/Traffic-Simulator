@@ -10,189 +10,187 @@ import pr5.exception.SimulatorError;
  * Contains every simulated object of the program.
  */
 public class RoadMap {
+
     /**
-     * Map of simulated vehicles.
-     * id - vehicle
+     * Map of simulated vehicles. id - vehicle
+     *
      * @see Vehicle
      */
-    private Map<String, Vehicle> simulatedVehicles; 
+    private Map<String, Vehicle> simulatedVehicles;
     /**
-     * Map of simulated roads.
-     * id- road
+     * Map of simulated roads. id- road
+     *
      * @see Road
      */
-    private Map<String, Road> simulatedRoads; 
+    private Map<String, Road> simulatedRoads;
     /**
-     * Map of simulated junctions.
-     * id - junction
+     * Map of simulated junctions. id - junction
+     *
      * @see Junction
      */
     private Map<String, Junction> simulatedJunctions;
-    
+
     /**
      * Class constructor.
      */
-    public RoadMap(){
+    public RoadMap() {
         simulatedVehicles = new LinkedHashMap<>();
         simulatedRoads = new LinkedHashMap<>();
         simulatedJunctions = new LinkedHashMap<>();
     }
-    
+
     /**
      * Checks if a simulated object exists.
-     * 
-     * @param simObject 
+     *
+     * @param simObject
      */
-    public void complainIfIdExists(SimulatedObject simObject){
-        if ( simulatedVehicles.get(simObject.getId()) != null
-             || simulatedRoads.get(simObject.getId()) != null
-             || simulatedJunctions.get(simObject.getId()) != null){
-            throw new IllegalArgumentException("The id " + simObject.getId() 
+    public void complainIfIdExists(SimulatedObject simObject) {
+        if (simulatedVehicles.get(simObject.getId()) != null
+                || simulatedRoads.get(simObject.getId()) != null
+                || simulatedJunctions.get(simObject.getId()) != null) {
+            throw new IllegalArgumentException("The id " + simObject.getId()
                     + " has already been used to name other object,"
-                    + " you cannot create the object " + simObject.getClass() 
+                    + " you cannot create the object " + simObject.getClass()
                     + " with this id");
         }
     }
-    
+
     /**
-     * @param vehicleId 
+     * @param vehicleId
      * @return Vehicle associated to vehicleId, null if not found
      * @see Vehicle
      */
-    public Vehicle getVehicle(String vehicleId){
+    public Vehicle getVehicle(String vehicleId) {
         Vehicle rslt = simulatedVehicles.get(vehicleId);
-        if(rslt == null){
+        if (rslt == null) {
             throw new NullPointerException("Vehicle with " + vehicleId
                     + " id not found in roadmap");
         }
 
-        return rslt; 
+        return rslt;
     }
-    
+
     /**
      * @param roadId
      * @return Road associated to roadId, null if not found
      * @see Road
      */
-    public Road getRoad(String roadId){
+    public Road getRoad(String roadId) {
         Road rslt = simulatedRoads.get(roadId);
-        if(rslt == null){
+        if (rslt == null) {
             throw new NullPointerException("Road with " + roadId
-                + " id not found in roadmap");
+                    + " id not found in roadmap");
         }
-        
+
         return rslt;
     }
-    
+
     /**
-     * @param junctionId 
+     * @param junctionId
      * @return Junction associated to junctionId, null if not found
      * @see Junction
      */
-    public Junction getJunction(String junctionId){
+    public Junction getJunction(String junctionId) {
         Junction rslt = simulatedJunctions.get(junctionId);
-        if(rslt == null){
+        if (rslt == null) {
             throw new NullPointerException("Junction with " + junctionId
                     + " id not found in roadmap");
         }
 
-        return rslt; 
+        return rslt;
     }
-    
+
     /**
      * Adds a new junction to list.
-     * 
+     *
      * @param newJunction
      */
-    public void addJunction(Junction newJunction){
-        try{
+    public void addJunction(Junction newJunction) {
+        try {
             complainIfIdExists(newJunction);
-        }
-        catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw e;
         }
         simulatedJunctions.put(newJunction.getId(), newJunction);
     }
-    
+
     /**
      * Adds a new road to list.
-     * 
+     *
      * @param newRoad
      */
-    public void addRoad(Road newRoad){
-        try{
+    public void addRoad(Road newRoad) {
+        try {
             complainIfIdExists(newRoad);
-        }
-        catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw e;
         }
         simulatedRoads.put(newRoad.getId(), newRoad);
         newRoad.getDestination().addIncomingRoad(newRoad);
         newRoad.getSource().addOutGoingRoad(newRoad, newRoad.getDestination());
     }
-    
+
     /**
      * Adds a new vehicle to list.
-     * 
-     * @param newVehicle 
+     *
+     * @param newVehicle
      */
-    public void addVehicle(Vehicle newVehicle){
-        try{
+    public void addVehicle(Vehicle newVehicle) {
+        try {
             complainIfIdExists(newVehicle);
-        }
-        catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw e;
         }
-        simulatedVehicles.put(newVehicle.getId(), newVehicle);        
+        simulatedVehicles.put(newVehicle.getId(), newVehicle);
     }
-    
+
     /**
      * @return List of roads
      * @see Road
      */
-    public List<Road> getRoads(){
+    public List<Road> getRoads() {
         return (new ArrayList<>(simulatedRoads.values()));
     }
-    
+
     /**
      * @return List of vehicles
      * @see Vehicle
      */
-    public List<Vehicle> getVehicles(){
+    public List<Vehicle> getVehicles() {
         return (new ArrayList<>(simulatedVehicles.values()));
     }
-    
+
     /**
      * @return List of junctions
      * @see Junction
      */
-    public List<Junction> getJunctions(){
+    public List<Junction> getJunctions() {
         return (new ArrayList<>(simulatedJunctions.values()));
     }
-    
+
     /**
      * Resets the lists.
      */
-    public void clear(){
+    public void clear() {
         simulatedVehicles = new LinkedHashMap<>();
         simulatedRoads = new LinkedHashMap<>();
-        simulatedJunctions = new LinkedHashMap<>();   
+        simulatedJunctions = new LinkedHashMap<>();
     }
-    
+
     /**
-     * @param itinerary 
+     * @param itinerary
      * @return List of junctions
      * @see Junction
      */
-    public List<Junction> getItinerary(String [] itinerary){
+    public List<Junction> getItinerary(String[] itinerary) {
         List<Junction> path = new ArrayList<>();
         Junction previousJ = null;
-        for(String junctionId : itinerary){
-            Junction j = getJunction(junctionId);                    
-            if(previousJ != null && previousJ.roadTo(j) == null){
-                throw new SimulatorError("No road connects " 
+        for (String junctionId : itinerary) {
+            Junction j = getJunction(junctionId);
+            if (previousJ != null && previousJ.roadTo(j) == null) {
+                throw new SimulatorError("No road connects "
                         + previousJ.getId() + " junction with " + j.getId()
-                        + "\nItinerary cannot be created, junction id " 
+                        + "\nItinerary cannot be created, junction id "
                         + j.getId() + " does not exist");
             }
             previousJ = j;
@@ -200,5 +198,5 @@ public class RoadMap {
         }
         return path;
     }
-    
+
 }

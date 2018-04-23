@@ -1,6 +1,5 @@
 package pr5.model;
 
-
 import org.junit.Test;
 import pr5.launcher.Main;
 
@@ -18,7 +17,7 @@ public class FullTest {
                 fail("Did not expect to reach this line");
             }
         } catch (Exception e) {
-            if ( ! expectException) {
+            if (!expectException) {
                 throw new Exception("When running tests on " + folderName, e);
             }
         }
@@ -28,13 +27,14 @@ public class FullTest {
     public void testBasic() throws Exception {
         runTests("basic", false);
     }
+
     @Test
     public void testAdvanced() throws Exception {
         runTests("advanced", false);
     }
+
     @Test
     public void testError() throws Exception {
         runTests("err", true);
     }
 }
-

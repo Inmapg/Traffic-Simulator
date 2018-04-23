@@ -11,7 +11,8 @@ import java.util.*;
  */
 public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
 
-    public MultiTreeMap() {}
+    public MultiTreeMap() {
+    }
 
     public MultiTreeMap(Comparator<K> comparator) {
         super(comparator);
@@ -19,35 +20,37 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
 
     /**
      * Adds a value at the end of the list of values for the specified key.
+     *
      * @param key to add the value under
      * @param value to add
      */
     public void putValue(K key, V value) {
-        if ( ! containsKey(key)) {
+        if (!containsKey(key)) {
             put(key, new ArrayList<>());
         }
         get(key).add(value);
     }
 
     /**
-     * Removes the first occurrence of a value from the list found at
-     * a given key. Efficiency is O(size-of-that-list)
+     * Removes the first occurrence of a value from the list found at a given
+     * key. Efficiency is O(size-of-that-list)
+     *
      * @param key to look into
      * @param value within the list found at that key to remove. The first
-     *              element that is equals to this one will be removed.
+     * element that is equals to this one will be removed.
      * @return true if removed, false if not found
      */
-      public boolean removeValue(K key, V value) {
-            if ( ! containsKey(key)) {
-                return false;
-            }
-            ArrayList<V> bucket = get(key);
-            boolean removed = bucket.remove(value);
-            if (bucket.isEmpty()) {
-                remove(key);
-            }
-            return removed;
+    public boolean removeValue(K key, V value) {
+        if (!containsKey(key)) {
+            return false;
         }
+        ArrayList<V> bucket = get(key);
+        boolean removed = bucket.remove(value);
+        if (bucket.isEmpty()) {
+            remove(key);
+        }
+        return removed;
+    }
 
     /**
      * @return total number of values stored in this multimap
@@ -61,9 +64,8 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
     }
 
     /**
-     * Iterates through all internal values
-     * (not the arraylists themselves), first by key order,
-     * and within each bucket, by insertion order.
+     * Iterates through all internal values (not the arraylists themselves),
+     * first by key order, and within each bucket, by insertion order.
      */
     private class InnerIterator implements Iterator<V> {
 
@@ -78,7 +80,7 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
         }
 
         private void advance() {
-            if (valueIterator == null || ! valueIterator.hasNext()) {
+            if (valueIterator == null || !valueIterator.hasNext()) {
                 if (arrayIterator.hasNext()) {
                     valueIterator = arrayIterator.next().iterator();
                     if (valueIterator.hasNext()) {
@@ -107,6 +109,7 @@ public class MultiTreeMap<K, V> extends TreeMap<K, ArrayList<V>> {
 
     /**
      * Allows iteration by base values.
+     *
      * @return iterable values, ordered by key and then by order-of-insertion
      */
     public Iterable<V> innerValues() {

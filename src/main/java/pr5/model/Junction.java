@@ -1,4 +1,5 @@
 package pr5.model;
+
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,19 +9,22 @@ import pr5.ini.IniSection;
 
 /**
  * Defines one of the main types of Simulated Object.
- * 
+ *
  * @see SimulatedObject
  */
 public class Junction extends SimulatedObject {
+
     private static final String SECTION_TAG_NAME = "junction_report";
-    
+
     /**
      * Contains information about an incoming road to the junction.
      */
     protected class IncomingRoad {
+
         private boolean greenLight;
         /**
          * Queue of vehicles
+         *
          * @see Vehicle
          */
         private ArrayDeque<Vehicle> waiting = new ArrayDeque<>();
@@ -28,234 +32,231 @@ public class Junction extends SimulatedObject {
          * Incoming road
          */
         protected final Road road;
-        
-        /**Class consctructor specifying road.
-         * greenLight is false-initialized.
-         * 
+
+        /**
+         * Class consctructor specifying road. greenLight is false-initialized.
+         *
          * @param road Incoming road
-         */ 
-        public IncomingRoad(Road road){ 
-            this.road = road; 
-            greenLight = false; 
+         */
+        public IncomingRoad(Road road) {
+            this.road = road;
+            greenLight = false;
         }
-        
+
         /**
          * Returns the state of the trafficlight.
-         * 
+         *
          * @return green/red
          */
-        protected String lightToString(){
+        protected String lightToString() {
             return (greenLight) ? "green" : "red";
         }
-        
+
         /**
          * Moves first vehile from queue to next road.
          */
-        protected void advanceFirstVehicle(){
+        protected void advanceFirstVehicle() {
             Vehicle movingVehicle = waiting.pollFirst(); // returns null when empty
-            if(movingVehicle == null){
-               // empty queue
-            }
-            else{
+            if (movingVehicle == null) {
+                // empty queue
+            } else {
                 movingVehicle.moveToNextRoad();
             }
         }
-        
+
         /**
          * @return Size of queue
          */
-        protected int sizeOfQueue(){
+        protected int sizeOfQueue() {
             return waiting.size();
         }
-        
+
         /**
          * Turns green the trafficlight.
          */
-        protected void onGreenLight(){
+        protected void onGreenLight() {
             greenLight = true;
         }
-        
+
         /**
          * Turns red the trafficlight.
          */
-        protected void offGreenLight(){
-            greenLight = false; 
+        protected void offGreenLight() {
+            greenLight = false;
         }
-        
+
         /**
          * Returns if trafficlight is green/red.
-         * 
+         *
          * @return red - false / green - true
          */
-        protected boolean isGreenLight(){
+        protected boolean isGreenLight() {
             return greenLight;
         }
-        
+
         /**
          * Prints the current state of the queue.
-         * 
+         *
          * @return State of the queue
          */
-        protected String printQueue(){
+        protected String printQueue() {
             StringBuilder sb = new StringBuilder();
             sb.append('[');
-            if(!waiting.isEmpty()){
+            if (!waiting.isEmpty()) {
                 waiting.forEach((v) -> {
                     sb.append(v.getId()).append(',');
                 });
             }
-            if(sb.length() > 1){
-                return sb.substring(0, sb.length()-1) + ']';
-            }
-            else{
+            if (sb.length() > 1) {
+                return sb.substring(0, sb.length() - 1) + ']';
+            } else {
                 return sb.append(']').toString();
             }
-            
+
         }
     } // End of the internal class IncomingRoad
-    
+
     /**
      * Next road to turn it trafficlight green.
-     * 
+     *
      * @see Road
      */
-    protected Iterator<Road> nextRoad; 
+    protected Iterator<Road> nextRoad;
     protected IncomingRoad currentRoad;
     protected IncomingRoad lastGreenLightRoad;
-    
+
     /**
      * Associates roads with their respective incoming roads
-     * 
+     *
      * @see Road
      * @see IncomingRoad
      */
     protected Map<Road, IncomingRoad> incomingRoadMap = new LinkedHashMap<>(); // LinkedHashMap to mantain insertion order
-    
+
     /**
      * Associates junctions with their respective outgoing roads.
-     * 
+     *
      * @see Road
      */
     private Map<Junction, Road> outgoingRoadMap = new HashMap<>();
-    
+
     /**
-     * Class constructor specifying id.
-     * The rest of attributes are null-initialized.
-     * 
-     * @param id 
+     * Class constructor specifying id. The rest of attributes are
+     * null-initialized.
+     *
+     * @param id
      */
     public Junction(String id) {
         super(id);
         lastGreenLightRoad = null;
         currentRoad = null;
         nextRoad = null;
-        
+
     }
-    
+
     @Override
     protected String getReportSectionTag() {
         return SECTION_TAG_NAME;
     }
-    
+
     /**
      * Puts a vehicle in the junction.
-     * 
-     * @param newVehicle 
+     *
+     * @param newVehicle
      */
-    public void enter(Vehicle newVehicle){
+    public void enter(Vehicle newVehicle) {
         incomingRoadMap.get(newVehicle.getRoad()).waiting.offer(newVehicle);
-    } 
-    
+    }
+
     /**
      * Adds an incoming road to the junction.
-     * 
+     *
      * @param newRoad
      */
     public void addIncomingRoad(Road newRoad) {
         incomingRoadMap.put(newRoad, createIncomingRoadQueue(newRoad));
     }
-    
+
     /**
      * Adds an outgoing road from the junction.
-     * 
+     *
      * @param newRoad
-     * @param newJunction 
+     * @param newJunction
      */
     public void addOutGoingRoad(Road newRoad, Junction newJunction) {
         outgoingRoadMap.put(newJunction, newRoad);
     }
-    
+
     /**
      * Creates an incoming road queue.
-     * 
+     *
      * @param road
      * @return Incoming road queue
      */
     protected IncomingRoad createIncomingRoadQueue(Road road) {
         return new IncomingRoad(road);
     }
-    
+
     /**
      * Returns the road that goes to the destination junction.
-     * 
-     * @param destinationJunction 
+     *
+     * @param destinationJunction
      * @return Road if found, null if not
      */
     public Road roadTo(Junction destinationJunction) {
         return outgoingRoadMap.get(destinationJunction);
     }
-    
+
     @Override
     public void advance() {
-        if(!incomingRoadMap.isEmpty()){
-            if(currentRoad != null){
+        if (!incomingRoadMap.isEmpty()) {
+            if (currentRoad != null) {
                 currentRoad.advanceFirstVehicle();
             }
             switchLights();
         }
-        
+
     }
-    
+
     /**
      * Returns the next road on the incoming road map.
-     * 
+     *
      * @return next road
      */
-    protected IncomingRoad getNextRoad(){
+    protected IncomingRoad getNextRoad() {
         if (nextRoad == null || !nextRoad.hasNext()) {
             nextRoad = incomingRoadMap.keySet().iterator();
         }
         return incomingRoadMap.get(nextRoad.next());
     }
-    
+
     /**
      * Changes the trafficlights of the roads.
      */
     protected void switchLights() {
         currentRoad = getNextRoad();
-        if(lastGreenLightRoad != null){
+        if (lastGreenLightRoad != null) {
             lastGreenLightRoad.offGreenLight();
         }
         currentRoad.onGreenLight();
-        lastGreenLightRoad = currentRoad; 
+        lastGreenLightRoad = currentRoad;
     }
-    
+
     @Override
     protected void fillReportDetails(IniSection sec) {
         StringBuilder sb = new StringBuilder();
-        if(!incomingRoadMap.isEmpty()){
-             incomingRoadMap.values().forEach((ir) -> {
-            sb.append('(')
-                    .append(ir.road.getId()).append(',')
-                    .append(ir.lightToString()).append(',')
-                    .append(ir.printQueue())
-              .append("),");
+        if (!incomingRoadMap.isEmpty()) {
+            incomingRoadMap.values().forEach((ir) -> {
+                sb.append('(')
+                        .append(ir.road.getId()).append(',')
+                        .append(ir.lightToString()).append(',')
+                        .append(ir.printQueue())
+                        .append("),");
             });
             sec.setValue("queues", sb.substring(0, sb.length() - 1));
-        }
-        else{
+        } else {
             sec.setValue("queues", "");
         }
     }
-    
+
 }

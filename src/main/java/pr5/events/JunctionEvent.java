@@ -8,15 +8,16 @@ import pr5.model.RoadMap;
  * Creates a new junction.
  */
 public class JunctionEvent extends Event {
+
     final String id;
-    
+
     /**
      * Class constructor specifying time and id.
-     * 
+     *
      * @param time When the event occurs
-     * @param id 
+     * @param id
      */
-    public JunctionEvent(int time, String id){
+    public JunctionEvent(int time, String id) {
         super(time);
         this.id = id;
     }
@@ -28,13 +29,14 @@ public class JunctionEvent extends Event {
 
     /**
      * Builds the junction event.
+     *
      * @see Event.Builder
      */
     public static class Builder implements Event.Builder {
-    
+
         @Override
         public Event parse(IniSection sec) {
-            if ( ! "new_junction".equals(sec.getTag())){
+            if (!"new_junction".equals(sec.getTag())) {
                 return null;
             }
             return new JunctionEvent(

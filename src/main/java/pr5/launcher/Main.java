@@ -229,7 +229,8 @@ public class Main {
             control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
         } catch (FileNotFoundException e) {
             System.err.println("Error with output file: " + _outFile);
-        } /*catch (SimulatorError e) {
+        }
+        /*catch (SimulatorError e) {
             System.err.println("Error during controller execution...");
         }*/
     }
@@ -241,7 +242,6 @@ public class Main {
     private static void startGUIMode() {
         SimWindow window = new SimWindow(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
     }
-
 
     /**
      * Start the simulator choosing one of the modes available: GUI or Batch
