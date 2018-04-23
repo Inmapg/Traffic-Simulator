@@ -128,16 +128,16 @@ public class TimeSliceJunction extends Junction {
              incomingRoadMap.values().forEach((ir) -> {
              if(ir.isGreenLight()){
              sb.append('(').
-                     append(ir.road.getId()).append(',').append(ir.lightToString())
-                     .append(":").append(
-                    ((TimeSliceIncomingRoad)ir).getIntervalTime() - ((TimeSliceIncomingRoad)ir).timeSpent)
-                     .append(',').append(ir.printQueue())
-                     .append("),");
+                    append(ir.road.getId()).append(',').append(ir.lightToString())
+                    .append(":").append(
+                   ((TimeSliceIncomingRoad)ir).getIntervalTime() - ((TimeSliceIncomingRoad)ir).timeSpent)
+                    .append(',').append(ir.printQueue())
+                .append("),");
              }
              else{
                 sb.append('(').append(ir.road.getId()).append(',')
                         .append(ir.lightToString()).append(',').append(ir.printQueue())
-                        .append("),"); 
+                  .append("),"); 
                 }
              });
             sec.setValue("queues", sb.substring(0, sb.length() - 1));

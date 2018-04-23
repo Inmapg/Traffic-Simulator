@@ -249,7 +249,7 @@ public class Junction extends SimulatedObject {
                     .append(ir.road.getId()).append(',')
                     .append(ir.lightToString()).append(',')
                     .append(ir.printQueue())
-                    .append("),");
+              .append("),");
             });
             sec.setValue("queues", sb.substring(0, sb.length() - 1));
         }

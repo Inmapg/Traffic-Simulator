@@ -43,7 +43,7 @@ public class RoadMap {
      * 
      * @param simObject 
      */
-    public void checkIfIdExists(SimulatedObject simObject){
+    public void complainIfIdExists(SimulatedObject simObject){
         if ( simulatedVehicles.get(simObject.getId()) != null
              || simulatedRoads.get(simObject.getId()) != null
              || simulatedJunctions.get(simObject.getId()) != null){
@@ -116,7 +116,7 @@ public class RoadMap {
      * @param newJunction
      */
     public void addJunction(Junction newJunction){
-        checkIfIdExists(newJunction);
+        complainIfIdExists(newJunction);
         simulatedJunctions.put(newJunction.getId(), newJunction);
     }
     
@@ -126,7 +126,7 @@ public class RoadMap {
      * @param newRoad
      */
     public void addRoad(Road newRoad){
-        checkIfIdExists(newRoad);
+        complainIfIdExists(newRoad);
         simulatedRoads.put(newRoad.getId(), newRoad);
         newRoad.getDestination().addIncomingRoad(newRoad);
         newRoad.getSource().addOutGoingRoad(newRoad, newRoad.getDestination());
@@ -138,7 +138,7 @@ public class RoadMap {
      * @param newVehicle 
      */
     public void addVehicle(Vehicle newVehicle){
-        checkIfIdExists(newVehicle);
+        complainIfIdExists(newVehicle);
         simulatedVehicles.put(newVehicle.getId(), newVehicle);        
     }
     

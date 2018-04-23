@@ -124,7 +124,7 @@ public class Road extends SimulatedObject{
             vehiclesList.innerValues().forEach( (Vehicle v) ->
                     sb.append("(")
                         .append(v.getId()).append(",").append(v.getLocation())
-                        .append("),"));
+                      .append("),"));
             sec.setValue("state", sb.substring(0, sb.length() - 1)); 
         }
         else{
