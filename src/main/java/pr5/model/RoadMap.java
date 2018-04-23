@@ -1,6 +1,7 @@
 package pr5.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,7 +150,7 @@ public class RoadMap {
      * @see Road
      */
     public List<Road> getRoads() {
-        return (new ArrayList<>(simulatedRoads.values()));
+        return Collections.unmodifiableList(new ArrayList<>(simulatedRoads.values()));
     }
 
     /**
@@ -157,7 +158,7 @@ public class RoadMap {
      * @see Vehicle
      */
     public List<Vehicle> getVehicles() {
-        return (new ArrayList<>(simulatedVehicles.values()));
+        return Collections.unmodifiableList(new ArrayList<>(simulatedVehicles.values()));
     }
 
     /**
@@ -165,7 +166,7 @@ public class RoadMap {
      * @see Junction
      */
     public List<Junction> getJunctions() {
-        return (new ArrayList<>(simulatedJunctions.values()));
+        return Collections.unmodifiableList(new ArrayList<>(simulatedJunctions.values()));
     }
 
     /**

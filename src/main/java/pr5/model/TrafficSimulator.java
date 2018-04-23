@@ -66,8 +66,7 @@ public class TrafficSimulator {
     public void run(int numberOfTicks) {
         int timeLimit = ticks + numberOfTicks;
         ArrayList<Event> eventsList;
-        ArrayList<Road> roadsList;
-        ArrayList<Junction> junctionsList;
+        
         try {
             while (ticks < timeLimit) {
                 // Execute the events for the current time
@@ -76,15 +75,11 @@ public class TrafficSimulator {
                     eventsList.forEach((Event e) -> e.execute(roadMap));
                 }
                 // Invoke method advance for roads
-                roadsList = (ArrayList<Road>) roadMap.getRoads();
-                if (!roadsList.isEmpty()) {
-                    roadsList.forEach((Road r) -> r.advance());
-                }
+                roadMap.getRoads().forEach((Road r) -> r.advance());
+                
                 // Invoke method advance for junction
-                junctionsList = (ArrayList<Junction>) roadMap.getJunctions();
-                if (!junctionsList.isEmpty()) {
-                    junctionsList.forEach((Junction j) -> j.advance());
-                }
+                roadMap.getJunctions().forEach((Junction j) -> j.advance());
+                
                 // Current time increases
                 ticks++;
                 // Write report
