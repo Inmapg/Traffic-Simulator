@@ -229,7 +229,9 @@ public class Main {
             control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
         } catch (FileNotFoundException e) {
             System.err.println("Error with output file: " + _outFile);
-        }
+        } /*catch (SimulatorError e) {
+            System.err.println("Error during controller execution...");
+        }*/
     }
 
     /**
@@ -260,5 +262,4 @@ public class Main {
     public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
         start(args);
     }
-
 }
