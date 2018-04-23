@@ -24,7 +24,7 @@ public class Bike extends Vehicle {
     
     @Override
     public void makeFaulty(int counter){
-        if(super.faulty > 0 || super.currentSpeed > super.maxSpeed/2 ){
+        if(faulty > 0 || currentSpeed > maxSpeed/2 ){
             super.makeFaulty(counter);
         }
     }
