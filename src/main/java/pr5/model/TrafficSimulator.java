@@ -3,6 +3,7 @@ package pr5.model;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import pr5.events.Event;
 import pr5.exception.SimulatorError;
 import pr5.util.MultiTreeMap;
@@ -28,6 +29,11 @@ public class TrafficSimulator {
      */
     private RoadMap roadMap;
 
+    /**
+     * List of observers to be used during the GUI execution
+    */
+    private List<TrafficSimulatorObserver> observers;
+    
     /**
      * Class Constructor specifying output stream.
      *
@@ -122,5 +128,46 @@ public class TrafficSimulator {
     public void setOutputStream(OutputStream output) {
         this.output = output;
     }
-
+    
+    
+    public void addObserver(TrafficSimulatorObserver o){
+        
+    }
+    
+    public void removeObserver(TrafficSimulatorObserver o){
+        
+    }
+    
+    private void notifyRegistered(TrafficSimulatorObserver o){
+        
+    }
+    
+    private void notifyReset(){
+        
+    }
+    
+    private void notifyEventAdded(){
+        
+    }
+    
+    private void notifyAdvanced(){
+        
+    }
+    
+    private void notifyError(SimulatorError e){
+        
+    }
+    
+    /**
+     * Interfece which provides a way of dealing with events and the execution 
+     * of a TrafficSimulator externally. 
+     */
+    public interface TrafficSimulatorObserver{
+        public void registered(int time, RoadMap map, List<Event> events);
+        public void reset(int time, RoadMap map, List<Event> events);
+        public void eventAdded(int time, RoadMap map, List<Event> events);
+        public void advanced(int time, RoadMap map, List<Event> events);
+        public void simulatorError(int time, RoadMap map, List<Event> events, SimulatorError e);
+        
+    } 
 }
