@@ -251,7 +251,7 @@ public class Main {
      *
      */
     private static void startGUIMode() {
-        SimWindow window = new SimWindow(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
+        SimWindow window = new SimWindow(null == _inFile ? "" : _inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
     }
 
     /**
