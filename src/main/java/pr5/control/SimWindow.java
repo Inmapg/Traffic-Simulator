@@ -4,13 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Scanner;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -34,21 +42,32 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
     private JCheckBoxMenuItem redirect;
     private JSpinner stepsSpinner;
     private JTextField timeViewer;
-
+    private JPanel mainPanel;
+    private JPanel contentPanel_1;
+    private JFileChooser fileChooser; 
+    
     public SimWindow(String inFile, int defaultTimeValue) {
         super("Traffic Simulator");
         this.defaultTimeValue = defaultTimeValue;
         this.inFile = inFile;
-        initWindow();
+        initGUI();
     }
 
-    private void initWindow() {
+    private void initGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        createMainPanel();
         addBars();
         setSize(1000, 1000);
         setVisible(true);
     }
-
+    
+    private void createMainPanel(){
+        mainPanel = new JPanel(new BorderLayout());
+        setContentPane(mainPanel);
+        contentPanel_1 = new JPanel();
+        contentPanel_1.setLayout(new BoxLayout(contentPanel_1, BoxLayout.Y_AXIS));
+        // Split up the window in more panels and set up the layout 
+    }
     private void addBars() {
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -162,6 +181,52 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         
     }
 
+    private void saveFile() {
+        /* int returnVal = fc.showSaveDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			writeFile(file, textArea.getText());
+		}
+        */
+	}
+
+    private void loadFile() {
+        /*
+		int returnVal = fc.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
+			String s = readFile(file);
+			textArea.setText(s);
+		}
+        */
+	}
+
+    private static String readFile(File file) {
+        /*
+		String s = "";
+		try {
+			s = new Scanner(file).useDelimiter("\\A").next();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return s;
+        */
+        return "";
+	}
+
+    private static void writeFile(File file, String content) {
+         /*
+		try {
+			PrintWriter pw = new PrintWriter(file);
+			pw.print(content);
+			pw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} */
+         
+	}
+    
     @Override
     public void registered(int time, RoadMap map, List<Event> events) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
