@@ -13,7 +13,7 @@ public class FullTest {
 
     private void runTests(String folderName, boolean expectException) throws Exception {
         try {
-            
+
             Main.test("src/test/resources/examples/" + folderName);
             if (expectException) {
                 fail("Did not expect to reach this line");

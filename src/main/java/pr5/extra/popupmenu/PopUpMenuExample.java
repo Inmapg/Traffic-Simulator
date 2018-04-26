@@ -17,123 +17,121 @@ import javax.swing.SwingUtilities;
 
 public class PopUpMenuExample extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	
-	private JPanel _mainPanel;
-	private JTextArea _editor;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public PopUpMenuExample() {
-		super("Pop Up Menu Example");
-		initGUI();
-	}
+    private JPanel _mainPanel;
+    private JTextArea _editor;
 
-	private void initGUI() {
-		_mainPanel = new JPanel(new BorderLayout());
-		this.setContentPane(_mainPanel);
+    public PopUpMenuExample() {
+        super("Pop Up Menu Example");
+        initGUI();
+    }
 
-		addEditor();
+    private void initGUI() {
+        _mainPanel = new JPanel(new BorderLayout());
+        this.setContentPane(_mainPanel);
 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.pack();
-		this.setVisible(true);
-	}
+        addEditor();
 
-	private void addEditor() {
-		_mainPanel.add(new JLabel("Right click over the text-area to get the popup menu."),BorderLayout.PAGE_START);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
+    }
 
-		_editor = new JTextArea(20, 20);
+    private void addEditor() {
+        _mainPanel.add(new JLabel("Right click over the text-area to get the popup menu."), BorderLayout.PAGE_START);
 
-		_mainPanel.add(new JScrollPane(_editor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        _editor = new JTextArea(20, 20);
 
-		// create the events pop-up menu
-		JPopupMenu _editorPopupMenu = new JPopupMenu();
-		
-		JMenuItem clearOption = new JMenuItem("Clear");
-		clearOption.addActionListener(new ActionListener() {
+        _mainPanel.add(new JScrollPane(_editor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				_editor.setText("");
-			}
-		});
+        // create the events pop-up menu
+        JPopupMenu _editorPopupMenu = new JPopupMenu();
 
-		JMenuItem exitOption = new JMenuItem("Exit");
-		exitOption.addActionListener(new ActionListener() {
+        JMenuItem clearOption = new JMenuItem("Clear");
+        clearOption.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                _editor.setText("");
+            }
+        });
 
-		JMenu subMenu = new JMenu("Insert");
+        JMenuItem exitOption = new JMenuItem("Exit");
+        exitOption.addActionListener(new ActionListener() {
 
-		String[] greetings = { "Hola!", "Hello!", "Ciao!" };
-		for (String s : greetings) {
-			JMenuItem menuItem = new JMenuItem(s);
-			menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					_editor.insert(s, _editor.getCaretPosition());
-				}
-			});
-			subMenu.add(menuItem);
-		}
+        JMenu subMenu = new JMenu("Insert");
 
-		
-		_editorPopupMenu.add(subMenu);
-		_editorPopupMenu.addSeparator();
-		_editorPopupMenu.add(clearOption);
-		_editorPopupMenu.add(exitOption);
+        String[] greetings = {"Hola!", "Hello!", "Ciao!"};
+        for (String s : greetings) {
+            JMenuItem menuItem = new JMenuItem(s);
+            menuItem.addActionListener(new ActionListener() {
 
-		// connect the popup menu to the text area _editor
-		_editor.addMouseListener(new MouseListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    _editor.insert(s, _editor.getCaretPosition());
+                }
+            });
+            subMenu.add(menuItem);
+        }
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-				showPopup(e);
-			}
+        _editorPopupMenu.add(subMenu);
+        _editorPopupMenu.addSeparator();
+        _editorPopupMenu.add(clearOption);
+        _editorPopupMenu.add(exitOption);
 
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				showPopup(e);
-			}
+        // connect the popup menu to the text area _editor
+        _editor.addMouseListener(new MouseListener() {
 
-			private void showPopup(MouseEvent e) {
-				if (e.isPopupTrigger() && _editorPopupMenu.isEnabled()) {
-					_editorPopupMenu.show(e.getComponent(), e.getX(), e.getY());
-				}
-			}
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
 
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
+            private void showPopup(MouseEvent e) {
+                if (e.isPopupTrigger() && _editorPopupMenu.isEnabled()) {
+                    _editorPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
 
-	}
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater( new Runnable() {
-			
-			@Override
-			public void run() {
-				new PopUpMenuExample();
-			}
-		});
-	}
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+        });
+
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new PopUpMenuExample();
+            }
+        });
+    }
 
 }

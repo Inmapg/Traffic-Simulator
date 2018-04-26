@@ -31,9 +31,9 @@ public class TrafficSimulator {
 
     /**
      * List of observers to be used during the GUI execution
-    */
+     */
     private List<TrafficSimulatorObserver> observers;
-    
+
     /**
      * Class Constructor specifying output stream.
      *
@@ -72,7 +72,7 @@ public class TrafficSimulator {
     public void run(int numberOfTicks) {
         int timeLimit = ticks + numberOfTicks;
         ArrayList<Event> eventsList;
-        
+
         try {
             while (ticks < timeLimit) {
                 // Execute the events for the current time
@@ -82,10 +82,10 @@ public class TrafficSimulator {
                 }
                 // Invoke method advance for roads
                 roadMap.getRoads().forEach((Road r) -> r.advance());
-                
+
                 // Invoke method advance for junction
                 roadMap.getJunctions().forEach((Junction j) -> j.advance());
-                
+
                 // Current time increases
                 ticks++;
                 // Write report
@@ -128,46 +128,50 @@ public class TrafficSimulator {
     public void setOutputStream(OutputStream output) {
         this.output = output;
     }
-    
-    
-    public void addObserver(TrafficSimulatorObserver o){
-        
+
+    public void addObserver(TrafficSimulatorObserver o) {
+
     }
-    
-    public void removeObserver(TrafficSimulatorObserver o){
-        
+
+    public void removeObserver(TrafficSimulatorObserver o) {
+
     }
-    
-    private void notifyRegistered(TrafficSimulatorObserver o){
-        
+
+    private void notifyRegistered(TrafficSimulatorObserver o) {
+
     }
-    
-    private void notifyReset(){
-        
+
+    private void notifyReset() {
+
     }
-    
-    private void notifyEventAdded(){
-        
+
+    private void notifyEventAdded() {
+
     }
-    
-    private void notifyAdvanced(){
-        
+
+    private void notifyAdvanced() {
+
     }
-    
-    private void notifyError(SimulatorError e){
-        
+
+    private void notifyError(SimulatorError e) {
+
     }
-    
+
     /**
-     * Interfece which provides a way of dealing with events and the execution 
-     * of a TrafficSimulator externally. 
+     * Interfece which provides a way of dealing with events and the execution
+     * of a TrafficSimulator externally.
      */
-    public interface TrafficSimulatorObserver{
+    public interface TrafficSimulatorObserver {
+
         public void registered(int time, RoadMap map, List<Event> events);
+
         public void reset(int time, RoadMap map, List<Event> events);
+
         public void eventAdded(int time, RoadMap map, List<Event> events);
+
         public void advanced(int time, RoadMap map, List<Event> events);
+
         public void simulatorError(int time, RoadMap map, List<Event> events, SimulatorError e);
-        
-    } 
+
+    }
 }

@@ -14,10 +14,11 @@ import static org.junit.Assert.*;
 public class MultiTreeMapTest {
 
     /**
-     * A simple test class with 2 fields, only the first of which is
-     * used to provide ordering
+     * A simple test class with 2 fields, only the first of which is used to
+     * provide ordering
      */
     private static class T implements Comparable<T> {
+
         private int i;
         private String s;
 
@@ -41,15 +42,17 @@ public class MultiTreeMapTest {
         }
     }
 
-
     private static class AscendingPlusAge implements Comparator<T> {
+
         @Override
         public int compare(T o1, T o2) {
             int rc = o1.i - o2.i;
             return (rc == 0) ? o1.s.compareTo(o2.s) : rc;
         }
     }
+
     private static class DescendingPlusAge implements Comparator<T> {
+
         @Override
         public int compare(T o1, T o2) {
             int rc = o2.i - o1.i;
@@ -61,19 +64,21 @@ public class MultiTreeMapTest {
     public void testValuesListGet() throws Exception {
         MultiTreeMap<Integer, T> ts = new MultiTreeMap<>();
         T[] array = new T[]{
-                new T(0, "0"),   // 0
-                new T(1, "1"),   // 1
-                new T(1, "1.1"),
-                new T(2, "2"),   // 3
-                new T(2, "2.1"),
-                new T(2, "2.2"),
-                new T(3, "3"),   // 6
-                new T(3, "3.1"),
-                new T(3, "3.2")};
-        for (T t : array) ts.putValue(t.i, t);
+            new T(0, "0"), // 0
+            new T(1, "1"), // 1
+            new T(1, "1.1"),
+            new T(2, "2"), // 3
+            new T(2, "2.1"),
+            new T(2, "2.2"),
+            new T(3, "3"), // 6
+            new T(3, "3.1"),
+            new T(3, "3.2")};
+        for (T t : array) {
+            ts.putValue(t.i, t);
+        }
 
         List<T> l = ts.valuesList();
-        for (int i=0; i<array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             assertEquals(l.get(i), array[i]);
         }
     }
@@ -82,17 +87,18 @@ public class MultiTreeMapTest {
     public void putAndRemove() throws Exception {
         MultiTreeMap<Integer, T> ts = new MultiTreeMap<>();
         T[] array = new T[]{
-                new T(3, "3"),
-                new T(1, "1"),
-                new T(2, "2"),
-                new T(3, "3.1"),
-                new T(1, "1.1"),
-                new T(2, "2.1"),
-                new T(3, "3.2"),
-                new T(0, "0"),
-                new T(2, "2.2")};
-        for (T t : array) ts.putValue(t.i, t);
-
+            new T(3, "3"),
+            new T(1, "1"),
+            new T(2, "2"),
+            new T(3, "3.1"),
+            new T(1, "1.1"),
+            new T(2, "2.1"),
+            new T(3, "3.2"),
+            new T(0, "0"),
+            new T(2, "2.2")};
+        for (T t : array) {
+            ts.putValue(t.i, t);
+        }
 
         T t = new T(1, "1.1");
         assertEquals(2, ts.get(t.i).size());
@@ -123,17 +129,19 @@ public class MultiTreeMapTest {
     public void sizeComputation() throws Exception {
         MultiTreeMap<Integer, T> ts = new MultiTreeMap<>();
         T[] array = new T[]{
-                new T(3, "3"),
-                new T(1, "1"),
-                new T(2, "2"),
-                new T(3, "3.1"),
-                new T(1, "1.1"),
-                new T(2, "2.1"),
-                new T(3, "3.2"),
-                new T(0, "0"),
-                new T(2, "2.2")};
+            new T(3, "3"),
+            new T(1, "1"),
+            new T(2, "2"),
+            new T(3, "3.1"),
+            new T(1, "1.1"),
+            new T(2, "2.1"),
+            new T(3, "3.2"),
+            new T(0, "0"),
+            new T(2, "2.2")};
 
-        for (T t : array) ts.putValue(t.i, t);
+        for (T t : array) {
+            ts.putValue(t.i, t);
+        }
         assertEquals("size ok", array.length,
                 ts.sizeOfValues());
     }
@@ -142,20 +150,22 @@ public class MultiTreeMapTest {
     public void innerValuesAscending() throws Exception {
         MultiTreeMap<Integer, T> ts = new MultiTreeMap<>();
         T[] array = new T[]{
-                new T(3, "3"),
-                new T(1, "1"),
-                new T(2, "2"),
-                new T(3, "3.1"),
-                new T(1, "1.1"),
-                new T(2, "2.1"),
-                new T(3, "3.2"),
-                new T(0, "0"),
-                new T(2, "2.2")};
+            new T(3, "3"),
+            new T(1, "1"),
+            new T(2, "2"),
+            new T(3, "3.1"),
+            new T(1, "1.1"),
+            new T(2, "2.1"),
+            new T(3, "3.2"),
+            new T(0, "0"),
+            new T(2, "2.2")};
 
-        for (T t : array) ts.putValue(t.i, t);
+        for (T t : array) {
+            ts.putValue(t.i, t);
+        }
         Arrays.sort(array, new AscendingPlusAge());
 
-        int i=0;
+        int i = 0;
         for (T t : ts.innerValues()) {
             //System.err.println(t + " vs " + array[i]);
             assertEquals("correct order at position " + i, array[i], t);
@@ -166,22 +176,24 @@ public class MultiTreeMapTest {
 
     @Test
     public void innerValuesDescending() throws Exception {
-        MultiTreeMap<Integer, T> ts = new MultiTreeMap<>((Integer a, Integer b)->b.compareTo(a));
+        MultiTreeMap<Integer, T> ts = new MultiTreeMap<>((Integer a, Integer b) -> b.compareTo(a));
         T[] array = new T[]{
-                new T(3, "3"),
-                new T(1, "1"),
-                new T(2, "2"),
-                new T(3, "3.1"),
-                new T(1, "1.1"),
-                new T(2, "2.1"),
-                new T(3, "3.2"),
-                new T(0, "0"),
-                new T(2, "2.2")};
+            new T(3, "3"),
+            new T(1, "1"),
+            new T(2, "2"),
+            new T(3, "3.1"),
+            new T(1, "1.1"),
+            new T(2, "2.1"),
+            new T(3, "3.2"),
+            new T(0, "0"),
+            new T(2, "2.2")};
 
-        for (T t : array) ts.putValue(t.i, t);
+        for (T t : array) {
+            ts.putValue(t.i, t);
+        }
         Arrays.sort(array, new DescendingPlusAge());
 
-        int i=0;
+        int i = 0;
         for (T t : ts.innerValues()) {
             System.err.println(t + " vs " + array[i]);
             assertEquals("correct order at position " + i, array[i], t);

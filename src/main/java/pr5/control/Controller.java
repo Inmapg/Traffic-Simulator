@@ -114,7 +114,8 @@ public class Controller {
         try {
             loadEvents(input);
         } catch (IOException | SimulatorError e) {
-            throw new SimulatorError("Error while loading events from file " + input, e);
+            throw new SimulatorError("Error while loading events from file "
+                    + input, e);
         }
         try {
             trafficSim.run(timeLimit);
