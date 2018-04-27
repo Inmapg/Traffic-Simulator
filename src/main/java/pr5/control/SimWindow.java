@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
@@ -60,12 +61,78 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
     private JTextArea eventsEditorArea;
     private JPanel upperPanel = new JPanel(new GridLayout(1, 3));
     private JPanel lowerPanel = new JPanel(new GridLayout(1, 2));
-    
+    // Event Actions and Object Creation and Instantiation 
+    Action loadEvents = new SimulatorAction(
+            "Load Events", "open.png", "Load events from file",
+            KeyEvent.VK_L, "alt L", () -> {
+                try {
+                    loadFile();
+                } catch (IOException | NoSuchElementException e) {
+                    JOptionPane.showMessageDialog(this, "There was a problem "
+                            + "while reading the file...",
+                            "File cannot be read!",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+
+            });
+
+    Action saveEvents = new SimulatorAction(
+            "Save Events", "save.png", "Save events to file",
+            KeyEvent.VK_S, "alt S",
+            () -> {
+                try {
+                    saveFile(".ini", OUTPUT_TYPE.events);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this,
+                            e.getMessage(),
+                            "File cannot be saved!",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            });
+
+    Action clearEvents = new SimulatorAction(
+            "Clear", "clear.png", "Clear events",
+            () -> { clearEvents();});
+
+    Action checkInEvents = new SimulatorAction(
+            "Events", "events.png", "Show the events",
+            () -> System.out.println("'Check in events' is not suported yet"));
+
+    // Report Actions and Object Creation and Instantiation
+    Action saveReport = new SimulatorAction(
+            "Save Report", "save_report.png", "Save last report to file",
+            KeyEvent.VK_R, "alt R",
+            () -> System.out.println("'Save report' is not supported yet"));
+
+    Action generateReport = new SimulatorAction(
+            "Generate", "report.png", "Generate report",
+            () -> System.out.println("'Generate report' is not supported yet"));
+
+    Action clearReport = new SimulatorAction(
+            "Clear", "delete_report.png", "Clear report",
+            () -> System.out.println("'Clear report' is not supported yet"));
+
+    // Traffic Simulator and configuration Object creation and instantiation
+    Action exit = new SimulatorAction(
+            "Exit", "exit.png", "Terminate the execution",
+            KeyEvent.VK_E, "alt E", () -> System.exit(0));
+    Action run = new SimulatorAction(
+            "Run", "play.png", "Start simulation",
+            () -> System.out.println("'Run' is not supported yet"));
+
+    Action stop = new SimulatorAction(
+            "Stop", "stop.png", "Stop simulation",
+            () -> System.out.println("'Stop' is not supported yet"));
+
+    Action reset = new SimulatorAction(
+            "Reset", "reset.png", "Reset simulation",
+            () -> System.out.println("'Reset' is not supported yet"));
+
     /**
      * Class constructor specifying input file and default time value.
-     * 
-     * @param inFile 
-     * @param defaultTimeValue 
+     *
+     * @param inFile
+     * @param defaultTimeValue
      */
     public SimWindow(String inFile, int defaultTimeValue) {
         super("Traffic Simulator");
@@ -74,6 +141,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         initGUI();
     }
 
+    /**
+     * Initializes the GUI.
+     */
     private void initGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         splitUpWindow();
@@ -82,6 +152,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         setVisible(true);
     }
 
+    /**
+     * Splits up the window in two different panels.
+     */
     private void splitUpWindow() {
         JPanel eventsQueue = new JPanel();
         JPanel reportsArea = new JPanel();
@@ -95,7 +168,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
 
         JPanel tables = new JPanel();
         JPanel graph = new JPanel();
-        tables.setBackground(Color.orange);
+        tables.setBackground(Color.red);
         graph.setBackground(Color.yellow);
         lowerPanel.add(tables);
         lowerPanel.add(graph);
@@ -103,85 +176,17 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
 
         add(windowSplit);
         windowSplit.setDividerLocation(DEFAULT_HEIGHT / 3);
-
     }
 
+    /**
+     * Creates and adds the menu and tool bar to the main window.
+     */
     private void addBars() {
         JMenuBar menu = new JMenuBar();
         JMenu file = new JMenu("File");
         JMenu simulator = new JMenu("Simulator");
         JMenu report = new JMenu("Reports");
         JToolBar bar = new JToolBar();
-
-        // Event Actions and Object Creation and Instantiation 
-        SimulatorAction loadEvents = new SimulatorAction(
-                "Load Events", "open.png", "Load events from file",
-                KeyEvent.VK_L, "alt L", () -> {
-                    try {
-                        loadFile();
-                    } catch (IOException | NoSuchElementException e) {
-                        JOptionPane.showMessageDialog(this, "There was a problem "
-                                + "when reading the file...",
-                                "File cannot be read!",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-
-                });
-
-        SimulatorAction saveEvents = new SimulatorAction(
-                "Save Events", "save.png", "Save events to file",
-                KeyEvent.VK_S, "alt S",
-                () -> {
-                    try {
-                        saveFile(".ini", OUTPUT_TYPE.events);
-                    } catch (IOException e) {
-                        JOptionPane.showMessageDialog(this,
-                                e.getMessage(),
-                                "File cannot be saved!",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                });
-
-        SimulatorAction clearEvents = new SimulatorAction(
-                "Clear", "clear.png", "Clear events",
-                () -> {
-                    clearEvents();
-                });
-
-        SimulatorAction checkInEvents = new SimulatorAction(
-                "Events", "events.png", "Show the events",
-                () -> System.out.println("showing events..."));
-
-        // Report Actions and Object Creation and Instantiation
-        SimulatorAction saveReport = new SimulatorAction(
-                "Save Report", "save_report.png", "Save last report to file",
-                KeyEvent.VK_R, "alt R",
-                () -> System.out.println("AQUÍ GUARDA EL REPORT GUAPI"));
-
-        SimulatorAction generateReport = new SimulatorAction(
-                "Generate", "report.png", "Generate report",
-                () -> System.out.println("Generate baby"));
-
-        SimulatorAction clearReport = new SimulatorAction(
-                "Clear", "delete_report.png", "Clear report",
-                () -> System.out.println("Clearing report"));
-
-        // Traffic Simulator and configuration Object creation and instantiation
-        SimulatorAction exit = new SimulatorAction(
-                "Exit", "exit.png", "Terminate the execution",
-                KeyEvent.VK_E, "alt E",
-                () -> System.exit(0));
-        SimulatorAction run = new SimulatorAction(
-                "Run", "play.png", "Start simulation",
-                () -> System.out.println("Holoo coches incoming"));
-
-        SimulatorAction stop = new SimulatorAction(
-                "Stop", "stop.png", "Stop simulation",
-                () -> System.out.println("Simulación detenida."));
-
-        SimulatorAction reset = new SimulatorAction(
-                "Reset", "reset.png", "Reset simulation",
-                () -> System.out.println("Reseeeeeet baby"));
 
         redirect = new JCheckBoxMenuItem("Redirect Output", false);
 
@@ -238,16 +243,28 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
 
     }
 
+    /**
+     * Clears the event editor area.
+     */
     private void clearEvents() {
         eventsEditorArea.setText("");
         updateComponentBorder(eventsEditorArea, "Events");
     }
 
+    /**
+     * Sets a component border.
+     * 
+     * @param c Component
+     * @param text Text to fill in
+     */
     private void updateComponentBorder(JComponent c, String text) {
         c.setBorder(BorderFactory.createTitledBorder(BorderFactory
                 .createLineBorder(Color.black, 1), text));
     }
 
+    /**
+     * Gives format to the event editor area.
+     */
     private void addEventEditor() {
         // Text Area creation, if a File was specified it will be loaded
         eventsEditorArea = new JTextArea("");
@@ -260,7 +277,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
             } // Trying to capture and control the exception
             catch (IOException | NoSuchElementException e) {
                 JOptionPane.showMessageDialog(this, "There was a problem "
-                        + "when reading the file...",
+                        + "while reading the file...",
                         "File cannot be read!",
                         JOptionPane.WARNING_MESSAGE);
             }
@@ -274,6 +291,13 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         upperPanel.add(area);
     }
 
+    /**
+     * Saves the current state of events or reports.
+     * 
+     * @param ext File extension
+     * @param type Events/Reports
+     * @throws IOException if file cannot be opened
+     */
     private void saveFile(String ext, OUTPUT_TYPE type) throws IOException {
         int returnVal = fileChooser.showSaveDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -286,7 +310,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
                     updateComponentBorder(eventsEditorArea, "Events: " + file.getName());
                     break;
                 case reports:
-
+                    // TODO
                     break;
                 default:
                 // you shouldn't be here
@@ -295,6 +319,12 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         }
     }
 
+    /**
+     * Loads the events from a given file.
+     * 
+     * @throws IOException if file cannot be opened
+     * @throws NoSuchElementException if file does not exist
+     */
     private void loadFile() throws IOException, NoSuchElementException {
         int returnVal = fileChooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -305,12 +335,26 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         }
     }
 
+    /**
+     * Reads a file.
+     * 
+     * @param fileName
+     * @return content of the file
+     * @throws IOException if file cannot be opened
+     */
     private String readFile(File fileName) throws IOException {
         String s = "";
         s = new Scanner(fileName).useDelimiter("\\A").next();
         return s;
     }
 
+    /**
+     * Writes a content on a given file.
+     * 
+     * @param file
+     * @param content
+     * @throws IOException if file cannot be opened
+     */
     private static void writeFile(File file, String content) throws IOException {
         PrintWriter pw = new PrintWriter(file);
         pw.print(content);
