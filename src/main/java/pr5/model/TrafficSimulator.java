@@ -46,6 +46,7 @@ public class TrafficSimulator {
         roadMap = new RoadMap();
         ticks = 0;
     }
+    
 
     /**
      * Given a certain SimulatedObject it generates its report.

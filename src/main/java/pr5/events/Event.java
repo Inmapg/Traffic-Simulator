@@ -1,12 +1,14 @@
 package pr5.events;
 
+import java.util.Map;
 import pr5.ini.IniSection;
 import pr5.model.RoadMap;
+import pr5.view.Describable;
 
 /**
  * Creates and executes the different types of events.
  */
-public abstract class Event {
+public abstract class Event implements Comparable<Event>, Describable{
 
     private final Integer internalTime;
 
@@ -44,6 +46,10 @@ public abstract class Event {
     public int compareTo(Event e) {
         return internalTime.compareTo(e.getScheduleTime());
     }
+    
+   public void describe(Map<String, String> out){
+        out.put("Time", "" + internalTime);
+   }
 
     public static interface Builder {
 

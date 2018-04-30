@@ -1,5 +1,6 @@
 package pr5.events;
 
+import java.util.Map;
 import pr5.ini.IniSection;
 import pr5.model.RoadMap;
 
@@ -33,6 +34,12 @@ public class VehicleFaultyEvent extends Event {
         } catch (NullPointerException e) {
             throw e;
         }
+    }
+    
+    @Override
+    public void describe(Map<String, String> out) {
+        super.describe(out);
+        out.put("Type", "Break vehicles [" + String.join(",", vehicles) + "]");
     }
 
     /**

@@ -1,5 +1,6 @@
 package pr5.events;
 
+import java.util.Map;
 import pr5.ini.IniSection;
 import pr5.model.Road;
 import pr5.model.RoadMap;
@@ -50,6 +51,12 @@ public class RoadEvent extends Event {
         } catch (NullPointerException e) {
             throw e;
         }
+    }
+
+    @Override
+    public void describe(Map<String, String> out) {
+        super.describe(out);
+        out.put("Type", "New road " + id);
     }
 
     public static class Builder implements Event.Builder {

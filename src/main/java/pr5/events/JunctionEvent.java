@@ -1,5 +1,6 @@
 package pr5.events;
 
+import java.util.Map;
 import pr5.ini.IniSection;
 import pr5.model.Junction;
 import pr5.model.RoadMap;
@@ -27,6 +28,11 @@ public class JunctionEvent extends Event {
         roadmap.addJunction(new Junction(id));
     }
 
+    @Override
+    public void describe(Map<String, String> out) {
+        super.describe(out);
+        out.put("Type", "New junction" + id);
+    }
     /**
      * Builds the junction event.
      *

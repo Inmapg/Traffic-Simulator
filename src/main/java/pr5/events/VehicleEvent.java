@@ -1,5 +1,6 @@
 package pr5.events;
 
+import java.util.Map;
 import pr5.exception.SimulatorError;
 import pr5.ini.IniSection;
 import pr5.model.RoadMap;
@@ -39,6 +40,13 @@ public class VehicleEvent extends Event {
         }
     }
 
+    
+        @Override
+    public void describe(Map<String, String> out) {
+        super.describe(out);
+        out.put("Type", "New vehicle " + id);
+    }
+    
     /**
      * Builds the vehicle event.
      *

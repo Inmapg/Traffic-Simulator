@@ -3,6 +3,7 @@ package pr5.control;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import javax.swing.SwingUtilities;
 import pr5.events.*;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
@@ -125,5 +126,13 @@ public class Controller {
         }
 
     }
+    
+    public int getDefaultTime(){
+        return time;
+    }
 
+    public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener l){
+        trafficSim.addSimulatorListener(l);
+    }
+    
 }

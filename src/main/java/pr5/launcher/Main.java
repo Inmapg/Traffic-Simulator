@@ -6,9 +6,11 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.cli.*;
 import pr5.control.Controller;
-import pr5.control.SimWindow;
+import pr5.view.SimWindow;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
 
@@ -251,7 +253,13 @@ public class Main {
      *
      */
     private static void startGUIMode() {
-        SimWindow window = new SimWindow(null == _inFile ? "" : _inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
+        try {
+            new SimWindow(null == _inFile ? "" : _inFile,
+                    new Controller(_timeLimit == null ? _timeLimitDefaultValue : _timeLimit,
+                            _outFile == null ? System.out : new FileOutputStream(_outFile)));
+        } catch (FileNotFoundException ex) {
+           System.err.println("File not found!");
+        }
     }
 
     /**
