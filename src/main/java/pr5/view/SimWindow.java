@@ -34,8 +34,7 @@ import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import pr5.control.SimulatorAction;
 import pr5.events.Event;
-import pr5.exception.SimulatorError;
-import pr5.model.RoadMap;
+import pr5.view.graphlayout.*;
 import pr5.model.TrafficSimulator;
 import pr5.model.TrafficSimulator.TrafficSimulatorListener;
 
@@ -71,8 +70,15 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private JTextArea eventsEditorArea;
     private JPanel upperPanel = new JPanel(new GridLayout(1, 3));
     private JPanel lowerPanel = new JPanel(new GridLayout(1, 2));
+    private JPanel tablesPanel = new JPanel(new GridLayout(3, 1));
     private Controller controller;
-
+    private TrafficModelTable eventsTable;
+    private TrafficModelTable roadsTable;
+    private TrafficModelTable vehiclesTable;
+    private TrafficModelTable junctionsTable;
+    private GraphLayout graph;
+    private JTextArea reportsArea;
+    
     // Event Actions and Object Creation and Instantiation 
     private final Action loadEvents = new SimulatorAction(
             "Load Events", "open.png", "Load events from file",
@@ -185,27 +191,27 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Splits up the window in two different panels.
      */
     private void splitUpWindow() {
-        JPanel eventsQueue = new JPanel();
-        JPanel reportsArea = new JPanel();
-
-        reportsArea.setBackground(Color.green);
 
         addEventsEditor(); // upperPanel.add(eventsEditor)
         addEventsTableModel(); // upperPanel.add(eventsQueue)
-        upperPanel.add(reportsArea);
-
-        JPanel tables = new JPanel();
+        addReports();
+        
         JPanel graph = new JPanel();
-        tables.setBackground(Color.red);
         graph.setBackground(Color.yellow);
-        lowerPanel.add(tables);
-        lowerPanel.add(graph);
+        
+        addTables();
+        addGraph();
         JSplitPane windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
 
         add(windowSplit);
         windowSplit.setDividerLocation(DEFAULT_HEIGHT / 3);
     }
 
+    
+    private void addGraph(){
+        graph = new GraphLayout(lastUpdateEvent.getRoadMap());
+         lowerPanel.add(graph);
+    }
     /**
      * Creates and adds the menu and tool bar to the main window.
      */
@@ -332,11 +338,33 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     }
 
     private void addEventsTableModel() {
-        TrafficModelTable eventTable = new TrafficModelTable(EVENTS_HEADER, lastUpdateEvent.getEventQueue());
-        updateComponentBorder(eventTable, "Events queue");
-        upperPanel.add(eventTable);
+        eventsTable = new TrafficModelTable(EVENTS_HEADER, lastUpdateEvent.getEventQueue());
+        updateComponentBorder(eventsTable, "Events queue");
+        upperPanel.add(eventsTable);
+    }
+    
+    private void addReports(){
+        reportsArea = new JTextArea("");
+        updateComponentBorder(reportsArea, "Reports");
+        reportsArea.setEditable(false);
+        upperPanel.add(reportsArea);
     }
 
+    private void addTables(){
+            roadsTable = new TrafficModelTable(ROADS_HEADER, lastUpdateEvent.getRoadMap().getRoads());
+         updateComponentBorder(roadsTable, "Roads");
+         vehiclesTable = new TrafficModelTable(VEHICLES_HEADER, lastUpdateEvent.getRoadMap().getVehicles());
+         updateComponentBorder(vehiclesTable, "Vehicles");
+         junctionsTable = new TrafficModelTable(JUNCTIONS_HEADER, lastUpdateEvent.getRoadMap().getJunctions());
+         updateComponentBorder(junctionsTable, "Junctions");
+         tablesPanel.add(vehiclesTable);
+         tablesPanel.add(roadsTable);
+         tablesPanel.add(junctionsTable);
+        lowerPanel.add(tablesPanel);
+    }
+    
+
+    
     /**
      * Saves the current state of events or reports.
      *

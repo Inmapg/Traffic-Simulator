@@ -3,6 +3,7 @@ package pr5.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import pr5.ini.IniSection;
 
 /**
@@ -13,6 +14,7 @@ import pr5.ini.IniSection;
 public class Vehicle extends SimulatedObject {
 
     private static final String SECTION_TAG_NAME = "vehicle_report";
+    private final String itineraryToString;
     protected final int maxSpeed;
     protected final ArrayList<Junction> itinerary;
     protected int currentJunction;
@@ -41,6 +43,9 @@ public class Vehicle extends SimulatedObject {
         currentSpeed = 0;
         kilometrage = 0;
         moveToNextRoad();
+        ArrayList<String> aux = new ArrayList<>();
+        itinerary.forEach((j) -> { aux.add(j.getId());  });
+        itineraryToString = "[" + String.join(",", aux) + "]";
     }
 
     /**
@@ -136,4 +141,13 @@ public class Vehicle extends SimulatedObject {
         }
     }
 
+     public void describe(Map<String, String> out){
+         super.describe(out);
+        out.put("Road", currentRoad.getId());
+        out.put("Location", "" + location);
+        out.put("Speed", "" + currentSpeed);
+        out.put("Km", "" + kilometrage);
+        out.put("Faulty units", "" + faulty);
+        out.put("Itinerary", itineraryToString);
+   }
 }

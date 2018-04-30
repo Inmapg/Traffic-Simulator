@@ -1,6 +1,7 @@
 package pr5.model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -114,6 +115,11 @@ public class Junction extends SimulatedObject {
             }
 
         }
+        
+        public String toString(){
+            return "(" + road.getId() + "," + (greenLight ? "green" : "red") + printQueue() + ")"; 
+        }
+        
     } // End of the internal class IncomingRoad
 
     /**
@@ -257,6 +263,24 @@ public class Junction extends SimulatedObject {
         } else {
             sec.setValue("queues", "");
         }
+    }
+
+    public void describe(Map<String, String> out) {
+        super.describe(out);
+        ArrayList<String> green = new ArrayList<>();
+        ArrayList<String> red = new ArrayList<>();
+
+        incomingRoadMap.values().forEach(ir -> {
+            if (ir.greenLight) {
+                green.add(ir.toString());
+            } else {
+                red.add(ir.toString());
+            }
+        }
+        );
+
+        out.put("Green", "[" + String.join(",", green) + "]");
+        out.put("Red", "[" + String.join(",", red) + "]");
     }
 
 }

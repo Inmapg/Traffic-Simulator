@@ -1,5 +1,6 @@
 package pr5.model;
 
+import java.util.Map;
 import pr5.ini.IniSection;
 import pr5.util.MultiTreeMap;
 
@@ -131,6 +132,24 @@ public class Road extends SimulatedObject {
         } else {
             sec.setValue("state", "");
         }
+    }
+
+    public void describe(Map<String, String> out) {
+        super.describe(out);
+        out.put("Source", sourceJunction.getId());
+        out.put("Target", destinationJunction.getId());
+        out.put("Length", "" + length);
+        out.put("Max speed", "" + maxSpeed);
+        
+        StringBuilder sb = new StringBuilder();
+        if (!vehiclesList.isEmpty()) {
+            vehiclesList.innerValues().forEach((Vehicle v)
+                    -> sb.append(v.getId()).append(","));
+            out.put("Vehicles", "[" + sb.substring(0, sb.length() - 1) + "]");
+        } else {
+             out.put("Vehicles", "[]");
+        }
+
     }
 
 }

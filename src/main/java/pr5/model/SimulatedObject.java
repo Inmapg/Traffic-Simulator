@@ -1,12 +1,14 @@
 package pr5.model;
 
+import java.util.Map;
 import java.util.Objects;
 import pr5.ini.*;
+import pr5.view.Describable;
 
 /**
  * Defines different types of object for the simulator.
  */
-public abstract class SimulatedObject {
+public abstract class SimulatedObject implements Describable{
 
     protected final String id;
 
@@ -72,5 +74,10 @@ public abstract class SimulatedObject {
      * @param sec Section
      */
     protected abstract void fillReportDetails(IniSection sec);
-
+    
+    
+        
+   public void describe(Map<String, String> out){
+        out.put("ID", id);
+   }
 }
