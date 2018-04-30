@@ -241,7 +241,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         bar.addSeparator();
         bar.add(exit);
         
-        
         // Pinning up the bar to the window
         bar.setFloatable(false);
         // Setting in ToolBar in the Window 
