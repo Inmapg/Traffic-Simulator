@@ -222,8 +222,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         // Setting in MenuBar in the Window
         setJMenuBar(menu);
         
-        
+        loadEvents.setEnabled(false);
         bar.add(loadEvents);
+        loadEvents.setEnabled(true);
         bar.add(saveEvents);
         bar.add(clearEvents);
         bar.addSeparator();
@@ -238,6 +239,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         bar.addSeparator();
         bar.add(generateReport);
         bar.add(clearReport);
+        bar.add(saveReport);
         bar.addSeparator();
         bar.add(exit);
         
