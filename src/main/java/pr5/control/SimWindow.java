@@ -33,14 +33,15 @@ import javax.swing.SpinnerNumberModel;
 import pr5.events.Event;
 import pr5.exception.SimulatorError;
 import pr5.model.RoadMap;
-import pr5.model.TrafficSimulator.TrafficSimulatorObserver;
+import pr5.model.TrafficSimulator;
+import pr5.model.TrafficSimulator.TrafficSimulatorListener;
 
 /**
  * SimulatedWindow object which represents a GUI interface for the user. This
  * window provides a new way to configurate a simulator apart from the batch
  * mode.
  */
-public class SimWindow extends JFrame implements TrafficSimulatorObserver {
+public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     private final int defaultTimeValue;
     // Toolkit allows us to get the screen size so size is relative
@@ -50,9 +51,11 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
     // Height will 5/6 of the Screen Size Height
     private static final int DEFAULT_HEIGHT = 5 * Toolkit.getDefaultToolkit().getScreenSize().height / 6;
 
+
     private enum OUTPUT_TYPE {
         reports, events
     }
+    
     private File inFile;
     private JCheckBoxMenuItem redirect;
     private JSpinner stepsSpinner;
@@ -61,8 +64,10 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
     private JTextArea eventsEditorArea;
     private JPanel upperPanel = new JPanel(new GridLayout(1, 3));
     private JPanel lowerPanel = new JPanel(new GridLayout(1, 2));
+    private TrafficSimulator simulator;
+    
     // Event Actions and Object Creation and Instantiation 
-    Action loadEvents = new SimulatorAction(
+    private final Action loadEvents = new SimulatorAction(
             "Load Events", "open.png", "Load events from file",
             KeyEvent.VK_L, "alt L", () -> {
                 try {
@@ -72,11 +77,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
                             + "while reading the file...",
                             "File cannot be read!",
                             JOptionPane.WARNING_MESSAGE);
-                }
+                }});
 
-            });
-
-    Action saveEvents = new SimulatorAction(
+    private final Action saveEvents = new SimulatorAction(
             "Save Events", "save.png", "Save events to file",
             KeyEvent.VK_S, "alt S",
             () -> {
@@ -90,41 +93,42 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
                 }
             });
 
-    Action clearEvents = new SimulatorAction(
+    private final Action clearEvents = new SimulatorAction(
             "Clear", "clear.png", "Clear events",
             () -> { clearEvents();});
 
-    Action checkInEvents = new SimulatorAction(
+    private final Action checkInEvents = new SimulatorAction(
             "Events", "events.png", "Show the events",
             () -> System.out.println("'Check in events' is not suported yet"));
 
     // Report Actions and Object Creation and Instantiation
-    Action saveReport = new SimulatorAction(
+    private final Action saveReport = new SimulatorAction(
             "Save Report", "save_report.png", "Save last report to file",
             KeyEvent.VK_R, "alt R",
             () -> System.out.println("'Save report' is not supported yet"));
 
-    Action generateReport = new SimulatorAction(
+    private final Action generateReport = new SimulatorAction(
             "Generate", "report.png", "Generate report",
             () -> System.out.println("'Generate report' is not supported yet"));
 
-    Action clearReport = new SimulatorAction(
+    private final Action clearReport = new SimulatorAction(
             "Clear", "delete_report.png", "Clear report",
             () -> System.out.println("'Clear report' is not supported yet"));
 
     // Traffic Simulator and configuration Object creation and instantiation
-    Action exit = new SimulatorAction(
+    private final Action exit = new SimulatorAction(
             "Exit", "exit.png", "Terminate the execution",
             KeyEvent.VK_E, "alt E", () -> System.exit(0));
-    Action run = new SimulatorAction(
+    
+    private final Action run = new SimulatorAction(
             "Run", "play.png", "Start simulation",
             () -> System.out.println("'Run' is not supported yet"));
 
-    Action stop = new SimulatorAction(
+    private final Action stop = new SimulatorAction(
             "Stop", "stop.png", "Stop simulation",
             () -> System.out.println("'Stop' is not supported yet"));
 
-    Action reset = new SimulatorAction(
+    private final Action reset = new SimulatorAction(
             "Reset", "reset.png", "Reset simulation",
             () -> System.out.println("'Reset' is not supported yet"));
 
@@ -150,6 +154,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         addBars();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setVisible(true);
+        simulator.addSimulatorListener(this);
     }
 
     /**
@@ -216,7 +221,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         menu.add(report);
         // Setting in MenuBar in the Window
         setJMenuBar(menu);
-
+        
+        
         bar.add(loadEvents);
         bar.add(saveEvents);
         bar.add(clearEvents);
@@ -234,7 +240,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         bar.add(clearReport);
         bar.addSeparator();
         bar.add(exit);
-
+        
+        
         // Pinning up the bar to the window
         bar.setFloatable(false);
         // Setting in ToolBar in the Window 
@@ -360,29 +367,30 @@ public class SimWindow extends JFrame implements TrafficSimulatorObserver {
         pw.print(content);
         pw.close();
     }
-
-    @Override
-    public void registered(int time, RoadMap map, List<Event> events) {
+    
+    public void registered(TrafficSimulator.UpdateEvent ue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void reset(int time, RoadMap map, List<Event> events) {
+    public void reset(TrafficSimulator.UpdateEvent ue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void eventAdded(int time, RoadMap map, List<Event> events) {
+    public void newEvent(TrafficSimulator.UpdateEvent ue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void advanced(int time, RoadMap map, List<Event> events) {
+    public void advanced(TrafficSimulator.UpdateEvent ue) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void simulatorError(int time, RoadMap map, List<Event> events, SimulatorError e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void error(TrafficSimulator.UpdateEvent ue, String error) {
+        JOptionPane.showMessageDialog(this, "Error",
+                            error,
+                            JOptionPane.ERROR_MESSAGE);   
     }
 }
