@@ -33,6 +33,7 @@ public class JunctionEvent extends Event {
         super.describe(out);
         out.put("Type", "New junction " + id);
     }
+
     /**
      * Builds the junction event.
      *

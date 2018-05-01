@@ -34,7 +34,6 @@ public class TrafficSimulator {
      * List of observers to be used during the GUI execution
      */
     private List<TrafficSimulatorListener> listeners = new ArrayList<>();
-    
 
     /**
      * Class Constructor specifying output stream.
@@ -46,7 +45,6 @@ public class TrafficSimulator {
         roadMap = new RoadMap();
         ticks = 0;
     }
-    
 
     /**
      * Given a certain SimulatedObject it generates its report.
@@ -88,13 +86,13 @@ public class TrafficSimulator {
 
                 // Invoke method advance for junction
                 roadMap.getJunctions().forEach((Junction j) -> j.advance());
-                
+
                 // Current time increases
                 ticks++;
-                
+
                 // listeners are notified
                 notifyAdvanced();
-                
+
                 // Write report
                 if (output != null) {
                     roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
@@ -138,16 +136,16 @@ public class TrafficSimulator {
         this.output = output;
     }
 
-    public void addSimulatorListener(TrafficSimulatorListener l){
+    public void addSimulatorListener(TrafficSimulatorListener l) {
         listeners.add(l);
         UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
         SwingUtilities.invokeLater(() -> l.registered(ue));
     }
-    
-    public void removeSimulatorListener(TrafficSimulatorListener l){
+
+    public void removeSimulatorListener(TrafficSimulatorListener l) {
         listeners.remove(l);
     }
-    
+
     private void notifyReset() {
         listeners.forEach((l) -> {
             l.reset(new UpdateEvent(EventType.RESET));
@@ -171,7 +169,7 @@ public class TrafficSimulator {
             l.error(new UpdateEvent(EventType.ERROR), e.getMessage());
         });
     }
-    
+
     /**
      * Interfece which provides a way of dealing with events and the execution
      * of a TrafficSimulator externally.
@@ -179,37 +177,44 @@ public class TrafficSimulator {
     public interface TrafficSimulatorListener {
 
         public void registered(UpdateEvent ue);
+
         public void reset(UpdateEvent ue);
+
         public void newEvent(UpdateEvent ue);
+
         public void advanced(UpdateEvent ue);
+
         public void error(UpdateEvent ue, String error);
 
     }
-    
-    public enum EventType { REGISTERED, RESET, NEW_EVENT, ADVANCED, ERROR };
-    
-    public class UpdateEvent{
+
+    public enum EventType {
+        REGISTERED, RESET, NEW_EVENT, ADVANCED, ERROR
+    };
+
+    public class UpdateEvent {
+
         private final EventType type;
-        
-        public UpdateEvent(EventType type){
+
+        public UpdateEvent(EventType type) {
             this.type = type;
         }
-        
-        public EventType getEvent(){
+
+        public EventType getEvent() {
             return type;
         }
-        
-        public RoadMap getRoadMap(){
+
+        public RoadMap getRoadMap() {
             return roadMap;
-        } 
-        
-        public List<Event> getEventQueue(){
+        }
+
+        public List<Event> getEventQueue() {
             return mapOfEvents.valuesList();
         }
-        
-        public int getCurrentTime(){
+
+        public int getCurrentTime() {
             return ticks;
         }
     }
-    
+
 }

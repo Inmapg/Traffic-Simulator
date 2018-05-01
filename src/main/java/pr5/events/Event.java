@@ -8,7 +8,7 @@ import pr5.view.Describable;
 /**
  * Creates and executes the different types of events.
  */
-public abstract class Event implements Comparable<Event>, Describable{
+public abstract class Event implements Comparable<Event>, Describable {
 
     private final Integer internalTime;
 
@@ -46,10 +46,10 @@ public abstract class Event implements Comparable<Event>, Describable{
     public int compareTo(Event e) {
         return internalTime.compareTo(e.getScheduleTime());
     }
-    
-   public void describe(Map<String, String> out){
+
+    public void describe(Map<String, String> out) {
         out.put("Time", "" + internalTime);
-   }
+    }
 
     public static interface Builder {
 

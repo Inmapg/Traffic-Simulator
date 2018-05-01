@@ -35,25 +35,25 @@ public class GraphLayout extends JPanel {
         Graph graph = new Graph();
         Map<Junction, Node> junctions = new HashMap<>();
         Map<Road, Edge> roads = new HashMap<>();
-        
-        for(Junction j : roadmap.getJunctions()){
+
+        for (Junction j : roadmap.getJunctions()) {
             Node node = new Node(j.getId());
             junctions.put(j, node);
             graph.addNode(node);
         }
-        for(Road r : roadmap.getRoads()){
+        for (Road r : roadmap.getRoads()) {
             Edge e = new Edge(r.getId(), junctions.get(r.getSource()), junctions.get(r.getDestination()), r.getLength());
             roads.put(r, e);
             graph.addEdge(e);
         }
-        for(Vehicle v : roadmap.getVehicles()){
+        for (Vehicle v : roadmap.getVehicles()) {
             roads.get(v.getRoad()).addDot(new Dot(v.getId(), v.getLocation()));
-        }        
+        }
         _graphComp.setGraph(graph);
 
     }
-    
-    public void update(RoadMap roadmap){
+
+    public void update(RoadMap roadmap) {
         this.roadmap = roadmap;
         generateGraph();
     }

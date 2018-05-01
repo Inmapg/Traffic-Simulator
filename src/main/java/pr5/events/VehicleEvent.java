@@ -40,13 +40,12 @@ public class VehicleEvent extends Event {
         }
     }
 
-    
-        @Override
+    @Override
     public void describe(Map<String, String> out) {
         super.describe(out);
         out.put("Type", "New vehicle " + id);
     }
-    
+
     /**
      * Builds the vehicle event.
      *

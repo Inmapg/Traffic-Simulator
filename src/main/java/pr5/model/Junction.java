@@ -115,11 +115,11 @@ public class Junction extends SimulatedObject {
             }
 
         }
-        
-        public String toString(){
-            return "(" + road.getId() + "," + (greenLight ? "green" : "red") + printQueue() + ")"; 
+
+        public String toString() {
+            return "(" + road.getId() + "," + (greenLight ? "green" : "red") + printQueue() + ")";
         }
-        
+
     } // End of the internal class IncomingRoad
 
     /**

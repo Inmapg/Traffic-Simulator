@@ -44,7 +44,9 @@ public class Vehicle extends SimulatedObject {
         kilometrage = 0;
         moveToNextRoad();
         ArrayList<String> aux = new ArrayList<>();
-        itinerary.forEach((j) -> { aux.add(j.getId());  });
+        itinerary.forEach((j) -> {
+            aux.add(j.getId());
+        });
         itineraryToString = "[" + String.join(",", aux) + "]";
     }
 
@@ -141,13 +143,13 @@ public class Vehicle extends SimulatedObject {
         }
     }
 
-     public void describe(Map<String, String> out){
-         super.describe(out);
+    public void describe(Map<String, String> out) {
+        super.describe(out);
         out.put("Road", currentRoad.getId());
         out.put("Location", "" + location);
         out.put("Speed", "" + currentSpeed);
         out.put("Km", "" + kilometrage);
         out.put("Faulty units", "" + faulty);
         out.put("Itinerary", itineraryToString);
-   }
+    }
 }

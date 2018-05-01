@@ -258,7 +258,7 @@ public class Main {
                     new Controller(_timeLimit == null ? _timeLimitDefaultValue : _timeLimit,
                             _outFile == null ? System.out : new FileOutputStream(_outFile)));
         } catch (FileNotFoundException ex) {
-           System.err.println("File not found!");
+            System.err.println("File not found!");
         }
     }
 

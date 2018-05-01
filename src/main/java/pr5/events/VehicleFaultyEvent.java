@@ -35,7 +35,7 @@ public class VehicleFaultyEvent extends Event {
             throw e;
         }
     }
-    
+
     @Override
     public void describe(Map<String, String> out) {
         super.describe(out);

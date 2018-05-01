@@ -8,7 +8,7 @@ import pr5.view.Describable;
 /**
  * Defines different types of object for the simulator.
  */
-public abstract class SimulatedObject implements Describable{
+public abstract class SimulatedObject implements Describable {
 
     protected final String id;
 
@@ -74,10 +74,8 @@ public abstract class SimulatedObject implements Describable{
      * @param sec Section
      */
     protected abstract void fillReportDetails(IniSection sec);
-    
-    
-        
-   public void describe(Map<String, String> out){
+
+    public void describe(Map<String, String> out) {
         out.put("ID", id);
-   }
+    }
 }

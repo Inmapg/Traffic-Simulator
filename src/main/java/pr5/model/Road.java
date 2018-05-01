@@ -140,14 +140,14 @@ public class Road extends SimulatedObject {
         out.put("Target", destinationJunction.getId());
         out.put("Length", "" + length);
         out.put("Max speed", "" + maxSpeed);
-        
+
         StringBuilder sb = new StringBuilder();
         if (!vehiclesList.isEmpty()) {
             vehiclesList.innerValues().forEach((Vehicle v)
                     -> sb.append(v.getId()).append(","));
             out.put("Vehicles", "[" + sb.substring(0, sb.length() - 1) + "]");
         } else {
-             out.put("Vehicles", "[]");
+            out.put("Vehicles", "[]");
         }
 
     }

@@ -106,7 +106,6 @@ public class Controller {
 
     }
 
-    
     public void loadEvents(InputStream input) throws IOException {
         Ini ini = new Ini(input);
         ini.getSections().forEach((IniSection sec) -> {
@@ -118,7 +117,7 @@ public class Controller {
         });
 
     }
-    
+
     /**
      * Runs the program.
      *
@@ -140,9 +139,9 @@ public class Controller {
         }
 
     }
-    
+
     // Events have been loaded previously 
-    public void run(int timeLimit){
+    public void run(int timeLimit) {
         try {
             trafficSim.run(timeLimit);
         } catch (SimulatorError e) {
@@ -150,18 +149,17 @@ public class Controller {
                     + " Traffic Simulator...", e);
         }
     }
-    
-    public int getDefaultTime(){
+
+    public int getDefaultTime() {
         return time;
     }
 
-    public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener l){
+    public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener l) {
         trafficSim.addSimulatorListener(l);
     }
-    
-    public void setOutputStream(OutputStream output){
+
+    public void setOutputStream(OutputStream output) {
         trafficSim.setOutputStream(output);
     }
-    
-    
+
 }
