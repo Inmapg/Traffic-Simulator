@@ -52,4 +52,9 @@ public class GraphLayout extends JPanel {
         _graphComp.setGraph(graph);
 
     }
+    
+    public void update(RoadMap roadmap){
+        this.roadmap = roadmap;
+        generateGraph();
+    }
 }

@@ -31,7 +31,7 @@ public class JunctionEvent extends Event {
     @Override
     public void describe(Map<String, String> out) {
         super.describe(out);
-        out.put("Type", "New junction" + id);
+        out.put("Type", "New junction " + id);
     }
     /**
      * Builds the junction event.

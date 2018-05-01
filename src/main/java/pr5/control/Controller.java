@@ -2,6 +2,7 @@ package pr5.control;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import javax.swing.SwingUtilities;
 import pr5.events.*;
@@ -105,6 +106,19 @@ public class Controller {
 
     }
 
+    
+    public void loadEvents(InputStream input) throws IOException {
+        Ini ini = new Ini(input);
+        ini.getSections().forEach((IniSection sec) -> {
+            Event newEvent = parse(sec);
+            if (newEvent == null) {
+                throw new SimulatorError();
+            }
+            trafficSim.addEvent(newEvent);
+        });
+
+    }
+    
     /**
      * Runs the program.
      *
@@ -127,6 +141,16 @@ public class Controller {
 
     }
     
+    // Events have been loaded previously 
+    public void run(int timeLimit){
+        try {
+            trafficSim.run(timeLimit);
+        } catch (SimulatorError e) {
+            throw new SimulatorError("Error when executing running method in"
+                    + " Traffic Simulator...", e);
+        }
+    }
+    
     public int getDefaultTime(){
         return time;
     }
@@ -134,5 +158,10 @@ public class Controller {
     public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener l){
         trafficSim.addSimulatorListener(l);
     }
+    
+    public void setOutputStream(OutputStream output){
+        trafficSim.setOutputStream(output);
+    }
+    
     
 }

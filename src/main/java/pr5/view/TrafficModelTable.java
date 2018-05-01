@@ -15,7 +15,7 @@ public class TrafficModelTable extends JPanel {
     private JTable table;
     private final String[] fieldNames;
     private List<? extends Describable> elements;
-    
+
     public TrafficModelTable(String[] fieldNames, List<? extends Describable> elements){
         super(new BorderLayout());
         this.fieldNames = fieldNames;
