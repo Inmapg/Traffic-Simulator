@@ -87,7 +87,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         reports, events
     }
     
-    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Ini files", "ini");
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter(".ini", "ini");
 
     private JToolBar statusBar = new JToolBar();
     private JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
@@ -579,12 +579,14 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     private void generateReport() {
         clearReport.setEnabled(true);
+        saveReport.setEnabled(true);
         reportsArea.setText(new String(defaultOutputSimulator.toByteArray()));
         statusBarMessage.setText("Reports have been generated!");
     }
 
     private void clearReport() {
         clearReport.setEnabled(false);
+        saveReport.setEnabled(false);
         reportsArea.setText("");
         statusBarMessage.setText("Reports have been cleared!");
     }
@@ -592,7 +594,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private void runSimWindow() {
         stop.setEnabled(true);
         generateReport.setEnabled(true);
-        saveReport.setEnabled(true);
         controller.run((int) stepsSpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
