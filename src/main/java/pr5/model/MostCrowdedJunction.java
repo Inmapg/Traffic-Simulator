@@ -8,7 +8,6 @@ import pr5.ini.IniSection;
 public class MostCrowdedJunction extends TimeSliceJunction {
 
     private static final String TYPE = "mc";
-    protected TimeSliceIncomingRoad currentRoad;
 
     /**
      * Class constructor specifying id.
@@ -24,7 +23,7 @@ public class MostCrowdedJunction extends TimeSliceJunction {
      * Selects the following most crowded road.
      */
     private void updateCurrentRoad() {
-        if (incomingRoadMap.values().size() > 1) {
+        if (incomingRoadMap.values().size() >= 1) {
             if (nextRoad == null || !nextRoad.hasNext()) {
                 nextRoad = incomingRoadMap.keySet().iterator();
             }

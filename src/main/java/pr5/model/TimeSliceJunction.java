@@ -9,6 +9,8 @@ import pr5.ini.IniSection;
  */
 public class TimeSliceJunction extends Junction {
 
+        protected TimeSliceIncomingRoad currentRoad;
+        
     /**
      * Contains information about an incoming time slice road to the junction.
      *
@@ -61,7 +63,7 @@ public class TimeSliceJunction extends Junction {
          * @return if time is greater than the interval of time.
          */
         public final boolean timeIsOver() {
-            return timeSpent >= intervalTime - 1;
+            return timeSpent >= intervalTime;
         }
 
         @Override
@@ -127,6 +129,15 @@ public class TimeSliceJunction extends Junction {
         return new TimeSliceIncomingRoad(r);
     }
 
+    public void advance() {
+        if (!incomingRoadMap.isEmpty()) {
+            if (currentRoad != null) {
+                currentRoad.advanceFirstVehicle();
+            }
+            switchLights();
+        }
+
+    }
     @Override
     protected void fillReportDetails(IniSection sec) {
         StringBuilder sb = new StringBuilder();
