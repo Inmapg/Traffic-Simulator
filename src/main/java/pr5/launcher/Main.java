@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.cli.*;
 import pr5.control.Controller;
 import pr5.view.SimWindow;
@@ -27,7 +25,7 @@ public class Main {
     private static Integer _timeLimit = null;
     private static String _inFile = null;
     private static String _outFile = null;
-    private static modesAvailable _Mode = null;
+    private static modesAvailable _mode = null;
     private static String split = System.getProperty("file.separator");
 
     /**
@@ -116,9 +114,9 @@ public class Main {
     private static void parseModeOption(CommandLine line) throws ParseException {
         String s = line.getOptionValue("m", _modeDefaultValue);
         if ("gui".equals(s)) {
-            _Mode = modesAvailable.GUI;
+            _mode = modesAvailable.GUI;
         } else if ("batch".equals(s)) {
-            _Mode = modesAvailable.BATCH;
+            _mode = modesAvailable.BATCH;
         } else {
             throw new ParseException("Mode not valid given, check help command "
                     + "to see which modes are available");
@@ -134,7 +132,7 @@ public class Main {
      */
     private static void parseInFileOption(CommandLine line) throws ParseException {
         _inFile = line.getOptionValue("i");
-        if (_inFile == null && _Mode != modesAvailable.GUI) {
+        if (_inFile == null && _mode != modesAvailable.GUI) {
             throw new ParseException("An events file is missing");
         }
     }
@@ -263,12 +261,12 @@ public class Main {
     }
 
     /**
-     * Start the simulator choosing one of the modes available: GUI or Batch
+     * Start the simulator choosing one of the modes available: GUI or Batch.
      *
      */
     private static void start(String[] args) throws IOException {
         parseArgs(args);
-        switch (_Mode) {
+        switch (_mode) {
             case GUI:
                 startGUIMode();
                 break;
