@@ -1,5 +1,24 @@
 package pr5.view;
 
+/**
+ * FileNameExtensionFilter filter = new FileNameExtensionFilter("Ini files", "ini");
+ * fileChooser.setFileFilter(filter);
+ * 
+ * 
+ * From Java API:
+ * JFileChooser chooser = new JFileChooser();
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        "JPG & GIF Images", "jpg", "gif");
+    chooser.setFileFilter(filter);
+    int returnVal = chooser.showOpenDialog(parent);
+    if(returnVal == JFileChooser.APPROVE_OPTION) {
+       System.out.println("You chose to open this file: " +
+            chooser.getSelectedFile().getName());
+    }
+ 
+ * hacer una para read y otra para save
+ */
+
 import pr5.control.Controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -161,6 +180,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Class constructor specifying input file and default time value.
      *
      * @param inFile
+     * @param controller
      */
     public SimWindow(String inFile, Controller controller) {
         super("Traffic Simulator");
@@ -311,14 +331,17 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Gives format to the event editor area.
      */
     private void addEventsEditor() {
+        JPanel eventsPanel = new JPanel(new BorderLayout());
+        eventsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Events"));
         // Text Area creation, if a File was specified it will be loaded
         eventsEditorArea = new JTextArea("");
-        updateComponentBorder(eventsEditorArea, "Events");
+        eventsPanel.add(new JScrollPane(eventsEditorArea));
+        //updateComponentBorder(eventsEditorArea, "Events");
         if (!"".equals(inFile.getName())) {
             // Trying to read the file with the given name by inFile
             try {
                 eventsEditorArea.setText(readFile(inFile));
-                updateComponentBorder(eventsEditorArea, "Events: " + inFile.getName());
+                eventsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Events "+ inFile.getName()));
                 statusBarMessage.setText("Events have been loaded to the simulator!");
             } // Trying to capture and control the exception
             catch (IOException | NoSuchElementException e) {
@@ -333,7 +356,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         eventsEditorArea.setLineWrap(true);
         eventsEditorArea.setWrapStyleWord(true);
         // To allow scrolling we use a ScrollPane
-        upperPanel.add(new JScrollPane(eventsEditorArea));
+        upperPanel.add(eventsPanel);
     }
 
     private void addEventsTableModel() {
@@ -342,11 +365,13 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         upperPanel.add(eventsTable);
     }
 
-    private void addReports() {
+    private void addReports() { // Removed updateComponentBorder :S
+        JPanel reportsPanel = new JPanel(new BorderLayout());
+        reportsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Reports"));
         reportsArea = new JTextArea("");
-        updateComponentBorder(reportsArea, "Reports");
         reportsArea.setEditable(false);
-        upperPanel.add(new JScrollPane(reportsArea));
+        reportsPanel.add(new JScrollPane(reportsArea));
+        upperPanel.add(reportsPanel);
     }
 
     private void addTables() {
