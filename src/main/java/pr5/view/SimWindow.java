@@ -135,7 +135,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(this,
                             e.getMessage(),
-                            "File cannot be saved!",
+                            "Events cannot be saved!",
                             JOptionPane.WARNING_MESSAGE);
                 }
             });
@@ -154,7 +154,16 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private final Action saveReport = new SimulatorAction(
             "Save Report", "save_report.png", "Save last report to file",
             KeyEvent.VK_R, "alt R",
-            () -> System.out.println("'Save report' is not supported yet"));
+            () -> {
+                try {
+                    saveFile(".ini.eout", OUTPUT_TYPE.reports);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(this,
+                            e.getMessage(),
+                            "Reports cannot be saved!",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            });
 
     private final Action generateReport = new SimulatorAction(
             "Generate", "report.png", "Generate report",
@@ -179,7 +188,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     private final Action reset = new SimulatorAction(
             "Reset", "reset.png", "Reset simulation",
-            () -> System.out.println("'Reset' is not supported yet"));
+            () -> reset());
 
     /**
      * Class constructor specifying input file and default time value.
@@ -238,6 +247,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         JSplitPane windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
    
         add(windowSplit);
+        
         windowSplit.setDividerLocation(DEFAULT_HEIGHT / 3);
     }
 
@@ -370,6 +380,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         // Text Area creation, if a File was specified it will be loaded
         eventsEditorArea = new JTextArea("");
         eventsPanel.add(new JScrollPane(eventsEditorArea));
+        
         //updateComponentBorder(eventsEditorArea, "Events");
         if (!"".equals(inFile.getName())) {
             // Trying to read the file with the given name by inFile
@@ -433,8 +444,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             writeFile(file, eventsEditorArea.getText());
-
-            // Update the GUI
             switch (type) {
                 case events:
                     updatePanelBorder(eventsPanel, "Events: " + file.getName());
@@ -442,7 +451,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                             + file.getName() + "!");
                     break;
                 case reports:
-                    // TODO
+                    // TODO !!!!!!!!!!!!!!!!
                     updatePanelBorder(reportsPanel, "Reports " + file.getName());
                     statusBarMessage.setText("Reports have been saved!");
                     break;
@@ -508,17 +517,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     @Override
     public void reset(TrafficSimulator.UpdateEvent ue) {
-        //statusBarMessage.setText("The simulator has been reset!");
-        clearEvents.setEnabled(false);
-        saveEvents.setEnabled(false);
-        reset.setEnabled(false);
-        stop.setEnabled(false);
-        checkInEvents.setEnabled(false);
-        generateReport.setEnabled(false);
-        saveReport.setEnabled(false);
-        run.setEnabled(false);
-        clearReport.setEnabled(false);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO
     }
 
     @Override
@@ -594,7 +593,38 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private void runSimWindow() {
         stop.setEnabled(true);
         generateReport.setEnabled(true);
+        if(redirect.getState()){
+            saveReport.setEnabled(true);
+        }
         controller.run((int) stepsSpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
+    
+    private void reset(){
+        // Not finished
+        reportsArea.setText("");
+        eventsEditorArea.setText("");
+        controller.reset();
+        timeViewer.setText("0");
+        stepsSpinner.setValue(controller.getDefaultTime());
+        /*vehiclesTable.setElements(null);
+        vehiclesTable.update();*/
+        
+        clearEvents.setEnabled(false);
+        saveEvents.setEnabled(false);
+        reset.setEnabled(false);
+        stop.setEnabled(false);
+        checkInEvents.setEnabled(false);
+        generateReport.setEnabled(false);
+        saveReport.setEnabled(false);
+        run.setEnabled(false);
+        clearReport.setEnabled(false);
+        
+        statusBarMessage.setText("The simulator has been reset!");
+    }
+    
+    private void createPopUpMenu(){
+        // TODO
+    }
+
 }

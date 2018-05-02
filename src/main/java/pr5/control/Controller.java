@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import javax.swing.SwingUtilities;
 import pr5.events.*;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
@@ -162,4 +161,7 @@ public class Controller {
         trafficSim.setOutputStream(output);
     }
 
+    public void reset(){
+        trafficSim.reset();
+    }
 }

@@ -2,11 +2,8 @@ package pr5.view.graphlayout;
 
 import javax.swing.*;
 
-import java.awt.BorderLayout;
-import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import pr5.model.Junction;
 import pr5.model.Road;
 import pr5.model.RoadMap;
