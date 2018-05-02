@@ -53,6 +53,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import pr5.control.SimulatorAction;
 import pr5.events.Event;
 import pr5.model.Junction;
@@ -85,6 +86,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private enum OUTPUT_TYPE {
         reports, events
     }
+    
+    private FileNameExtensionFilter filter = new FileNameExtensionFilter("Ini files", "ini");
 
     private JToolBar statusBar = new JToolBar();
     private JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
@@ -457,6 +460,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * @throws NoSuchElementException if file does not exist
      */
     private void loadFile() throws IOException, NoSuchElementException {
+        fileChooser.setFileFilter(filter);
         int returnVal = fileChooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
@@ -592,5 +596,4 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         controller.run((int) stepsSpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
-
 }
