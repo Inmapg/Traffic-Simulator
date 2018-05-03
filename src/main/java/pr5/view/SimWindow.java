@@ -48,6 +48,7 @@ import pr5.ini.Ini;
 import pr5.ini.IniSection;
 import pr5.model.Junction;
 import pr5.model.Road;
+import pr5.model.RoadMap;
 import pr5.view.graphlayout.*;
 import pr5.model.TrafficSimulator;
 import pr5.model.TrafficSimulator.TrafficSimulatorListener;
@@ -541,7 +542,32 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     @Override
     public void reset(TrafficSimulator.UpdateEvent ue) {
-        // TODO
+        
+        updatePanelBorder(reportsPanel, "Reports");
+        reportsArea.setText("");
+        
+        timeViewer.setText("0");
+        stepsSpinner.setValue(controller.getDefaultTime());
+        eventsTable.clear();// Not working
+        eventsTable.update();
+        vehiclesTable.clear();// Not working
+        vehiclesTable.update();
+        roadsTable.clear();// Not working
+        roadsTable.update();
+        junctionsTable.clear();// Not working
+        junctionsTable.update();
+        
+        clearEvents.setEnabled(false);
+        saveEvents.setEnabled(false);
+        reset.setEnabled(false);
+        stop.setEnabled(false);
+        checkInEvents.setEnabled(false);
+        generateReport.setEnabled(false);
+        saveReport.setEnabled(false);
+        run.setEnabled(false);
+        clearReport.setEnabled(false);
+        graph.update(new RoadMap());
+        statusBarMessage.setText("The simulator has been reset!");
     }
 
     @Override
@@ -660,32 +686,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     private void reset() {
         updatePanelBorder(eventsPanel, "Events");
-        updatePanelBorder(reportsPanel, "Reports");
-        reportsArea.setText("");
         eventsEditorArea.setText("");
         controller.reset();
-        timeViewer.setText("0");
-        stepsSpinner.setValue(controller.getDefaultTime());
-        eventsTable.clear();// Not working
-        eventsTable.update();
-        vehiclesTable.clear();// Not working
-        vehiclesTable.update();
-        roadsTable.clear();// Not working
-        roadsTable.update();
-        junctionsTable.clear();// Not working
-        junctionsTable.update();
-        
-        clearEvents.setEnabled(false);
-        saveEvents.setEnabled(false);
-        reset.setEnabled(false);
-        stop.setEnabled(false);
-        checkInEvents.setEnabled(false);
-        generateReport.setEnabled(false);
-        saveReport.setEnabled(false);
-        run.setEnabled(false);
-        clearReport.setEnabled(false);
-
-        statusBarMessage.setText("The simulator has been reset!");
     }
 
     /**

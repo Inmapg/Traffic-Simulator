@@ -1,6 +1,7 @@
 package pr5.view;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,7 @@ public class TrafficModelTable extends JPanel {
     }
 
     public void clear(){
-        try{
-            elements.clear();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+            elements = new ArrayList<>();
     }
     
     private class ListOfMapsTableModel extends AbstractTableModel {
