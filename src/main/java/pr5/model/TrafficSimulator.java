@@ -89,7 +89,7 @@ public class TrafficSimulator {
 
                 // Current time increases
                 ticks++;
-                
+
                 // listeners are notified
                 notifyAdvanced();
 

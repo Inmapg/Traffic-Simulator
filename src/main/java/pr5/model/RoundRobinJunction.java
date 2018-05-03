@@ -15,8 +15,6 @@ public class RoundRobinJunction extends TimeSliceJunction {
     private final int minTimeSlice;
     private final int maxTimeSlice;
 
-
-
     /**
      * Class constructor specifying id, minimum time slice and maximum time
      * slice.
@@ -49,7 +47,7 @@ public class RoundRobinJunction extends TimeSliceJunction {
         if (currentRoad == null) {
             nextRoad = incomingRoadMap.keySet().iterator();
             currentRoad = (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
-            currentRoad.onGreenLight();            
+            currentRoad.onGreenLight();
         } else if (currentRoad.timeIsOver()) { // if the interval time is used up
             currentRoad.offGreenLight(); // set the lights off
             if (!currentRoad.used()) { // there was no reduction in time
@@ -65,7 +63,7 @@ public class RoundRobinJunction extends TimeSliceJunction {
             }
             currentRoad = (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
             currentRoad.onGreenLight();
-        } 
+        }
 
     }
 

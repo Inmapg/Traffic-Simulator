@@ -1,24 +1,19 @@
 package pr5.view;
 
 /**
- * FileNameExtensionFilter filter = new FileNameExtensionFilter("Ini files", "ini");
- * fileChooser.setFileFilter(filter);
- * 
- * 
- * From Java API:
- * JFileChooser chooser = new JFileChooser();
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        "JPG & GIF Images", "jpg", "gif");
-    chooser.setFileFilter(filter);
-    int returnVal = chooser.showOpenDialog(parent);
-    if(returnVal == JFileChooser.APPROVE_OPTION) {
-       System.out.println("You chose to open this file: " +
-            chooser.getSelectedFile().getName());
-    }
- 
+ * FileNameExtensionFilter filter = new FileNameExtensionFilter("Ini files",
+ * "ini"); fileChooser.setFileFilter(filter);
+ *
+ *
+ * From Java API: JFileChooser chooser = new JFileChooser();
+ * FileNameExtensionFilter filter = new FileNameExtensionFilter( "JPG & GIF
+ * Images", "jpg", "gif"); chooser.setFileFilter(filter); int returnVal =
+ * chooser.showOpenDialog(parent); if(returnVal == JFileChooser.APPROVE_OPTION)
+ * { System.out.println("You chose to open this file: " +
+ * chooser.getSelectedFile().getName()); }
+ *
  * hacer una para read y otra para save
  */
-
 import pr5.control.Controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -88,14 +83,14 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private TrafficSimulator.UpdateEvent lastUpdateEvent;
     private TrafficSimulator.UpdateEvent initialUpdateEvent;
     private final String[] EVENTS_HEADER = {"#", "Time", "Type"};
-    private final String[] VEHICLES_HEADER = {"ID", "Road", "Location", "Speed", "Km", "Faulty units", "Itinerary"};
-    private final String[] ROADS_HEADER = {"ID", "Source", "Target", "Length", "Max speed", "Vehicles"};
+    private final String[] VEHICLES_HEADER = {"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary"};
+    private final String[] ROADS_HEADER = {"ID", "Source", "Target", "Length", "Max Speed", "Vehicles"};
     private final String[] JUNCTIONS_HEADER = {"ID", "Green", "Red"};
 
     private enum OUTPUT_TYPE {
         reports, events
     }
-    
+
     private FileNameExtensionFilter filter = new FileNameExtensionFilter(".ini", "ini");
 
     private JToolBar statusBar = new JToolBar();
@@ -229,7 +224,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         outputReports = new TextAreaPrintStream(reportsArea);
         setVisible(true);
-        
+
         clearEvents.setEnabled(false);
         saveEvents.setEnabled(false);
         reset.setEnabled(false);
@@ -240,7 +235,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         run.setEnabled(false);
         clearReport.setEnabled(false);
         //pack();
-        
+
         createPopup();
     }
 
@@ -256,9 +251,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         addTables();
         addGraph();
         JSplitPane windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
-   
+
         add(windowSplit);
-        
+
         windowSplit.setDividerLocation(DEFAULT_HEIGHT / 3);
     }
 
@@ -280,7 +275,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
         statusBar.add(statusBarMessage);
         add(statusBar, BorderLayout.SOUTH);
-        
+
         redirect = new JCheckBoxMenuItem("Redirect Output", false);
         redirect.setAction(new SimulatorAction("Redirect output", () -> {
             if (redirect.getState()) {
@@ -341,7 +336,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         // Setting in ToolBar in the Window 
 
         add(bar, BorderLayout.PAGE_START);
-        
+
     }
 
     /**
@@ -379,10 +374,10 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * @param panel
      * @param text Text to fill in
      */
-    private void updatePanelBorder(JPanel panel, String text){
+    private void updatePanelBorder(JPanel panel, String text) {
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder(text));
     }
-    
+
     /**
      * Gives format to the event editor area.
      */
@@ -391,7 +386,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         // Text Area creation, if a File was specified it will be loaded
         eventsEditorArea = new JTextArea("");
         eventsPanel.add(new JScrollPane(eventsEditorArea));
-        
+
         //updateComponentBorder(eventsEditorArea, "Events");
         if (!"".equals(inFile.getName())) {
             // Trying to read the file with the given name by inFile
@@ -467,7 +462,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                     statusBarMessage.setText("Reports have been saved!");
                     break;
                 default:
-                    // you shouldn't arrive here
+                // you shouldn't arrive here
             }
 
         }
@@ -581,8 +576,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         try { // EXCEPTION HERE MUST BE CONSIDERED, THROW AN UPDATE EVENT WHEN ERROR
             controller.loadEvents(new ByteArrayInputStream(eventsEditorArea
                     .getText().getBytes()));
-                reset.setEnabled(true);
-                run.setEnabled(true);
+            reset.setEnabled(true);
+            run.setEnabled(true);
             //Aquí ponemos mensaje en la status bar?
         } catch (IOException e) {
         }
@@ -605,14 +600,14 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private void runSimWindow() {
         stop.setEnabled(true);
         generateReport.setEnabled(true);
-        if(redirect.getState()){
+        if (redirect.getState()) {
             saveReport.setEnabled(true);
         }
         controller.run((int) stepsSpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
-    
-    private void reset(){
+
+    private void reset() {
         // Not finished
         reportsArea.setText("");
         eventsEditorArea.setText("");
@@ -629,13 +624,13 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         saveReport.setEnabled(false);
         run.setEnabled(false);
         clearReport.setEnabled(false);
-        
+
         statusBarMessage.setText("The simulator has been reset!");
     }
-    
-    private void createPopup(){
+
+    private void createPopup() {
         JPopupMenu popupMenu = new JPopupMenu();
-        JMenu subMenu = new JMenu("Add templates");
+        JMenu subMenu = new JMenu("Add Templates");
         JMenuItem loadOption = new JMenuItem("Load");
         loadOption.addActionListener(loadEvents);
         JMenuItem saveOption = new JMenuItem("Save");
@@ -643,26 +638,25 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         JMenuItem clearOption = new JMenuItem("Clear");
         clearOption.addActionListener(clearEvents);
         Ini sec = null;
-        
+
         try {
             sec = new Ini(new FileInputStream("src/main/resources/templates/templates.ini"));
         } catch (IOException e) {
             // TODO
         }
-        
+
         List<IniSection> sectionsList = sec.getSections();
         for (IniSection s : sectionsList) {
-                JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
-                s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
-                menuItem.addActionListener((ActionEvent e) -> {
-                    eventsEditorArea.append(s.toString());
-                    saveEvents.setEnabled(true);
-                    clearEvents.setEnabled(true);
-                    checkInEvents.setEnabled(true);
-                });
-                subMenu.add(menuItem);
+            JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
+            s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
+            menuItem.addActionListener((ActionEvent e) -> {
+                eventsEditorArea.append(s.toString());
+                saveEvents.setEnabled(true);
+                clearEvents.setEnabled(true);
+                checkInEvents.setEnabled(true);
+            });
+            subMenu.add(menuItem);
         }
-
 
         popupMenu.add(subMenu);
         popupMenu.addSeparator();
@@ -673,9 +667,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         // Connect the popup menu to the text eventsEditorArea
         eventsEditorArea.addMouseListener(new MouseListener() {
             private void showPopup(MouseEvent e) {
-                    if (e.isPopupTrigger() && popupMenu.isEnabled()) {
-                            popupMenu.show(e.getComponent(), e.getX(), e.getY());
-                    }
+                if (e.isPopupTrigger() && popupMenu.isEnabled()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
             }
 
             @Override
@@ -685,7 +679,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             @Override
             public void mouseEntered(MouseEvent e) {
             }
-
 
             @Override
             public void mouseClicked(MouseEvent e) {

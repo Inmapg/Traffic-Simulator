@@ -203,7 +203,7 @@ public class IniSection {
     }
 
     //Added
-    public void erase(String clave){
+    public void erase(String clave) {
         _attr.remove(clave);
         _keys.remove(clave);
     }

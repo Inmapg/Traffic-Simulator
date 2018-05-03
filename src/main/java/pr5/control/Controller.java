@@ -161,7 +161,7 @@ public class Controller {
         trafficSim.setOutputStream(output);
     }
 
-    public void reset(){
+    public void reset() {
         trafficSim.reset();
     }
 }

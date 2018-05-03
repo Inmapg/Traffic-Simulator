@@ -9,8 +9,8 @@ import pr5.ini.IniSection;
  */
 public class TimeSliceJunction extends Junction {
 
-        protected TimeSliceIncomingRoad currentRoad;
-        
+    protected TimeSliceIncomingRoad currentRoad;
+
     /**
      * Contains information about an incoming time slice road to the junction.
      *
@@ -138,6 +138,7 @@ public class TimeSliceJunction extends Junction {
         }
 
     }
+
     @Override
     protected void fillReportDetails(IniSection sec) {
         StringBuilder sb = new StringBuilder();
