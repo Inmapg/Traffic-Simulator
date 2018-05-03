@@ -1,5 +1,6 @@
 package pr5.model;
 
+import java.util.List;
 import java.util.Map;
 import pr5.ini.IniSection;
 import pr5.util.MultiTreeMap;
@@ -134,6 +135,7 @@ public class Road extends SimulatedObject {
         }
     }
 
+    @Override
     public void describe(Map<String, String> out) {
         super.describe(out);
         out.put("Source", sourceJunction.getId());
@@ -150,6 +152,10 @@ public class Road extends SimulatedObject {
             out.put("Vehicles", "[]");
         }
 
+    }
+    
+    public List<Vehicle> getVehicleList(){
+        return vehiclesList.valuesList();
     }
 
 }

@@ -593,13 +593,22 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     }
 
     private void reset() {
-        // Not finished
+        updatePanelBorder(eventsPanel, "Events");
+        updatePanelBorder(reportsPanel, "Reports");
         reportsArea.setText("");
         eventsEditorArea.setText("");
         controller.reset();
         timeViewer.setText("0");
         stepsSpinner.setValue(controller.getDefaultTime());
-        // Falta hacer el reset de las tablas y del grafo
+        eventsTable.clear();// Not working
+        eventsTable.update();
+        vehiclesTable.clear();// Not working
+        vehiclesTable.update();
+        roadsTable.clear();// Not working
+        roadsTable.update();
+        junctionsTable.clear();// Not working
+        junctionsTable.update();
+        
         clearEvents.setEnabled(false);
         saveEvents.setEnabled(false);
         reset.setEnabled(false);

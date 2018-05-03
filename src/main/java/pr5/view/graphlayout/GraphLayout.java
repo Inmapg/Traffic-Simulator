@@ -1,13 +1,14 @@
 package pr5.view.graphlayout;
 
+import java.util.ArrayList;
 import javax.swing.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import pr5.model.Junction;
 import pr5.model.Road;
 import pr5.model.RoadMap;
-import pr5.model.Vehicle;
 
 @SuppressWarnings("serial")
 public class GraphLayout extends JPanel {
@@ -32,20 +33,24 @@ public class GraphLayout extends JPanel {
         Graph graph = new Graph();
         Map<Junction, Node> junctions = new HashMap<>();
         Map<Road, Edge> roads = new HashMap<>();
-
-        for (Junction j : roadmap.getJunctions()) {
+ 
+        roadmap.getJunctions().forEach((j) ->{
             Node node = new Node(j.getId());
             junctions.put(j, node);
             graph.addNode(node);
-        }
-        for (Road r : roadmap.getRoads()) {
+        });
+        // Revisar !!!!!!
+       
+        roadmap.getRoads().forEach((r) -> {
             Edge e = new Edge(r.getId(), junctions.get(r.getSource()), junctions.get(r.getDestination()), r.getLength());
             roads.put(r, e);
+            r.getVehicleList().forEach((v) -> {
+                roads.get(v.getRoad()).addDot(new Dot(v.getId(), v.getLocation()));
+            }); // Se hace dentro, hay que pintar los coches que estén en las carreteras,
+                // no todos los coches. Así se arregla el problema de location zero
             graph.addEdge(e);
-        }
-        for (Vehicle v : roadmap.getVehicles()) {
-            roads.get(v.getRoad()).addDot(new Dot(v.getId(), v.getLocation()));
-        }
+        });
+        
         _graphComp.setGraph(graph);
 
     }
