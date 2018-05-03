@@ -25,10 +25,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -44,8 +49,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
@@ -56,6 +63,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pr5.control.SimulatorAction;
 import pr5.events.Event;
+import pr5.ini.Ini;
+import pr5.ini.IniSection;
 import pr5.model.Junction;
 import pr5.model.Road;
 import pr5.view.graphlayout.*;
@@ -231,6 +240,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         run.setEnabled(false);
         clearReport.setEnabled(false);
         //pack();
+        
+        createPopup();
     }
 
     /**
@@ -540,6 +551,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         JOptionPane.showMessageDialog(this, "Error",
                 error,
                 JOptionPane.ERROR_MESSAGE);
+        // Habría que resetear el controller?
     }
 
     // UPDATE COMPONENTS
@@ -607,9 +619,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         controller.reset();
         timeViewer.setText("0");
         stepsSpinner.setValue(controller.getDefaultTime());
-        /*vehiclesTable.setElements(null);
-        vehiclesTable.update();*/
-        
+        // Falta hacer el reset de las tablas y del grafo
         clearEvents.setEnabled(false);
         saveEvents.setEnabled(false);
         reset.setEnabled(false);
@@ -623,8 +633,74 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         statusBarMessage.setText("The simulator has been reset!");
     }
     
-    private void createPopUpMenu(){
-        // TODO
-    }
+    private void createPopup(){
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenu subMenu = new JMenu("Add templates");
+        JMenuItem loadOption = new JMenuItem("Load");
+        loadOption.addActionListener(loadEvents);
+        JMenuItem saveOption = new JMenuItem("Save");
+        saveOption.addActionListener(saveEvents);
+        JMenuItem clearOption = new JMenuItem("Clear");
+        clearOption.addActionListener(clearEvents);
+        Ini sec = null;
+        
+        try {
+            sec = new Ini(new FileInputStream("src/main/resources/templates/templates.ini"));
+        } catch (IOException e) {
+            // TODO
+        }
+        
+        List<IniSection> sectionsList = sec.getSections();
+        for (IniSection s : sectionsList) {
+                JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
+                s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
+                menuItem.addActionListener((ActionEvent e) -> {
+                    eventsEditorArea.append(s.toString());
+                    saveEvents.setEnabled(true);
+                    clearEvents.setEnabled(true);
+                    checkInEvents.setEnabled(true);
+                });
+                subMenu.add(menuItem);
+        }
 
+
+        popupMenu.add(subMenu);
+        popupMenu.addSeparator();
+        popupMenu.add(loadOption);
+        popupMenu.add(saveOption);
+        popupMenu.add(clearOption);
+
+        // Connect the popup menu to the text eventsEditorArea
+        eventsEditorArea.addMouseListener(new MouseListener() {
+            private void showPopup(MouseEvent e) {
+                    if (e.isPopupTrigger() && popupMenu.isEnabled()) {
+                            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                    }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
+        });
+
+    }
 }
