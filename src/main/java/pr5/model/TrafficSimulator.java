@@ -24,11 +24,11 @@ public class TrafficSimulator {
     /**
      * Internal counter
      */
-    private int ticks;
+    private int ticks = 0;
     /**
      * Road map storing all the objects in the simulatation
      */
-    private RoadMap roadMap;
+    private RoadMap roadMap = new RoadMap();
 
     /**
      * List of observers to be used during the GUI execution
@@ -42,8 +42,6 @@ public class TrafficSimulator {
      */
     public TrafficSimulator(OutputStream output) {
         this.output = output;
-        roadMap = new RoadMap();
-        ticks = 0;
     }
 
     /**
@@ -121,6 +119,7 @@ public class TrafficSimulator {
      */
     public void reset() {
         mapOfEvents = new MultiTreeMap<>((a, b) -> a - b);
+        roadMap = new RoadMap();
         this.output = null;
         ticks = 0;
         notifyReset();

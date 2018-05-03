@@ -111,6 +111,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private JPanel upperPanel = new JPanel(new GridLayout(1, 3));
     private JPanel lowerPanel = new JPanel(new GridLayout(1, 2));
     private JPanel tablesPanel = new JPanel(new GridLayout(3, 1));
+    private JPanel windowSplit = new JPanel(new GridLayout(2,1));
     private Controller controller;
     private TrafficModelTable eventsTable;
     private TrafficModelTable roadsTable;
@@ -257,12 +258,10 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
         addsSimObjectTables();
         addGraph();
-        JSplitPane windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
-
+       windowSplit.add(upperPanel);
+       windowSplit.add(lowerPanel);
         add(windowSplit);
-
-        windowSplit.setDividerLocation(DEFAULT_HEIGHT / 3);
-    }
+   }
 
     /**
      * Creates and adds the graph to the simulator.
@@ -552,7 +551,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         eventsTable.update();
         vehiclesTable.clear();// Not working
         vehiclesTable.update();
-        roadsTable.clear();// Not working
+        roadsTable.clear();
         roadsTable.update();
         junctionsTable.clear();// Not working
         junctionsTable.update();
@@ -587,8 +586,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     @Override
     public void error(TrafficSimulator.UpdateEvent ue, String error) {
-        JOptionPane.showMessageDialog(this, "Error",
-                error,
+        JOptionPane.showMessageDialog(this, error,
+                 "Error",
                 JOptionPane.ERROR_MESSAGE);
         // Habría que resetear el controller?
     }
