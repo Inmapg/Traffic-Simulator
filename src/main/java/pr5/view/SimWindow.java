@@ -1,19 +1,5 @@
 package pr5.view;
 
-/**
- * FileNameExtensionFilter filter = new FileNameExtensionFilter("Ini files",
- * "ini"); fileChooser.setFileFilter(filter);
- *
- *
- * From Java API: JFileChooser chooser = new JFileChooser();
- * FileNameExtensionFilter filter = new FileNameExtensionFilter( "JPG & GIF
- * Images", "jpg", "gif"); chooser.setFileFilter(filter); int returnVal =
- * chooser.showOpenDialog(parent); if(returnVal == JFileChooser.APPROVE_OPTION)
- * { System.out.println("You chose to open this file: " +
- * chooser.getSelectedFile().getName()); }
- *
- * hacer una para read y otra para save
- */
 import pr5.control.Controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

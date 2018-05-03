@@ -136,13 +136,16 @@ public class Vehicle extends SimulatedObject {
         sec.setValue("faulty", "" + faulty);
         if (!hasArrived) {
             StringBuilder sb = new StringBuilder();
-            sb.append('(').append(currentRoad.getId()).append(',').append(location).append(')');
+            sb.append('(')
+                    .append(currentRoad.getId()).append(',').append(location)
+              .append(')');
             sec.setValue("location", sb.toString());
         } else {
             sec.setValue("location", "arrived");
         }
     }
 
+    @Override
     public void describe(Map<String, String> out) {
         super.describe(out);
         out.put("Road", currentRoad.getId());

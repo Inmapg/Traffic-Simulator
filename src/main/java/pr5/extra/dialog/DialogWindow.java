@@ -55,9 +55,11 @@ class DialogWindow extends JDialog {
         contentPanel.add(numsPanel);
 
         itemsPanel.setBorder(
-                BorderFactory.createTitledBorder(_defaultBorder, "Items", TitledBorder.LEFT, TitledBorder.TOP));
+                BorderFactory.createTitledBorder(_defaultBorder, "Items",
+                        TitledBorder.LEFT, TitledBorder.TOP));
         numsPanel.setBorder(
-                BorderFactory.createTitledBorder(_defaultBorder, "Numbers", TitledBorder.LEFT, TitledBorder.TOP));
+                BorderFactory.createTitledBorder(_defaultBorder, "Numbers",
+                        TitledBorder.LEFT, TitledBorder.TOP));
 
         itemsPanel.setMinimumSize(new Dimension(100, 100));
         numsPanel.setMinimumSize(new Dimension(100, 100));

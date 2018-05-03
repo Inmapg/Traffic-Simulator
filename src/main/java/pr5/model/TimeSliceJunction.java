@@ -129,6 +129,7 @@ public class TimeSliceJunction extends Junction {
         return new TimeSliceIncomingRoad(r);
     }
 
+    @Override
     public void advance() {
         if (!incomingRoadMap.isEmpty()) {
             if (currentRoad != null) {

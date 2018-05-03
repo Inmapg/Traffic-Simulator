@@ -42,7 +42,8 @@ public class PopUpMenuExample extends JFrame {
     }
 
     private void addEditor() {
-        _mainPanel.add(new JLabel("Right click over the text-area to get the popup menu."), BorderLayout.PAGE_START);
+        _mainPanel.add(new JLabel("Right click over the text-area to get the"
+                + " popup menu."), BorderLayout.PAGE_START);
 
         _editor = new JTextArea(20, 20);
 

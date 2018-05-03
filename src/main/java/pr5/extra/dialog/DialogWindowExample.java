@@ -54,7 +54,8 @@ public class DialogWindowExample extends JFrame {
             }
         });
         mainPanel.add(here);
-        mainPanel.add(new JLabel("a dialog window is opened and the main window blocks."));
+        mainPanel.add(new JLabel("a dialog window is opened and the main window"
+                + " blocks."));
 
         this.setContentPane(mainPanel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -139,7 +139,11 @@ public class Controller {
 
     }
 
-    // Events have been loaded previously 
+    /**
+     * Runs the program. Events have been loaded previously.
+     *
+     * @param timeLimit Period of time in which the programme will be executing
+     */
     public void run(int timeLimit) {
         try {
             trafficSim.run(timeLimit);
@@ -149,18 +153,35 @@ public class Controller {
         }
     }
 
+    /**
+     * 
+     * @return the default time value of the simulation
+     */
     public int getDefaultTime() {
         return time;
     }
 
-    public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener l) {
-        trafficSim.addSimulatorListener(l);
+    /**
+     * Adds a new listener to the simulator.
+     * 
+     * @param newListener
+     */
+    public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener newListener) {
+        trafficSim.addSimulatorListener(newListener);
     }
 
+    /**
+     * Changes the output strem.
+     * 
+     * @param output 
+     */
     public void setOutputStream(OutputStream output) {
         trafficSim.setOutputStream(output);
     }
 
+    /**
+     * Resets the simulator.
+     */
     public void reset() {
         trafficSim.reset();
     }

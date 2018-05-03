@@ -37,20 +37,19 @@ public abstract class Event implements Comparable<Event>, Describable {
         return internalTime;
     }
 
-    /**
-     * Compares the internal time of two events.
-     *
-     * @param e Event to compare with
-     * @return Result of comparison
-     */
+    @Override
     public int compareTo(Event e) {
         return internalTime.compareTo(e.getScheduleTime());
     }
 
+    @Override
     public void describe(Map<String, String> out) {
         out.put("Time", "" + internalTime);
     }
 
+    /**
+     * Interface to build an event.
+     */
     public static interface Builder {
 
         /**
@@ -108,7 +107,8 @@ public abstract class Event implements Comparable<Event>, Describable {
             String[] v = sec.getValue(key).split("[, ]+");
             for (String c : v) {
                 if (!c.matches("[a-zA-Z1-9_]+")) {
-                    throw new IllegalArgumentException(c + " is not a valid id in the list " + key);
+                    throw new IllegalArgumentException(c + " is not a valid id"
+                            + " in the list " + key);
                 }
             }
             return v;
@@ -126,7 +126,9 @@ public abstract class Event implements Comparable<Event>, Describable {
         default double parseDouble(IniSection sec, String key, double min, double max) {
             double v = Double.parseDouble(sec.getValue(key));
             if (v < min || v > max) {
-                throw new IllegalArgumentException(v + " is not a valid " + key + " it must be contained in [" + min + "," + max + "]");
+                throw new IllegalArgumentException(v + " is not a valid "
+                        + key + " it must be contained in [" + min + "," 
+                        + max + "]");
             }
             return v;
         }
@@ -146,7 +148,8 @@ public abstract class Event implements Comparable<Event>, Describable {
             } else {
                 v = Long.parseLong(parv);
                 if (v < 0) {
-                    throw new IllegalArgumentException(v + " is not a valid " + key + " it must be positive");
+                    throw new IllegalArgumentException(v + " is not a valid "
+                            + key + " it must be positive");
                 }
             }
             return v;

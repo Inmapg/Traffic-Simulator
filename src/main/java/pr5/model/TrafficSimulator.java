@@ -136,34 +136,56 @@ public class TrafficSimulator {
         this.output = output;
     }
 
-    public void addSimulatorListener(TrafficSimulatorListener l) {
-        listeners.add(l);
+    /**
+     * Adds a new simulator listener to the simulation.
+     * 
+     * @param newListener
+     */
+    public void addSimulatorListener(TrafficSimulatorListener newListener) {
+        listeners.add(newListener);
         UpdateEvent ue = new UpdateEvent(EventType.REGISTERED);
-        SwingUtilities.invokeLater(() -> l.registered(ue));
+        SwingUtilities.invokeLater(() -> newListener.registered(ue));
     }
 
-    public void removeSimulatorListener(TrafficSimulatorListener l) {
-        listeners.remove(l);
+    /**
+     * Removes a simulator listener from the simulation.
+     * 
+     * @param newListener
+     */
+    public void removeSimulatorListener(TrafficSimulatorListener newListener) {
+        listeners.remove(newListener);
     }
 
+    /**
+     * Notifies the listeners in case of resetting the simulator.
+     */
     private void notifyReset() {
         listeners.forEach((l) -> {
             l.reset(new UpdateEvent(EventType.RESET));
         });
     }
 
+    /**
+     * Notifies the listeners in case of adding a new event to the simulator.
+     */
     private void notifyEventAdded() {
         listeners.forEach((l) -> {
             l.newEvent(new UpdateEvent(EventType.NEW_EVENT));
         });
     }
 
+    /**
+     * Notifies the listeners in case of advancing the simulator.
+     */
     private void notifyAdvanced() {
         listeners.forEach((l) -> {
             l.advanced(new UpdateEvent(EventType.ADVANCED));
         });
     }
 
+    /**
+     * Notifies the listeners when an error occurs during the simulation.
+     */
     private void notifyError(SimulatorError e) {
         listeners.forEach((l) -> {
             l.error(new UpdateEvent(EventType.ERROR), e.getMessage());
@@ -176,42 +198,95 @@ public class TrafficSimulator {
      */
     public interface TrafficSimulatorListener {
 
-        public void registered(UpdateEvent ue);
+        /**
+         * Used to register an event.
+         * 
+         * @param updateEvent 
+         */
+        public void registered(UpdateEvent updateEvent);
 
-        public void reset(UpdateEvent ue);
+        /**
+         * Used when the simulator has been reset.
+         * 
+         * @param updateEvent 
+         */
+        public void reset(UpdateEvent updateEvent);
 
-        public void newEvent(UpdateEvent ue);
+        /**
+         * Used when a new event occurs.
+         * 
+         * @param updateEvent 
+         */
+        public void newEvent(UpdateEvent updateEvent);
 
-        public void advanced(UpdateEvent ue);
-
-        public void error(UpdateEvent ue, String error);
+        /**
+         * Used when the simulator has advanced.
+         * 
+         * @param updateEvent 
+         */
+        public void advanced(UpdateEvent updateEvent);
+        
+        /**
+         * Used when an error occurs during the simulation.
+         * 
+         * @param updateEvent 
+         * @param errorMessage
+         */
+        public void error(UpdateEvent updateEvent, String errorMessage);
 
     }
 
+    /**
+     * Contains the different types of listeners.
+     */
     public enum EventType {
         REGISTERED, RESET, NEW_EVENT, ADVANCED, ERROR
     };
 
+    /**
+     * Contains the information of the event.
+     */
     public class UpdateEvent {
 
         private final EventType type;
 
-        public UpdateEvent(EventType type) {
-            this.type = type;
+        /**
+         * Class constructor specifying the type of event.
+         * 
+         * @param eventType 
+         */
+        public UpdateEvent(EventType eventType) {
+            this.type = eventType;
         }
 
+        /**
+         * 
+         * @return the type of event
+         */
         public EventType getEvent() {
             return type;
         }
 
+        /**
+         * 
+         * @return the road map
+         */
         public RoadMap getRoadMap() {
             return roadMap;
         }
 
+        /**
+         * 
+         * @return the queue of events
+         */
         public List<Event> getEventQueue() {
             return mapOfEvents.valuesList();
         }
 
+        /**
+         * 
+         * @return the current time
+         */
         public int getCurrentTime() {
             return ticks;
         }

@@ -80,14 +80,19 @@ public class Main {
     private static Options buildOptions() {
         Options cmdLineOptions = new Options();
 
-        cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
-        cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Events input file").build());
-        cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("’batch’ for batch mode and ’gui’ for GUI mode\n"
+        cmdLineOptions.addOption(Option.builder("h").longOpt("help")
+                .desc("Print this message").build());
+        cmdLineOptions.addOption(Option.builder("i").longOpt("input")
+                .hasArg().desc("Events input file").build());
+        cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+                .desc("’batch’ for batch mode and ’gui’ for GUI mode\n"
                 + "(default value is ’batch’)").build());
         cmdLineOptions.addOption(
-                Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
+                Option.builder("o").longOpt("output").hasArg()
+                        .desc("Output file, where reports are written.").build());
         cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
-                .desc("Ticks to execute the simulator's main loop (default value is " + _timeLimitDefaultValue + ").")
+                .desc("Ticks to execute the simulator's main loop (default value"
+                        + " is " + _timeLimitDefaultValue + ").")
                 .build());
 
         return cmdLineOptions;
@@ -193,7 +198,8 @@ public class Main {
         });
 
         for (File file : files) {
-            test(file.getAbsolutePath(), file.getAbsolutePath() + ".out", file.getAbsolutePath() + ".eout", 10);
+            test(file.getAbsolutePath(), file.getAbsolutePath() + ".out",
+                    file.getAbsolutePath() + ".eout", 10);
         }
 
     }
@@ -209,14 +215,16 @@ public class Main {
      * @param expectedOutFile Name of the expected file to be compared.
      * @param timeLimit Number of ticks for the simulator to run.
      */
-    private static void test(String inFile, String outFile, String expectedOutFile, int timeLimit) throws Exception {
+    private static void test(String inFile, String outFile,
+            String expectedOutFile, int timeLimit) throws Exception {
         _outFile = outFile;
         _inFile = inFile;
         _timeLimit = timeLimit;
         startBatchModeTest();
         boolean equalOutput = (new Ini(_outFile)).equals(new Ini(expectedOutFile));
         System.out.println("Result for: '" + _inFile + "' : "
-                + (equalOutput ? "OK!" : ("not equal to expected output +'" + expectedOutFile + "'")));
+                + (equalOutput ? "OK!" : ("not equal to expected output +'"
+                        + expectedOutFile + "'")));
     }
 
     /**
@@ -227,8 +235,10 @@ public class Main {
      *
      */
     private static void startBatchModeTest() throws Exception {
-        Controller control = new Controller(_outFile == null ? System.out : new FileOutputStream(_outFile));
-        control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
+        Controller control = new Controller(_outFile == null ? System.out
+                : new FileOutputStream(_outFile));
+        control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue
+                : _timeLimit);
     }
 
     /**
@@ -237,8 +247,10 @@ public class Main {
      */
     private static void startBatchMode() {
         try {
-            Controller control = new Controller(_outFile == null ? System.out : new FileOutputStream(_outFile));
-            control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue : _timeLimit);
+            Controller control = new Controller(_outFile == null ? System.out 
+                    : new FileOutputStream(_outFile));
+            control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue
+                    : _timeLimit);
         } catch (FileNotFoundException e) {
             System.err.println("Error with output file: " + _outFile);
         } catch (SimulatorError e) {
@@ -253,8 +265,10 @@ public class Main {
     private static void startGUIMode() {
         try {
             new SimWindow(null == _inFile ? "" : _inFile,
-                    new Controller(_timeLimit == null ? _timeLimitDefaultValue : _timeLimit,
-                            _outFile == null ? System.out : new FileOutputStream(_outFile)));
+                    new Controller(_timeLimit == null ? _timeLimitDefaultValue
+                            : _timeLimit,
+                            _outFile == null ? System.out
+                                    : new FileOutputStream(_outFile)));
         } catch (FileNotFoundException ex) {
             System.err.println("File not found!");
         }
@@ -276,7 +290,8 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException, InvocationTargetException, InterruptedException {
+    public static void main(String[] args) throws IOException,
+            InvocationTargetException, InterruptedException {
         start(args);
     }
 }

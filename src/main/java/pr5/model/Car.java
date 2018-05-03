@@ -54,7 +54,8 @@ public class Car extends Vehicle {
     protected void advance() {
         if (0 == faulty && kilometrage - kmSinceFaulty > resistance
                 && randomGenerator.nextDouble() < faultProbability) {
-            super.makeFaulty(randomGenerator.nextInt(maxFaultDuration) + 1); // shifting [1, maxFaultDuration]
+            // shifting [1, maxFaultDuration]
+            super.makeFaulty(randomGenerator.nextInt(maxFaultDuration) + 1); 
             kmSinceFaulty = kilometrage;
         }
         super.advance();

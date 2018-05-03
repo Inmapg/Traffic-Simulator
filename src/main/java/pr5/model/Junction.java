@@ -116,8 +116,10 @@ public class Junction extends SimulatedObject {
 
         }
 
+        @Override
         public String toString() {
-            return "(" + road.getId() + "," + (greenLight ? "green" : "red") + printQueue() + ")";
+            return "(" + road.getId() + "," + (greenLight ? "green" : "red")
+                    + printQueue() + ")";
         }
 
     } // End of the internal class IncomingRoad
@@ -265,6 +267,7 @@ public class Junction extends SimulatedObject {
         }
     }
 
+    @Override
     public void describe(Map<String, String> out) {
         super.describe(out);
         ArrayList<String> green = new ArrayList<>();

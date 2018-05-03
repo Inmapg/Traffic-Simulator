@@ -75,6 +75,7 @@ public abstract class SimulatedObject implements Describable {
      */
     protected abstract void fillReportDetails(IniSection sec);
 
+    @Override
     public void describe(Map<String, String> out) {
         out.put("ID", id);
     }
