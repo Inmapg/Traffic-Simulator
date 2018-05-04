@@ -22,6 +22,7 @@ import pr5.model.Road;
 import pr5.model.Vehicle;
 
 public class DialogWindow extends JDialog {
+
     private ListModel<Vehicle> vehiclesListModel = new ListModel<>();
     private ListModel<Road> roadsListModel = new ListModel<>();
     private ListModel<Junction> junctionsListModel = new ListModel<>();
@@ -65,7 +66,7 @@ public class DialogWindow extends JDialog {
         junctionsPanel.setBorder(
                 BorderFactory.createTitledBorder(defaultBorder, "Junctions",
                         TitledBorder.LEFT, TitledBorder.TOP));
-        
+
         vehiclesPanel.setMinimumSize(new Dimension(100, 100));
         roadsPanel.setMinimumSize(new Dimension(100, 100));
         junctionsPanel.setMinimumSize(new Dimension(100, 100));
@@ -77,13 +78,13 @@ public class DialogWindow extends JDialog {
         addCleanSelectionListener(vehiclesList);
         addCleanSelectionListener(roadsList);
         addCleanSelectionListener(junctionsList);
-        
+
         vehiclesPanel.add(new JScrollPane(vehiclesList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
         roadsPanel.add(new JScrollPane(roadsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
-        
+
         junctionsPanel.add(new JScrollPane(junctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
@@ -181,7 +182,7 @@ public class DialogWindow extends JDialog {
         }
         return j;
     }
-    
+
     public int open() {
         setLocation(getParent().getLocation().x + 50, getParent().getLocation().y + 50);
         pack();

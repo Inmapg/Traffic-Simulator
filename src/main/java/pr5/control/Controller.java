@@ -187,8 +187,8 @@ public class Controller {
     public void reset() {
         trafficSim.reset();
     }
-    
-    public void writeReport(Ini ini, List<? extends SimulatedObject> simObjectList){
+
+    public void writeReport(Ini ini, List<? extends SimulatedObject> simObjectList) {
         trafficSim.writeReport(ini, simObjectList);
     }
 }

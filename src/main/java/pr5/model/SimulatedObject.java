@@ -79,9 +79,9 @@ public abstract class SimulatedObject implements Describable {
     public void describe(Map<String, String> out) {
         out.put("ID", id);
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return id;
     }
 }

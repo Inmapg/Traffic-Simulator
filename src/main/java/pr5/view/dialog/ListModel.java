@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 
 public class ListModel<E> extends DefaultListModel<E> {
+
     List<E> _list;
 
     ListModel() {

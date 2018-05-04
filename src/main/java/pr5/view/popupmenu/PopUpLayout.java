@@ -13,23 +13,24 @@ import javax.swing.JTextArea;
 import pr5.ini.Ini;
 import pr5.ini.IniSection;
 
-public class PopUpLayout{
+public class PopUpLayout {
+
     private Action loadEvents;
     private Action saveEvents;
     private Action clearEvents;
     private Action checkInEvents;
     private JTextArea eventsEditorArea;
-    
+
     public PopUpLayout(Action loadEvents, Action saveEvents, Action clearEvents,
-            Action checkInEvents, JTextArea eventsEditorArea){
+            Action checkInEvents, JTextArea eventsEditorArea) {
         this.loadEvents = loadEvents;
         this.saveEvents = saveEvents;
         this.clearEvents = clearEvents;
         this.checkInEvents = checkInEvents;
         this.eventsEditorArea = eventsEditorArea;
     }
-    
-    public void createPopUp(){
+
+    public void createPopUp() {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenu subMenu = new JMenu("Add Templates");
         JMenuItem loadOption = new JMenuItem("Load");
@@ -45,7 +46,6 @@ public class PopUpLayout{
         } catch (IOException e) {
             // TODO
         }
-
 
         for (IniSection s : sec.getSections()) {
             JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
@@ -83,7 +83,7 @@ public class PopUpLayout{
             @Override
             public void mouseClicked(MouseEvent e) {
             }
-            
+
             @Override
             public void mousePressed(MouseEvent e) {
                 showPopup(e);
