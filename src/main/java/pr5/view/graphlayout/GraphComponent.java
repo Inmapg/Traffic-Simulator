@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,8 +66,9 @@ public class GraphComponent extends JComponent {
 
     GraphComponent() {
         _nodesPisitions = new HashMap<>();
-        setMinimumSize(new Dimension(500, 500));
-        setPreferredSize(new Dimension(500, 500));
+        Dimension dim = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().height/2, Toolkit.getDefaultToolkit().getScreenSize().width/3);
+        setMinimumSize(dim);
+        setPreferredSize(dim);
         _lastWidth = -1;
         _lastHeight = -1;
     }
