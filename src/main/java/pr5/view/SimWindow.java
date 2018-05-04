@@ -75,7 +75,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     /**
      * Vehicles table header
      */
-    private final String[] VEHICLES_HEADER = {"ID", "Road", "Location", "Speed", "Km", "Fau.lty Units", "Itinerary"};
+    private final String[] VEHICLES_HEADER = {"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary"};
     /**
      * Roads table header
      */
