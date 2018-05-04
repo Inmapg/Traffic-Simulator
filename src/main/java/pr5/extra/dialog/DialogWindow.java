@@ -4,7 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
+/*
+ * Rellenar un ini con los selected y hacer el toString de ese ini para añadirlo
+ * al componente
+ */
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,21 +19,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.List;
+import pr5.model.Junction;
+import pr5.model.Road;
+import pr5.model.Vehicle;
 
-class DialogWindow extends JDialog {
+public class DialogWindow extends JDialog {
+    private MyListModel<Vehicle> vehiclesListModel = new MyListModel<>();
+    private MyListModel<Road> roadsListModel = new MyListModel<>();
+    private MyListModel<Junction> junctionsListModel = new MyListModel<>();
 
-    private static final long serialVersionUID = 1L;
+    private int status = 0;
+    private JList<Vehicle> vehiclesList;
+    private JList<Road> roadsList;
+    private JList<Junction> junctionsList;
 
-    private MyListModel<String> _itemsListModel;
-    private MyListModel<Integer> _numsListModel;
-
-    private int _status;
-    private JList<String> _itemsList;
-    private JList<Integer> _numsList;
-
-    static final private char _clearSelectionKey = 'c';
-    private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
+    static final private char clearSectionKey = 'c';
+    private Border defaultBorder = BorderFactory.createLineBorder(Color.black, 1);
 
     public DialogWindow(Frame parent) {
         super(parent, true);
@@ -38,45 +44,51 @@ class DialogWindow extends JDialog {
     }
 
     private void initGUI() {
-
-        _status = 0;
-
-        setTitle("Some Dialog");
+        setTitle("Generate Reports");
         JPanel mainPanel = new JPanel(new BorderLayout());
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
-        JPanel itemsPanel = new JPanel(new BorderLayout());
-        JPanel numsPanel = new JPanel(new BorderLayout());
+        JPanel vehiclesPanel = new JPanel(new BorderLayout());
+        JPanel roadsPanel = new JPanel(new BorderLayout());
+        JPanel junctionsPanel = new JPanel(new BorderLayout());
 
-        contentPanel.add(itemsPanel);
-        contentPanel.add(numsPanel);
+        contentPanel.add(vehiclesPanel);
+        contentPanel.add(roadsPanel);
+        contentPanel.add(junctionsPanel);
 
-        itemsPanel.setBorder(
-                BorderFactory.createTitledBorder(_defaultBorder, "Items",
+        vehiclesPanel.setBorder(
+                BorderFactory.createTitledBorder(defaultBorder, "Vehicles",
                         TitledBorder.LEFT, TitledBorder.TOP));
-        numsPanel.setBorder(
-                BorderFactory.createTitledBorder(_defaultBorder, "Numbers",
+        roadsPanel.setBorder(
+                BorderFactory.createTitledBorder(defaultBorder, "Roads",
                         TitledBorder.LEFT, TitledBorder.TOP));
 
-        itemsPanel.setMinimumSize(new Dimension(100, 100));
-        numsPanel.setMinimumSize(new Dimension(100, 100));
+        junctionsPanel.setBorder(
+                BorderFactory.createTitledBorder(defaultBorder, "Junctions",
+                        TitledBorder.LEFT, TitledBorder.TOP));
+        
+        vehiclesPanel.setMinimumSize(new Dimension(100, 100));
+        roadsPanel.setMinimumSize(new Dimension(100, 100));
+        junctionsPanel.setMinimumSize(new Dimension(100, 100));
 
-        _itemsListModel = new MyListModel<>();
-        _numsListModel = new MyListModel<>();
+        vehiclesList = new JList<>(vehiclesListModel);
+        roadsList = new JList<>(roadsListModel);
+        junctionsList = new JList<>(junctionsListModel);
 
-        _itemsList = new JList<>(_itemsListModel);
-        _numsList = new JList<>(_numsListModel);
-
-        addCleanSelectionListner(_itemsList);
-        addCleanSelectionListner(_numsList);
-
-        itemsPanel.add(new JScrollPane(_itemsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        addCleanSelectionListener(vehiclesList);
+        addCleanSelectionListener(roadsList);
+        addCleanSelectionListener(junctionsList);
+        
+        vehiclesPanel.add(new JScrollPane(vehiclesList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
-        numsPanel.add(new JScrollPane(_numsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        roadsPanel.add(new JScrollPane(roadsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        
+        junctionsPanel.add(new JScrollPane(junctionsList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -87,22 +99,23 @@ class DialogWindow extends JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                _status = 0;
+                status = 0;
                 DialogWindow.this.setVisible(false);
             }
         });
         buttonsPanel.add(cancelButton);
 
-        JButton okButton = new JButton("OK");
-        okButton.addActionListener(new ActionListener() {
+        JButton generateButton = new JButton("Generate");
+        generateButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                _status = 1;
+                status = 1;
                 DialogWindow.this.setVisible(false);
+                // Igual aquí habría quue
             }
         });
-        buttonsPanel.add(okButton);
+        buttonsPanel.add(generateButton);
 
         mainPanel.add(buttonsPanel, BorderLayout.PAGE_END);
 
@@ -111,21 +124,21 @@ class DialogWindow extends JDialog {
         mainPanel.add(infoPanel, BorderLayout.PAGE_START);
 
         infoPanel.add(new JLabel("Select items for which you want to process."));
-        infoPanel.add(new JLabel("Use '" + _clearSelectionKey + "' to deselect all."));
+        infoPanel.add(new JLabel("Use '" + clearSectionKey + "' to deselect all."));
         infoPanel.add(new JLabel("Use Ctrl+A to select all"));
         infoPanel.add(new JLabel(" "));
 
         setContentPane(mainPanel);
-        setMinimumSize(new Dimension(100, 100));
+        setMinimumSize(new Dimension(700, 400));
         setVisible(false);
     }
 
-    private void addCleanSelectionListner(JList<?> list) {
+    private void addCleanSelectionListener(JList<?> list) {
         list.addKeyListener(new KeyListener() {
 
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == _clearSelectionKey) {
+                if (e.getKeyChar() == clearSectionKey) {
                     list.clearSelection();
                 }
             }
@@ -141,34 +154,44 @@ class DialogWindow extends JDialog {
 
     }
 
-    public void setData(List<String> items, List<Integer> nums) {
-        _itemsListModel.setList(items);
-        _numsListModel.setList(nums);
+    public void setData(List<Vehicle> vehicles, List<Road> roads, List<Junction> junctions) {
+        vehiclesListModel.setList(vehicles);
+        roadsListModel.setList(roads);
+        junctionsListModel.setList(junctions);
     }
 
-    public String[] getSelectedItems() {
-        int[] indices = _itemsList.getSelectedIndices();
-        String[] items = new String[indices.length];
-        for (int i = 0; i < items.length; i++) {
-            items[i] = _itemsListModel.getElementAt(indices[i]);
+    public List<Vehicle> getSelectedVehiclesID() {
+        int[] indices = vehiclesList.getSelectedIndices();
+        List<Vehicle> v = new ArrayList<>();//[indices.length];
+        for (int i = 0; i < indices.length; i++) {
+            v.add(vehiclesListModel.getElementAt(indices[i]));
         }
-        return items;
+        return v;
     }
 
-    public Integer[] getSelectedNums() {
-        int[] indices = _numsList.getSelectedIndices();
-        Integer[] nums = new Integer[indices.length];
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] = _numsListModel.getElementAt(indices[i]);
+    public List<Road> getSelectedRoads() {
+        int[] indices = roadsList.getSelectedIndices();
+        List<Road> r = new ArrayList<>();
+        for (int i = 0; i < indices.length; i++) {
+            r.add(roadsListModel.getElementAt(indices[i]));
         }
-        return nums;
+        return r;
     }
 
+    public List<Junction> getSelectedJunctions() {
+        int[] indices = junctionsList.getSelectedIndices();
+        List<Junction> j = new ArrayList<>();
+        for (int i = 0; i < indices.length; i++) {
+            j.add(junctionsListModel.getElementAt(indices[i]));
+        }
+        return j;
+    }
+    
     public int open() {
         setLocation(getParent().getLocation().x + 50, getParent().getLocation().y + 50);
         pack();
         setVisible(true);
-        return _status;
+        return status;
     }
 
 }
