@@ -3,10 +3,13 @@ package pr5.model;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.SwingUtilities;
 import pr5.events.Event;
 import pr5.exception.SimulatorError;
+import pr5.ini.Ini;
 import pr5.util.MultiTreeMap;
 
 /**
@@ -44,6 +47,18 @@ public class TrafficSimulator {
         this.output = output;
     }
 
+    /**
+     * Given a certain SimulatedObject list it generates its report into a ini.
+     *
+     * @param ini
+     * @param simObjectList
+     */
+    public void writeReport(Ini ini, Iterable<? extends SimulatedObject> simObjectList){
+        for(SimulatedObject sim: simObjectList){
+            ini.addSection(sim.generateReport(ticks));
+        }         
+    }
+    
     /**
      * Given a certain SimulatedObject it generates its report.
      *
@@ -137,7 +152,7 @@ public class TrafficSimulator {
 
     /**
      * Adds a new simulator listener to the simulation.
-     * 
+     *
      * @param newListener
      */
     public void addSimulatorListener(TrafficSimulatorListener newListener) {
@@ -148,7 +163,7 @@ public class TrafficSimulator {
 
     /**
      * Removes a simulator listener from the simulation.
-     * 
+     *
      * @param newListener
      */
     public void removeSimulatorListener(TrafficSimulatorListener newListener) {
@@ -199,36 +214,36 @@ public class TrafficSimulator {
 
         /**
          * Used to register an event.
-         * 
-         * @param updateEvent 
+         *
+         * @param updateEvent
          */
         public void registered(UpdateEvent updateEvent);
 
         /**
          * Used when the simulator has been reset.
-         * 
-         * @param updateEvent 
+         *
+         * @param updateEvent
          */
         public void reset(UpdateEvent updateEvent);
 
         /**
          * Used when a new event occurs.
-         * 
-         * @param updateEvent 
+         *
+         * @param updateEvent
          */
         public void newEvent(UpdateEvent updateEvent);
 
         /**
          * Used when the simulator has advanced.
-         * 
-         * @param updateEvent 
+         *
+         * @param updateEvent
          */
         public void advanced(UpdateEvent updateEvent);
-        
+
         /**
          * Used when an error occurs during the simulation.
-         * 
-         * @param updateEvent 
+         *
+         * @param updateEvent
          * @param errorMessage
          */
         public void error(UpdateEvent updateEvent, String errorMessage);
@@ -251,15 +266,15 @@ public class TrafficSimulator {
 
         /**
          * Class constructor specifying the type of event.
-         * 
-         * @param eventType 
+         *
+         * @param eventType
          */
         public UpdateEvent(EventType eventType) {
             this.type = eventType;
         }
 
         /**
-         * 
+         *
          * @return the type of event
          */
         public EventType getEvent() {
@@ -267,7 +282,7 @@ public class TrafficSimulator {
         }
 
         /**
-         * 
+         *
          * @return the road map
          */
         public RoadMap getRoadMap() {
@@ -275,7 +290,7 @@ public class TrafficSimulator {
         }
 
         /**
-         * 
+         *
          * @return the queue of events
          */
         public List<Event> getEventQueue() {
@@ -283,7 +298,7 @@ public class TrafficSimulator {
         }
 
         /**
-         * 
+         *
          * @return the current time
          */
         public int getCurrentTime() {

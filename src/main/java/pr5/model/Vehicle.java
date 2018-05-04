@@ -138,7 +138,7 @@ public class Vehicle extends SimulatedObject {
             StringBuilder sb = new StringBuilder();
             sb.append('(')
                     .append(currentRoad.getId()).append(',').append(location)
-              .append(')');
+                    .append(')');
             sec.setValue("location", sb.toString());
         } else {
             sec.setValue("location", "arrived");

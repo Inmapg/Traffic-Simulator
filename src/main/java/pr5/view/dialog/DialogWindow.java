@@ -4,10 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-/*
- * Rellenar un ini con los selected y hacer el toString de ese ini para añadirlo
- * al componente
- */
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -125,7 +121,7 @@ public class DialogWindow extends JDialog {
 
         infoPanel.add(new JLabel("Select items for which you want to process."));
         infoPanel.add(new JLabel("Use '" + clearSectionKey + "' to deselect all."));
-        infoPanel.add(new JLabel("Use Ctrl+A to select all"));
+        infoPanel.add(new JLabel("Use Ctrl+A to select all."));
         infoPanel.add(new JLabel(" "));
 
         setContentPane(mainPanel);
@@ -160,7 +156,7 @@ public class DialogWindow extends JDialog {
         junctionsListModel.setList(junctions);
     }
 
-    public List<Vehicle> getSelectedVehiclesID() {
+    public List<Vehicle> getSelectedVehicles() {
         int[] indices = vehiclesList.getSelectedIndices();
         List<Vehicle> v = new ArrayList<>();//[indices.length];
         for (int i = 0; i < indices.length; i++) {

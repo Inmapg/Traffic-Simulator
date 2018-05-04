@@ -86,7 +86,7 @@ public class Main {
                 .hasArg().desc("Events input file").build());
         cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
                 .desc("’batch’ for batch mode and ’gui’ for GUI mode\n"
-                + "(default value is ’batch’)").build());
+                        + "(default value is ’batch’)").build());
         cmdLineOptions.addOption(
                 Option.builder("o").longOpt("output").hasArg()
                         .desc("Output file, where reports are written.").build());
@@ -247,7 +247,7 @@ public class Main {
      */
     private static void startBatchMode() {
         try {
-            Controller control = new Controller(_outFile == null ? System.out 
+            Controller control = new Controller(_outFile == null ? System.out
                     : new FileOutputStream(_outFile));
             control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue
                     : _timeLimit);

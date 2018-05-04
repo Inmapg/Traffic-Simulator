@@ -8,6 +8,7 @@ import pr5.events.*;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
 import pr5.ini.IniSection;
+import pr5.model.SimulatedObject;
 import pr5.model.TrafficSimulator;
 
 /**
@@ -154,7 +155,7 @@ public class Controller {
     }
 
     /**
-     * 
+     *
      * @return the default time value of the simulation
      */
     public int getDefaultTime() {
@@ -163,7 +164,7 @@ public class Controller {
 
     /**
      * Adds a new listener to the simulator.
-     * 
+     *
      * @param newListener
      */
     public void addSimulatorListener(TrafficSimulator.TrafficSimulatorListener newListener) {
@@ -172,8 +173,8 @@ public class Controller {
 
     /**
      * Changes the output strem.
-     * 
-     * @param output 
+     *
+     * @param output
      */
     public void setOutputStream(OutputStream output) {
         trafficSim.setOutputStream(output);
@@ -184,5 +185,10 @@ public class Controller {
      */
     public void reset() {
         trafficSim.reset();
+    }
+    
+    // Esto queda feo pero estoy probándolo
+    public void writeReport(Ini ini, Iterable<? extends SimulatedObject> simObjectList){
+        trafficSim.writeReport(ini, simObjectList);
     }
 }

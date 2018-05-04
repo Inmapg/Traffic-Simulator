@@ -127,7 +127,7 @@ public abstract class Event implements Comparable<Event>, Describable {
             double v = Double.parseDouble(sec.getValue(key));
             if (v < min || v > max) {
                 throw new IllegalArgumentException(v + " is not a valid "
-                        + key + " it must be contained in [" + min + "," 
+                        + key + " it must be contained in [" + min + ","
                         + max + "]");
             }
             return v;

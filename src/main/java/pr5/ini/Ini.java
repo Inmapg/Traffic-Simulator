@@ -121,7 +121,7 @@ public class Ini {
      *
      * @param sec A section to be added to the INI structure
      */
-    public void addsection(IniSection sec) {
+    public void addSection(IniSection sec) {
         _iniSections.add(sec);
     }
 

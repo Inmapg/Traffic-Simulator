@@ -27,8 +27,8 @@ public class MostCrowdedJunction extends TimeSliceJunction {
             if (nextRoad == null || !nextRoad.hasNext()) {
                 nextRoad = incomingRoadMap.keySet().iterator();
             }
-            TimeSliceIncomingRoad mostCrowdedRoad = 
-                    (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
+            TimeSliceIncomingRoad mostCrowdedRoad
+                    = (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
             for (IncomingRoad ir : incomingRoadMap.values()) {
                 if (ir.sizeOfQueue() > mostCrowdedRoad.sizeOfQueue()) {
                     mostCrowdedRoad = (TimeSliceIncomingRoad) ir;

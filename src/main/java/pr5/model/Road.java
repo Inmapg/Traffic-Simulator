@@ -153,8 +153,8 @@ public class Road extends SimulatedObject {
         }
 
     }
-    
-    public List<Vehicle> getVehicleList(){
+
+    public List<Vehicle> getVehicleList() {
         return vehiclesList.valuesList();
     }
 

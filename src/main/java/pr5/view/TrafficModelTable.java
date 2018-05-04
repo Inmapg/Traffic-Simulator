@@ -34,10 +34,10 @@ public class TrafficModelTable extends JPanel {
         this.elements = elements;
     }
 
-    public void clear(){
-            elements = new ArrayList<>();
+    public void clear() {
+        elements = new ArrayList<>();
     }
-    
+
     private class ListOfMapsTableModel extends AbstractTableModel {
 
         @Override // fieldNames es un String[] con nombrs de col. 
