@@ -188,7 +188,6 @@ public class Controller {
         trafficSim.reset();
     }
     
-    // Esto queda feo pero estoy probándolo
     public void writeReport(Ini ini, List<? extends SimulatedObject> simObjectList){
         trafficSim.writeReport(ini, simObjectList);
     }

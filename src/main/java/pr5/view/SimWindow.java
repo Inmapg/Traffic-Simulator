@@ -1,20 +1,15 @@
 package pr5.view;
 
-// ¿Comentamos los atributos?
 import pr5.control.Controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -30,10 +25,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
@@ -41,12 +34,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import pr5.control.SimulatorAction;
 import pr5.events.Event;
 import pr5.view.dialog.DialogWindow;
 import pr5.ini.Ini;
-import pr5.ini.IniSection;
 import pr5.model.Junction;
 import pr5.model.Road;
 import pr5.model.RoadMap;
@@ -62,7 +56,6 @@ import pr5.view.popupmenu.PopUpLayout;
  * mode.
  */
 public class SimWindow extends JFrame implements TrafficSimulatorListener {
-
     /**
      * Toolkit allows us to get the screen size so size is relative to the
      * computer which executes the program Width will 2/3 of the Screen Size
@@ -74,9 +67,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     private static final int DEFAULT_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
     private TrafficSimulator.UpdateEvent lastUpdateEvent;
-    // We don't use it
-    private TrafficSimulator.UpdateEvent initialUpdateEvent;
-
     /**
      * Event table header
      */
@@ -93,16 +83,12 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Junctions table header
      */
     private final String[] JUNCTIONS_HEADER = {"ID", "Green", "Red"};
-
     /**
      * Two different types of output. Used to change the output stream.
      */
-    private enum OUTPUT_TYPE {
-        reports, events
-    }
-    
+    private enum OUTPUT_TYPE { reports, events }
     private FileNameExtensionFilter eventsFilter = new FileNameExtensionFilter(".ini", "ini");
-    private FileNameExtensionFilter reportsFilter = new FileNameExtensionFilter(".ini.eout", "ini.eout");
+    private FileNameExtensionFilter reportsFilter = new FileNameExtensionFilter(".ini.out", "ini.out");
     private JToolBar statusBar = new JToolBar();
     private JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
     private File inFile;
@@ -127,8 +113,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private List<Event> eventsList = new ArrayList<>();
     private TextAreaPrintStream outputReports;
     private ByteArrayOutputStream defaultOutputSimulator = new ByteArrayOutputStream();
-
-    // Event Actions and Object Creation and Instantiation 
     private final Action loadEvents = new SimulatorAction(
             "Load Events", "open.png", "Load events from file",
             KeyEvent.VK_L, "alt L", () -> {
@@ -137,11 +121,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 } catch (IOException | NoSuchElementException e) {
                     JOptionPane.showMessageDialog(this, "There was a problem "
                             + "while reading the file...",
-                            "File cannot be read!",
-                            JOptionPane.WARNING_MESSAGE);
+                            "File cannot be read!", JOptionPane.WARNING_MESSAGE);
                 }
             });
-
     private final Action saveEvents = new SimulatorAction(
             "Save Events", "save.png", "Save events to file",
             KeyEvent.VK_S, "alt S",
@@ -149,24 +131,15 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 try {
                     saveFile(OUTPUT_TYPE.events);
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(this,
-                            e.getMessage(),
-                            "Events cannot be saved!",
-                            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "Events cannot be saved!", JOptionPane.WARNING_MESSAGE);
                 }
             });
-
     private final Action clearEvents = new SimulatorAction(
-            "Clear", "clear.png", "Clear events",
-            () -> {
-                clearEvents();
-            });
-
+            "Clear", "clear.png", "Clear events", () -> clearEvents());
     private final Action checkInEvents = new SimulatorAction(
             "Events", "events.png", "Check in events in the simulator",
             () -> checkInEvents());
-
-    // Report Actions and Object Creation and Instantiation
     private final Action saveReport = new SimulatorAction(
             "Save Report", "save_report.png", "Save last report to file",
             KeyEvent.VK_R, "alt R",
@@ -174,37 +147,26 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 try {
                     saveFile(OUTPUT_TYPE.reports);
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(this,
-                            e.getMessage(),
-                            "Reports cannot be saved!",
-                            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, e.getMessage(),
+                            "Reports cannot be saved!", JOptionPane.WARNING_MESSAGE);
                 }
             });
-
     private final Action generateReport = new SimulatorAction(
-            "Generate", "report.png", "Generate report",
-            () -> generateReport());
-
+            "Generate", "report.png", "Generate report", () -> generateReport());
     private final Action clearReport = new SimulatorAction(
-            "Clear", "delete_report.png", "Clear report",
-            () -> clearReport());
-
-    // Traffic Simulator and configuration Object creation and instantiation
+            "Clear", "delete_report.png", "Clear report", () -> clearReport());
     private final Action exit = new SimulatorAction(
             "Exit", "exit.png", "Terminate the execution",
             KeyEvent.VK_E, "alt E", () -> System.exit(0));
-
     private final Action run = new SimulatorAction(
             "Run", "play.png", "Start simulation",
             () -> runSimWindow());
-
     private final Action stop = new SimulatorAction(
             "Stop", "stop.png", "Stop simulation",
-            () -> System.out.println("'Stop' is not supported yet"));
-
+            () -> JOptionPane.showMessageDialog(this, "Stop is not supported yet",
+                    "Warning", JOptionPane.WARNING_MESSAGE));
     private final Action reset = new SimulatorAction(
-            "Reset", "reset.png", "Reset simulation",
-            () -> reset());
+            "Reset", "reset.png", "Reset simulation", () -> reset());
 
     /**
      * Class constructor specifying input file and default time value.
@@ -224,19 +186,14 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Initializes the GUI.
      */
     private void initGUI() {
-        try {
-            controller.addSimulatorListener(this);
-        } catch (Exception e) {
-            System.err.println("We should print an error message here"); // Finish it
-        }
-
+        controller.addSimulatorListener(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         splitUpWindow();
         addBars();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         outputReports = new TextAreaPrintStream(reportsArea);
         setVisible(true);
-
+        createPopup();
         clearEvents.setEnabled(false);
         saveEvents.setEnabled(false);
         reset.setEnabled(false);
@@ -246,20 +203,15 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         saveReport.setEnabled(false);
         run.setEnabled(false);
         clearReport.setEnabled(false);
-        //pack();
-
-        createPopup();
     }
 
     /**
      * Splits up the window in two different panels.
      */
     private void splitUpWindow() {
-
-        addEventsEditor(); // upperPanel.add(eventsEditor)
-        addEventsTableModel(); // upperPanel.add(eventsQueue)
+        addEventsEditor();
+        addEventsTableModel();
         addReports();
-
         addsSimObjectTables();
         addGraph();
         windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel,
@@ -285,10 +237,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         JMenu simulator = new JMenu("Simulator");
         JMenu report = new JMenu("Reports");
         JToolBar bar = new JToolBar();
-
         statusBar.add(statusBarMessage);
         add(statusBar, BorderLayout.SOUTH);
-
         redirect = new JCheckBoxMenuItem("Redirect Output", false);
         redirect.setAction(new SimulatorAction("Redirect output", () -> {
             if (redirect.getState()) {
@@ -303,7 +253,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         timeViewer = new JTextField("0", controller.getDefaultTime());
         timeViewer.setEditable(false);
         timeViewer.setMaximumSize(new Dimension(60, 40));
-
         // Adding options to File section in MenuBar
         file.add(loadEvents);
         file.add(saveEvents);
@@ -343,11 +292,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         bar.add(saveReport);
         bar.addSeparator();
         bar.add(exit);
-
-        // Pinning up the bar to the window
         bar.setFloatable(false);
         // Setting in ToolBar in the Window 
-
         add(bar, BorderLayout.PAGE_START);
 
     }
@@ -359,15 +305,10 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         eventsEditorArea.setText("");
         updatePanelBorder(eventsPanel, "Events");
         statusBarMessage.setText("Events have been cleared!");
-        clearEvents.setEnabled(false);
-        saveEvents.setEnabled(false);
         reset.setEnabled(false);
         stop.setEnabled(false);
-        checkInEvents.setEnabled(false);
         generateReport.setEnabled(false);
-        saveReport.setEnabled(false);
         run.setEnabled(false);
-        clearReport.setEnabled(false);
     }
 
     /**
@@ -394,38 +335,40 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     /**
      * Adds the event editor and gives it its format.
      */
+    // Finish it
     private void addEventsEditor() {
         updatePanelBorder(eventsPanel, "Events");
-        // Text Area creation, if a File was specified it will be loaded
         eventsEditorArea = new JTextArea("");
         eventsPanel.add(new JScrollPane(eventsEditorArea));
         // Usar este listener para ver cuándo hay texto en el eventseditor area para activar el clear
-        /*eventsEditorArea.getDocument().addDocumentListener(new DocumentListener(){
+        eventsEditorArea.getDocument().addDocumentListener(new DocumentListener(){
             @Override
             public void insertUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                clearEvents.setEnabled(true);
+                saveEvents.setEnabled(true);
+                checkInEvents.setEnabled(true);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                if(e.getDocument().getLength() == 0){
+                    clearEvents.setEnabled(false);
+                    saveEvents.setEnabled(false);
+                    checkInEvents.setEnabled(false);
+                }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // This event will not be fired as we use a PlainDocument
             }
-            
-            
-        });*/
-        
+        });
         if (!"".equals(inFile.getName())) {
-            // Trying to read the file with the given name by inFile
             try {
                 eventsEditorArea.setText(readFile(inFile));
                 updatePanelBorder(eventsPanel, "Events " + inFile.getName());
                 statusBarMessage.setText("Events have been loaded to the simulator!");
-            } // Trying to capture and control the exception
+            }
             catch (IOException | NoSuchElementException e) {
                 JOptionPane.showMessageDialog(this, "There was a problem "
                         + "while reading the file...",
@@ -433,12 +376,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                         JOptionPane.WARNING_MESSAGE);
             }
         }
-
-        // Text Area configuration
         eventsEditorArea.setEditable(true);
         eventsEditorArea.setLineWrap(true);
         eventsEditorArea.setWrapStyleWord(true);
-        // To allow scrolling we use a ScrollPane
         upperPanel.add(eventsPanel);
     }
 
@@ -458,6 +398,26 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         updatePanelBorder(reportsPanel, "Reports");
         reportsArea = new JTextArea("");
         reportsArea.setEditable(false);
+        reportsArea.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                clearReport.setEnabled(true);
+                saveReport.setEnabled(true);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if(e.getDocument().getLength() == 0){
+                    clearReport.setEnabled(false);
+                    saveReport.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // This event will not be fired as we use a PlainDocument
+            }
+        });
         reportsPanel.add(new JScrollPane(reportsArea));
         upperPanel.add(reportsPanel);
     }
@@ -466,11 +426,14 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Creates and adds the different tables for the simulated objects.
      */
     private void addsSimObjectTables() {
-        roadsTable = new TrafficModelTable(ROADS_HEADER, lastUpdateEvent.getRoadMap().getRoads());
+        roadsTable = new TrafficModelTable(ROADS_HEADER, lastUpdateEvent
+                .getRoadMap().getRoads());
         updateComponentBorder(roadsTable, "Roads");
-        vehiclesTable = new TrafficModelTable(VEHICLES_HEADER, lastUpdateEvent.getRoadMap().getVehicles());
+        vehiclesTable = new TrafficModelTable(VEHICLES_HEADER, lastUpdateEvent
+                .getRoadMap().getVehicles());
         updateComponentBorder(vehiclesTable, "Vehicles");
-        junctionsTable = new TrafficModelTable(JUNCTIONS_HEADER, lastUpdateEvent.getRoadMap().getJunctions());
+        junctionsTable = new TrafficModelTable(JUNCTIONS_HEADER, lastUpdateEvent
+                .getRoadMap().getJunctions());
         updateComponentBorder(junctionsTable, "Junctions");
         tablesPanel.add(vehiclesTable);
         tablesPanel.add(roadsTable);
@@ -485,6 +448,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * @param type Events/Reports
      * @throws IOException if file cannot be opened
      */
+    // Finish it
     private void saveFile(OUTPUT_TYPE type) throws IOException {
         // Report's saving is not working
         /*switch (type) {
@@ -499,7 +463,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 break;
             }
             case reports:{
-                fileChooser.setSelectedFile(new File(fileChooser.getSelectedFile().getName() + ".eout"));
+                fileChooser.setSelectedFile(new File(fileChooser.getSelectedFile().getName() + ".out"));
                 fileChooser.removeChoosableFileFilter(eventsFilter);
                 fileChooser.addChoosableFileFilter(reportsFilter);
                 if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -527,17 +491,13 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     private void loadFile() throws IOException, NoSuchElementException {
         fileChooser.setFileFilter(eventsFilter);
-        int returnVal = fileChooser.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             String s = readFile(file);
             eventsEditorArea.setText(s);
             updatePanelBorder(eventsPanel, "Events: " + file.getName());
             statusBarMessage.setText("Events have been loaded from file"
                     + file.getName() + " to the simulator!");
-            checkInEvents.setEnabled(true);
-            clearEvents.setEnabled(true);
-            saveEvents.setEnabled(true);
         }
     }
 
@@ -566,38 +526,29 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     }
 
     @Override
+    // Finish it
     public void registered(TrafficSimulator.UpdateEvent ue) {
-        // initialUpdateEvent = ue.clone();
         lastUpdateEvent = ue;
-        //statusBarMessage.setText("");
     }
 
     @Override
     public void reset(TrafficSimulator.UpdateEvent ue) {
-
         updatePanelBorder(reportsPanel, "Reports");
         reportsArea.setText("");
-
         timeViewer.setText("0");
         stepsSpinner.setValue(controller.getDefaultTime());
-        eventsTable.clear();// Not working
+        eventsTable.clear();
         eventsTable.update();
-        vehiclesTable.clear();// Not working
+        vehiclesTable.clear();
         vehiclesTable.update();
         roadsTable.clear();
         roadsTable.update();
-        junctionsTable.clear();// Not working
+        junctionsTable.clear();
         junctionsTable.update();
-
-        clearEvents.setEnabled(false);
-        saveEvents.setEnabled(false);
         reset.setEnabled(false);
         stop.setEnabled(false);
-        checkInEvents.setEnabled(false);
         generateReport.setEnabled(false);
-        saveReport.setEnabled(false);
         run.setEnabled(false);
-        clearReport.setEnabled(false);
         graph.update(new RoadMap());
         statusBarMessage.setText("The simulator has been reset!");
     }
@@ -618,10 +569,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     }
 
     @Override
+    // Finish it
     public void error(TrafficSimulator.UpdateEvent ue, String error) {
-        JOptionPane.showMessageDialog(this, error,
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
         // Habría que resetear el controller?
     }
 
@@ -669,14 +619,15 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     /**
      * Deals with the events from events editor area.
      */
+    // Finish it
     private void checkInEvents() {
         try { // EXCEPTION HERE MUST BE CONSIDERED, THROW AN UPDATE EVENT WHEN ERROR
             controller.loadEvents(new ByteArrayInputStream(eventsEditorArea
                     .getText().getBytes()));
             reset.setEnabled(true);
             run.setEnabled(true);
-            //Aquí ponemos mensaje en la status bar?
         } catch (IOException e) {
+            
         }
     }
 
@@ -685,9 +636,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     // Finish it
     private void generateReport() {
-        clearReport.setEnabled(true);
-        saveReport.setEnabled(true);
-        // Luego hacer refactor y sacarlo de aquí !!!!!
         Ini ini = new Ini();
         DialogWindow dialog = new DialogWindow(this);
         dialog.setData(lastUpdateEvent.getRoadMap().getVehicles(),
@@ -707,8 +655,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Clears the reports area.
      */
     private void clearReport() {
-        clearReport.setEnabled(false);
-        saveReport.setEnabled(false);
         reportsArea.setText("");
         statusBarMessage.setText("Reports have been cleared!");
     }
@@ -719,9 +665,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private void runSimWindow() {
         stop.setEnabled(true);
         generateReport.setEnabled(true);
-        if (redirect.getState()) {
-            saveReport.setEnabled(true);
-        }
         controller.run((int) stepsSpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }

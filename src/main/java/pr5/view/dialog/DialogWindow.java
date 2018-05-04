@@ -108,7 +108,6 @@ public class DialogWindow extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 status = 1;
                 DialogWindow.this.setVisible(false);
-                // Igual aquí habría quue
             }
         });
         buttonsPanel.add(generateButton);
@@ -189,5 +188,4 @@ public class DialogWindow extends JDialog {
         setVisible(true);
         return status;
     }
-
 }
