@@ -17,11 +17,11 @@ public class Vehicle extends SimulatedObject {
     private final String itineraryToString;
     protected final int maxSpeed;
     protected final ArrayList<Junction> itinerary;
-    protected int currentJunction;
-    protected int currentSpeed;
-    protected int kilometrage;
+    protected int currentJunction = 0;
+    protected int currentSpeed = 0;
+    protected int kilometrage = 0;
     protected int location;
-    protected int faulty;
+    protected int faulty = 0;
     /**
      * Shows if the vehicle has arrived to its destination
      */
@@ -39,9 +39,6 @@ public class Vehicle extends SimulatedObject {
         super(id);
         this.itinerary = new ArrayList(itinerary);
         this.maxSpeed = maxSpeed;
-        currentJunction = 0;
-        currentSpeed = 0;
-        kilometrage = 0;
         moveToNextRoad();
         ArrayList<String> aux = new ArrayList<>();
         itinerary.forEach((j) -> {
@@ -152,7 +149,7 @@ public class Vehicle extends SimulatedObject {
         out.put("Location", "" + location);
         out.put("Speed", "" + currentSpeed);
         out.put("Km", "" + kilometrage);
-        out.put("Faulty units", "" + faulty);
+        out.put("Faulty Units", "" + faulty);
         out.put("Itinerary", itineraryToString);
     }
 }

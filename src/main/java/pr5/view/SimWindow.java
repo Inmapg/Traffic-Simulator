@@ -75,7 +75,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     /**
      * Vehicles table header
      */
-    private final String[] VEHICLES_HEADER = {"ID", "Road", "Location", "Speed", "Km", "Faulty Units", "Itinerary"};
+    private final String[] VEHICLES_HEADER = {"ID", "Road", "Location", "Speed", "Km", "Fau.lty Units", "Itinerary"};
     /**
      * Roads table header
      */
@@ -119,8 +119,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private TextAreaPrintStream outputReports;
     private ByteArrayOutputStream defaultOutputSimulator = new ByteArrayOutputStream();
     private final Action loadEvents = new SimulatorAction(
-            "Load Events", "open.png", "Load events from file",
-            KeyEvent.VK_L, "alt L", () -> {
+            "Load Events", "open.png", "Load events from file", KeyEvent.VK_L, "alt L",
+            () -> {
                 try {
                     loadEventsFile();
                 } catch (IOException | NoSuchElementException e) {
@@ -130,8 +130,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 }
             });
     private final Action saveEvents = new SimulatorAction(
-            "Save Events", "save.png", "Save events to file",
-            KeyEvent.VK_S, "alt S",
+            "Save Events", "save.png", "Save events to file", KeyEvent.VK_S, "alt S",
             () -> {
                 try {
                     saveFile(OUTPUT_TYPE.events);
@@ -168,7 +167,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             () -> runSimWindow());
     private final Action stop = new SimulatorAction(
             "Stop", "stop.png", "Stop simulation",
-            () -> JOptionPane.showMessageDialog(this, "Stop is not supported yet",
+            () -> JOptionPane.showMessageDialog(this, "'Stop' is not supported yet",
                     "Warning", JOptionPane.WARNING_MESSAGE));
     private final Action reset = new SimulatorAction(
             "Reset", "reset.png", "Reset simulation", () -> reset());
@@ -489,7 +488,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             File file = eventsFileChooser.getSelectedFile();
             eventsEditorArea.setText(readFile(file));
             updatePanelBorder(eventsPanel, "Events: " + file.getName());
-            statusBarMessage.setText("Events have been loaded from file"
+            statusBarMessage.setText("Events have been loaded from file "
                     + file.getName() + " to the simulator!");
         }
     }
