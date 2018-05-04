@@ -53,10 +53,10 @@ public class TrafficSimulator {
      * @param ini
      * @param simObjectList
      */
-    public void writeReport(Ini ini, Iterable<? extends SimulatedObject> simObjectList){
-        for(SimulatedObject sim: simObjectList){
+    public void writeReport(Ini ini, List<? extends SimulatedObject> simObjectList){
+        simObjectList.forEach((sim) -> {
             ini.addSection(sim.generateReport(ticks));
-        }         
+        });         
     }
     
     /**

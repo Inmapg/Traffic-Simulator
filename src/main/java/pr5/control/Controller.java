@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import pr5.events.*;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
@@ -188,7 +189,7 @@ public class Controller {
     }
     
     // Esto queda feo pero estoy probándolo
-    public void writeReport(Ini ini, Iterable<? extends SimulatedObject> simObjectList){
+    public void writeReport(Ini ini, List<? extends SimulatedObject> simObjectList){
         trafficSim.writeReport(ini, simObjectList);
     }
 }

@@ -696,7 +696,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         if(dialog.open() > 0){
             controller.writeReport(ini, dialog.getSelectedVehicles());
             controller.writeReport(ini, dialog.getSelectedRoads());
-            controller.writeReport(ini, dialog.getSelectedVehicles());
+            controller.writeReport(ini, dialog.getSelectedJunctions());
             reportsArea.setText(ini.toString());
             statusBarMessage.setText("Reports have been generated!");
         }
