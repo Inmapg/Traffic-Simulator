@@ -311,10 +311,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         eventsEditorArea.setText("");
         updatePanelBorder(eventsPanel, "Events");
         statusBarMessage.setText("Events have been cleared!");
-        reset.setEnabled(false);
-        stop.setEnabled(false);
-        generateReport.setEnabled(false);
-        run.setEnabled(false);
     }
 
     /**
@@ -484,7 +480,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     private void loadEventsFile() throws IOException, NoSuchElementException {
         if (eventsFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            reset();
             File file = eventsFileChooser.getSelectedFile();
             eventsEditorArea.setText(readFile(file));
             updatePanelBorder(eventsPanel, "Events: " + file.getName());
