@@ -1,15 +1,13 @@
-package pr5.extra.dialog;
+package pr5.view.dialog;
 
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 
-class MyListModel<E> extends DefaultListModel<E> {
-
-    private static final long serialVersionUID = 1L;
+public class ListModel<E> extends DefaultListModel<E> {
     List<E> _list;
 
-    MyListModel() {
+    ListModel() {
         _list = null;
     }
 

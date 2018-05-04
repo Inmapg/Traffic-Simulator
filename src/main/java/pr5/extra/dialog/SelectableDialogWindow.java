@@ -1,19 +1,20 @@
 package pr5.extra.dialog;
 
+import pr5.view.dialog.DialogWindow;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class DialogWindowExample extends JFrame {
+public class SelectableDialogWindow extends JFrame {
 
     private DialogWindow _dialog;
 
     List<String> _names;
     List<Integer> _ages;
 
-    public DialogWindowExample() {
+    public SelectableDialogWindow() {
         super("Dialog Example");
         initGUI();
     }
@@ -62,14 +63,5 @@ public class DialogWindowExample extends JFrame {
         this.pack();
         this.setVisible(true);
 
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DialogWindowExample();
-            }
-        });
     }
 }

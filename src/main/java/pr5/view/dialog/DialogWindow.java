@@ -1,4 +1,4 @@
-package pr5.extra.dialog;
+package pr5.view.dialog;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,9 +26,9 @@ import pr5.model.Road;
 import pr5.model.Vehicle;
 
 public class DialogWindow extends JDialog {
-    private MyListModel<Vehicle> vehiclesListModel = new MyListModel<>();
-    private MyListModel<Road> roadsListModel = new MyListModel<>();
-    private MyListModel<Junction> junctionsListModel = new MyListModel<>();
+    private ListModel<Vehicle> vehiclesListModel = new ListModel<>();
+    private ListModel<Road> roadsListModel = new ListModel<>();
+    private ListModel<Junction> junctionsListModel = new ListModel<>();
 
     private int status = 0;
     private JList<Vehicle> vehiclesList;
