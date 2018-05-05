@@ -21,6 +21,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -37,6 +38,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.NumberFormatter;
 import pr5.control.SimulatorAction;
 import pr5.events.Event;
 import pr5.view.dialog.DialogWindow;
@@ -256,6 +258,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(),
                 1, 1000, 1));
         stepsSpinner.setMaximumSize(new Dimension(50, 40));
+        // Only numeric format is allowed
+        JFormattedTextField txt = ((JSpinner.NumberEditor) stepsSpinner.getEditor()).getTextField();
+        ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
         timeViewer = new JTextField("0", controller.getDefaultTime());
         timeViewer.setEditable(false);
         timeViewer.setMaximumSize(new Dimension(60, 40));
