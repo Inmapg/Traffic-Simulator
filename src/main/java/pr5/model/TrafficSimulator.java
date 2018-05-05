@@ -83,15 +83,10 @@ public class TrafficSimulator {
      */
     public void run(int numberOfTicks) {
         int timeLimit = ticks + numberOfTicks;
-        ArrayList<Event> eventsList;
-
         try {
             while (ticks < timeLimit) {
                 // Execute the events for the current time
-                eventsList = mapOfEvents.getOrDefault(ticks, null);
-                if (eventsList != null) {
-                    eventsList.forEach((Event e) -> e.execute(roadMap));
-                }
+                advanceEvents();
                 // Invoke method advance for roads
                 roadMap.getRoads().forEach((Road r) -> r.advance());
 
@@ -112,6 +107,7 @@ public class TrafficSimulator {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             notifyError(new SimulatorError("Error in TrafficSimulator at " + 
                     ticks + " time: \n-> " + e.getMessage(), e));
         }
@@ -204,6 +200,32 @@ public class TrafficSimulator {
             l.error(new UpdateEvent(EventType.ERROR), e.getMessage());
         });
     }
+    
+    private void advanceEvents(){
+        Event currentEvent = null;
+        try{  
+          ArrayList<Event> eventsList;
+          eventsList = mapOfEvents.getOrDefault(ticks, null);
+          if (eventsList != null) {
+              for(Event e : eventsList){
+                  e.execute(roadMap);
+                  currentEvent = e;
+              }
+           }
+                }
+        catch(Exception e){ // not valid event executed
+            if(null != currentEvent){
+                  notifyError(new SimulatorError("The event " + 
+                        currentEvent.getClass().getSimpleName() 
+                        + " gets in conflict with events used") );
+                    mapOfEvents.get(ticks).remove(currentEvent);
+            }
+            else{
+               notifyError(new SimulatorError("The event cannot be "
+                       + "proccesed") );
+            }
+        }
+    }
 
     /**
      * Interfece which provides a way of dealing with events and the execution
@@ -290,10 +312,17 @@ public class TrafficSimulator {
 
         /**
          *
-         * @return the queue of events
+         * @return the queue of events up to the current time
          */
         public List<Event> getEventQueue() {
-            return mapOfEvents.valuesList();
+            List<Event> list = new ArrayList(mapOfEvents.valuesList());
+            int counter = 0;
+            while(counter < list.size()){
+                if(list.get(counter).getScheduleTime() >= ticks) break;
+                counter++;
+            }
+            return mapOfEvents.valuesList().subList(counter, 
+                    mapOfEvents.valuesList().size());
         }
 
         /**
@@ -304,5 +333,4 @@ public class TrafficSimulator {
             return ticks;
         }
     }
-
 }
