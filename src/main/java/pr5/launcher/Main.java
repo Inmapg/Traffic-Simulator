@@ -66,7 +66,7 @@ public class Main {
         } catch (ParseException e) {
             // new Piece(...) might throw GameError exception
             System.err.println(e.getLocalizedMessage());
-            System.exit(1);
+            System.exit(0);
         }
 
     }
@@ -75,7 +75,6 @@ public class Main {
      * This method creates the different options for the commandLine. It adds to
      * an object Options the different values it could be and the information of
      * how they work just in case the user ask for it using the command help.
-     *
      */
     private static Options buildOptions() {
         Options cmdLineOptions = new Options();
