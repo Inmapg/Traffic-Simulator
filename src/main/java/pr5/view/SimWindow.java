@@ -259,8 +259,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 1, 1000, 1));
         stepsSpinner.setMaximumSize(new Dimension(50, 40));
         // Only numeric format is allowed
-        JFormattedTextField txt = ((JSpinner.NumberEditor) stepsSpinner.getEditor()).getTextField();
-        ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
         timeViewer = new JTextField("0", controller.getDefaultTime());
         timeViewer.setEditable(false);
         timeViewer.setMaximumSize(new Dimension(60, 40));
