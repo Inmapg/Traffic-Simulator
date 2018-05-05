@@ -8,6 +8,7 @@ import java.util.List;
 import pr5.events.*;
 import pr5.exception.SimulatorError;
 import pr5.ini.Ini;
+import pr5.ini.IniError;
 import pr5.ini.IniSection;
 import pr5.model.SimulatedObject;
 import pr5.model.TrafficSimulator;
@@ -107,14 +108,22 @@ public class Controller {
 
     }
 
-    public void loadEvents(InputStream input) throws IOException {
+    public void loadEvents(InputStream input) throws IOException, IniError {
         Ini ini = new Ini(input);
         ini.getSections().forEach((IniSection sec) -> {
-            Event newEvent = parse(sec);
-            if (newEvent == null) {
-                throw new SimulatorError();
+            try {
+                Event newEvent = parse(sec);
+                if (newEvent == null) {
+                    throw new SimulatorError("The section with tag " + sec.getTag()
+                            + " is not a valid event");
+                }
+                trafficSim.addEvent(newEvent);
+            } catch (NullPointerException e) {
+                throw new SimulatorError("The event was not correctly defined", e);
+            } catch (NumberFormatException e){
+                throw new SimulatorError("A numeric field is not correctly filled out", e);
             }
-            trafficSim.addEvent(newEvent);
+
         });
 
     }

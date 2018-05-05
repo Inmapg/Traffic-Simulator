@@ -112,7 +112,8 @@ public class TrafficSimulator {
                 }
             }
         } catch (Exception e) {
-            notifyError(new SimulatorError("Error in TrafficSimulator at " + ticks + " time...", e));
+            notifyError(new SimulatorError("Error in TrafficSimulator at " + 
+                    ticks + " time: \n-> " + e.getMessage(), e));
         }
     }
 

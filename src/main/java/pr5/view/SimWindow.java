@@ -51,6 +51,8 @@ import pr5.model.TrafficSimulator;
 import pr5.model.TrafficSimulator.TrafficSimulatorListener;
 import pr5.model.Vehicle;
 import pr5.view.popupmenu.PopUpLayout;
+import javax.swing.JFormattedTextField;
+import javax.swing.text.NumberFormatter;
 
 /**
  * SimulatedWindow object which represents a GUI interface for the user. This
@@ -264,6 +266,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         timeViewer = new JTextField("0", controller.getDefaultTime());
         timeViewer.setEditable(false);
         timeViewer.setMaximumSize(new Dimension(60, 40));
+        // Only numeric format is allowed
+        JFormattedTextField txt = ((JSpinner.NumberEditor) stepsSpinner.getEditor()).getTextField();
+       ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
         // Adding options to File section in MenuBar
         file.add(loadEvents);
         file.add(saveEvents);
@@ -563,7 +568,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     // Finish it
     public void error(TrafficSimulator.UpdateEvent ue, String error) {
         JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
-        // Habría que resetear el controller?
     }
 
     /**
@@ -612,13 +616,15 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     // Finish it
     private void checkInEvents() {
-        try { // EXCEPTION HERE MUST BE CONSIDERED, THROW AN UPDATE EVENT WHEN ERROR
+        try { 
             controller.loadEvents(new ByteArrayInputStream(eventsEditorArea
                     .getText().getBytes()));
             reset.setEnabled(true);
             run.setEnabled(true);
-        } catch (IOException e) {
-
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                           "Exception: " +
+            e.getClass().getSimpleName(), JOptionPane.WARNING_MESSAGE);
         }
     }
 

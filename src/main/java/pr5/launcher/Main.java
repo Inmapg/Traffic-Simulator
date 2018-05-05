@@ -248,13 +248,12 @@ public class Main {
         try {
             Controller control = new Controller(_outFile == null ? System.out
                     : new FileOutputStream(_outFile));
+            control.addSimulatorListener(BatchMode.INSTANCE);
             control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue
                     : _timeLimit);
         } catch (FileNotFoundException e) {
             System.err.println("Error with output file: " + _outFile);
-        } catch (SimulatorError e) {
-            System.err.println("Error during controller execution...");
-        }
+        } 
     }
 
     /**

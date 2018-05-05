@@ -50,8 +50,9 @@ public class RoadMap {
                 || simulatedRoads.get(simObject.getId()) != null
                 || simulatedJunctions.get(simObject.getId()) != null) {
             throw new IllegalArgumentException("The id " + simObject.getId()
-                    + " has already been used to name other object,"
-                    + " you cannot create the object " + simObject.getClass()
+                    + " has already been used to name other object in "
+                            + "the simulation, you cannot create a " + 
+                    simObject.getClass().getSimpleName()
                     + " with this id");
         }
     }
