@@ -15,11 +15,11 @@ import pr5.ini.IniSection;
 
 public class PopUpLayout {
 
-    private Action loadEvents;
-    private Action saveEvents;
-    private Action clearEvents;
-    private Action checkInEvents;
-    private JTextArea eventsEditorArea;
+    private final Action loadEvents;
+    private final Action saveEvents;
+    private final Action clearEvents;
+    private final Action checkInEvents;
+    private final JTextArea eventsEditorArea;
 
     public PopUpLayout(Action loadEvents, Action saveEvents, Action clearEvents,
             Action checkInEvents, JTextArea eventsEditorArea) {
@@ -40,13 +40,11 @@ public class PopUpLayout {
         JMenuItem clearOption = new JMenuItem("Clear");
         clearOption.addActionListener(clearEvents);
         Ini sec = null;
-
         try {
             sec = new Ini(new FileInputStream("src/main/resources/templates/templates.ini"));
         } catch (IOException e) {
             // TODO
         }
-
         for (IniSection s : sec.getSections()) {
             JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
             s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
@@ -63,7 +61,6 @@ public class PopUpLayout {
         popupMenu.add(loadOption);
         popupMenu.add(saveOption);
         popupMenu.add(clearOption);
-
         // Connect the popup menu to the text eventsEditorArea
         eventsEditorArea.addMouseListener(new MouseListener() {
             private void showPopup(MouseEvent e) {
@@ -71,24 +68,19 @@ public class PopUpLayout {
                     popupMenu.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
             }
-
             @Override
             public void mouseClicked(MouseEvent e) {
             }
-
             @Override
             public void mousePressed(MouseEvent e) {
                 showPopup(e);
             }
-
             @Override
             public void mouseReleased(MouseEvent e) {
                 showPopup(e);
