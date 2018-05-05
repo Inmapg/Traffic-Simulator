@@ -69,7 +69,7 @@ public abstract class Event implements Comparable<Event>, Describable {
          */
         default String parseString(IniSection sec, String key) {
             String v = sec.getValue(key);
-            if (!v.matches("[a-zA-Z1-9_]+")) { 
+            if (!v.matches("[a-zA-Z0-9_]+")) { 
                 throw new IllegalArgumentException(
                          (v.isEmpty()) ?  "Not " + key + " provided" : 
                             v+" is not a valid " + key);
@@ -108,7 +108,7 @@ public abstract class Event implements Comparable<Event>, Describable {
         default String[] parseStringList(IniSection sec, String key) {
             String[] v = sec.getValue(key).split("[, ]+");
             for (String c : v) {
-                if (!c.matches("[a-zA-Z1-9_]+")) {
+                if (!c.matches("[a-zA-Z0-9_]+")) {
                     throw new IllegalArgumentException(c + " is not a valid id"
                             + " in the list " + key);
                 }
