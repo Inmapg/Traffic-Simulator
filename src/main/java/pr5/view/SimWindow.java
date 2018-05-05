@@ -260,15 +260,12 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(),
                 1, 1000, 1));
         stepsSpinner.setMaximumSize(new Dimension(50, 40));
-        // Only numeric format is allowed
+            // Only numeric format is allowed
         JFormattedTextField txt = ((JSpinner.NumberEditor) stepsSpinner.getEditor()).getTextField();
-        ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
+       ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
         timeViewer = new JTextField("0", controller.getDefaultTime());
         timeViewer.setEditable(false);
         timeViewer.setMaximumSize(new Dimension(60, 40));
-        // Only numeric format is allowed
-        JFormattedTextField txt = ((JSpinner.NumberEditor) stepsSpinner.getEditor()).getTextField();
-       ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
         // Adding options to File section in MenuBar
         file.add(loadEvents);
         file.add(saveEvents);
@@ -623,8 +620,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             run.setEnabled(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
-                           "Exception: " +
-            e.getClass().getSimpleName(), JOptionPane.WARNING_MESSAGE);
+                           "Error at check-in events", 
+                           JOptionPane.WARNING_MESSAGE);
         }
     }
 
