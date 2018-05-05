@@ -21,7 +21,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -38,7 +37,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.NumberFormatter;
 import pr5.control.SimulatorAction;
 import pr5.events.Event;
 import pr5.view.dialog.DialogWindow;
@@ -60,13 +58,13 @@ import javax.swing.text.NumberFormatter;
  * mode.
  */
 public class SimWindow extends JFrame implements TrafficSimulatorListener {
-
+    private static final int DEFAULT_DELAY = 500;
     /**
      * Toolkit allows us to get the screen size so size is relative to the
      * computer which executes the program Width will 2/3 of the Screen Size
      * Width
      */
-    private static final int DEFAULT_WIDTH = 2 * Toolkit.getDefaultToolkit().getScreenSize().width / 3;
+    private static final int DEFAULT_WIDTH = 3*Toolkit.getDefaultToolkit().getScreenSize().width /4;
     /**
      * Height will 5/6 of the Screen Size Height
      */
@@ -103,6 +101,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private final JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
     private final File inFile;
     private JCheckBoxMenuItem redirect;
+    private JSpinner delaySpinner= new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY,
+                1, 5000, 1));
     private JSpinner stepsSpinner;
     private JTextField timeViewer;
     private JTextArea eventsEditorArea;
@@ -257,15 +257,26 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 controller.setOutputStream(null);
             }
         }));
+        Dimension spinnerDim = new Dimension(65, 40);
+        delaySpinner.setPreferredSize(spinnerDim);
+        delaySpinner.setMinimumSize(spinnerDim);
+        delaySpinner.setMaximumSize(spinnerDim);
         stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(),
                 1, 1000, 1));
-        stepsSpinner.setMaximumSize(new Dimension(50, 40));
-            // Only numeric format is allowed
-        JFormattedTextField txt = ((JSpinner.NumberEditor) stepsSpinner.getEditor()).getTextField();
-       ((NumberFormatter) txt.getFormatter()).setAllowsInvalid(false);
+        stepsSpinner.setPreferredSize(spinnerDim);
+        stepsSpinner.setMinimumSize(spinnerDim);
+        stepsSpinner.setMaximumSize(spinnerDim);
+        // Only numeric format is allowed
+        ((NumberFormatter) ((JSpinner.NumberEditor) delaySpinner.getEditor())
+                .getTextField().getFormatter()).setAllowsInvalid(false);
+        ((NumberFormatter) ((JSpinner.NumberEditor) stepsSpinner.getEditor())
+                .getTextField().getFormatter()).setAllowsInvalid(false);
         timeViewer = new JTextField("0", controller.getDefaultTime());
+        Dimension timeViewerDim = new Dimension(70, 40);
+        timeViewer.setMinimumSize(timeViewerDim);
+        timeViewer.setPreferredSize(timeViewerDim);
+        timeViewer.setMaximumSize(timeViewerDim);
         timeViewer.setEditable(false);
-        timeViewer.setMaximumSize(new Dimension(60, 40));
         // Adding options to File section in MenuBar
         file.add(loadEvents);
         file.add(saveEvents);
@@ -295,6 +306,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         bar.add(run);
         bar.add(stop);
         bar.add(reset);
+        bar.add(new JLabel(" Delay: "));
+        bar.add(delaySpinner);
         bar.add(new JLabel(" Steps: "));
         bar.add(stepsSpinner);
         bar.add(new JLabel(" Time: "));
