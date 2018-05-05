@@ -12,8 +12,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class TrafficModelTable extends JPanel {
 
-    private ListOfMapsTableModel model = new ListOfMapsTableModel();
-    private JTable table;
+    private final ListOfMapsTableModel model = new ListOfMapsTableModel();
+    private final JTable table;
     private final String[] fieldNames;
     private List<? extends Describable> elements;
 

@@ -112,7 +112,7 @@ public class GraphComponent extends JComponent {
             Point p2 = _nodesPisitions.get(e.getTarget().getId());
 
             // draw the edge
-            Color arrowColor = Math.random() > 0.5 ? Color.RED : Color.GREEN;
+            Color arrowColor = e.isGreen() ? Color.GREEN : Color.RED;
             drawArrowLine(g, p1.cX, p1.cY, p2.cX, p2.cY, 15, 5, Color.BLACK, arrowColor);
 
             // draw dots as circles. Dots at the same location are drawn with circles of
@@ -126,7 +126,7 @@ public class GraphComponent extends JComponent {
                 } else {
                     diam += _dotRadius;
                 }
-                Color dotColor = Math.random() > 0.5 ? Color.MAGENTA : Color.ORANGE;
+                Color dotColor = d.isFaulty() ? Color.MAGENTA : Color.ORANGE;
                 drawCircleOnALine(g, p1.cX, p1.cY, p2.cX, p2.cY, e.getLength(), d.getLocation(), diam, dotColor,
                         d.getId());
             }

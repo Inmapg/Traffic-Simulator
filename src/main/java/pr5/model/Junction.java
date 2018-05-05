@@ -28,7 +28,7 @@ public class Junction extends SimulatedObject {
          *
          * @see Vehicle
          */
-        private ArrayDeque<Vehicle> waiting = new ArrayDeque<>();
+        private final ArrayDeque<Vehicle> waiting = new ArrayDeque<>();
         /**
          * Incoming road
          */
@@ -250,6 +250,10 @@ public class Junction extends SimulatedObject {
         lastGreenLightRoad = currentRoad;
     }
 
+    public boolean isTrafficLightOn(Road r){
+        return incomingRoadMap.get(r).isGreenLight();
+    }
+    
     @Override
     protected void fillReportDetails(IniSection sec) {
         StringBuilder sb = new StringBuilder();

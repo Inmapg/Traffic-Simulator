@@ -13,8 +13,8 @@ import pr5.util.MultiTreeMap;
 public class Road extends SimulatedObject {
 
     private static final String SECTION_TAG_NAME = "road_report";
-    private Junction sourceJunction;
-    private Junction destinationJunction;
+    private final Junction sourceJunction;
+    private final Junction destinationJunction;
     private static final int INITIAL_POS = 0;
     /**
      * List of vehicles ordered by insertion

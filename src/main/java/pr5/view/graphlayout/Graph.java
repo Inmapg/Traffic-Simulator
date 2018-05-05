@@ -5,12 +5,10 @@ import java.util.List;
 
 public class Graph {
 
-    private List<Edge> _edges;
-    private List<Node> _nodes;
+    private final List<Edge> _edges = new ArrayList<>();
+    private final List<Node> _nodes = new ArrayList<>();
 
     public Graph() {
-        _edges = new ArrayList<>();
-        _nodes = new ArrayList<>();
     }
 
     public void addEdge(Edge e) {

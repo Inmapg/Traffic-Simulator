@@ -91,24 +91,24 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private enum OUTPUT_TYPE {
         reports, events
     }
-    private FileNameExtensionFilter eventsFilter = new FileNameExtensionFilter(".ini", "ini");
-    private FileNameExtensionFilter reportsFilter = new FileNameExtensionFilter(".ini.out", "ini.out");
-    private JFileChooser eventsFileChooser = new JFileChooser();
-    private JFileChooser reportsFileChooser = new JFileChooser();
-    private JToolBar statusBar = new JToolBar();
-    private JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
-    private File inFile;
+    private final FileNameExtensionFilter eventsFilter = new FileNameExtensionFilter(".ini", "ini");
+    private final FileNameExtensionFilter reportsFilter = new FileNameExtensionFilter(".ini.out", "ini.out");
+    private final JFileChooser eventsFileChooser = new JFileChooser();
+    private final JFileChooser reportsFileChooser = new JFileChooser();
+    private final JToolBar statusBar = new JToolBar();
+    private final JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
+    private final File inFile;
     private JCheckBoxMenuItem redirect;
     private JSpinner stepsSpinner;
     private JTextField timeViewer;
     private JTextArea eventsEditorArea;
-    private JPanel eventsPanel = new JPanel(new BorderLayout());
-    private JPanel reportsPanel = new JPanel(new BorderLayout());
-    private JPanel upperPanel = new JPanel(new GridLayout(1, 3));
-    private JPanel lowerPanel = new JPanel(new GridLayout(1, 2));
-    private JPanel tablesPanel = new JPanel(new GridLayout(3, 1));
+    private final JPanel eventsPanel = new JPanel(new BorderLayout());
+    private final JPanel reportsPanel = new JPanel(new BorderLayout());
+    private final JPanel upperPanel = new JPanel(new GridLayout(1, 3));
+    private final JPanel lowerPanel = new JPanel(new GridLayout(1, 2));
+    private final JPanel tablesPanel = new JPanel(new GridLayout(3, 1));
     private JSplitPane windowSplit;
-    private Controller controller;
+    private final Controller controller;
     private TrafficModelTable eventsTable;
     private TrafficModelTable roadsTable;
     private TrafficModelTable vehiclesTable;
@@ -117,7 +117,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private JTextArea reportsArea;
     private List<Event> eventsList = new ArrayList<>();
     private TextAreaPrintStream outputReports;
-    private ByteArrayOutputStream defaultOutputSimulator = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream defaultOutputSimulator = new ByteArrayOutputStream();
     private final Action loadEvents = new SimulatorAction(
             "Load Events", "open.png", "Load events from file", KeyEvent.VK_L, "alt L",
             () -> {

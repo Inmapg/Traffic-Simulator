@@ -5,18 +5,19 @@ import java.util.List;
 
 public class Edge {
 
-    private String _id;
-    private Node _source;
-    private Node _target;
-    private int _length;
-    private List<Dot> _dots;
-
-    public Edge(String id, Node source, Node target, int length) {
+    private final String _id;
+    private final Node _source;
+    private final Node _target;
+    private final int _length;
+    private final List<Dot> _dots = new ArrayList<>();
+    private final boolean _green;
+    
+    public Edge(String id, Node source, Node target, int length, boolean green){
         _source = source;
         _target = target;
         _id = id;
         _length = length;
-        _dots = new ArrayList<>();
+        _green = green;
     }
 
     public void addDot(Dot e) {
@@ -41,5 +42,8 @@ public class Edge {
 
     public List<Dot> getDots() {
         return _dots;
+    }
+    public boolean isGreen(){
+        return _green;
     }
 }
