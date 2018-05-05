@@ -1,4 +1,3 @@
-// Not finished. Not working
 package pr5.model;
 
 import pr5.ini.IniSection;
