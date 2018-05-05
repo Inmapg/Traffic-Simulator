@@ -101,8 +101,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private final JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
     private final File inFile;
     private JCheckBoxMenuItem redirect;
-    private JSpinner delaySpinner= new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY,
-                1, 5000, 1));
+    //private JSpinner delaySpinner= new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY,
+    //            1, 5000, 1));
     private JSpinner stepsSpinner;
     private JTextField timeViewer;
     private JTextArea eventsEditorArea;
@@ -257,7 +257,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 controller.setOutputStream(null);
             }
         }));
-        Dimension spinnerDim = new Dimension(65, 40);
+        /*Dimension spinnerDim = new Dimension(65, 40);
         delaySpinner.setPreferredSize(spinnerDim);
         delaySpinner.setMinimumSize(spinnerDim);
         delaySpinner.setMaximumSize(spinnerDim);
@@ -270,7 +270,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         ((NumberFormatter) ((JSpinner.NumberEditor) delaySpinner.getEditor())
                 .getTextField().getFormatter()).setAllowsInvalid(false);
         ((NumberFormatter) ((JSpinner.NumberEditor) stepsSpinner.getEditor())
-                .getTextField().getFormatter()).setAllowsInvalid(false);
+                .getTextField().getFormatter()).setAllowsInvalid(false);*/
         timeViewer = new JTextField("0", controller.getDefaultTime());
         Dimension timeViewerDim = new Dimension(70, 40);
         timeViewer.setMinimumSize(timeViewerDim);
@@ -306,8 +306,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         bar.add(run);
         bar.add(stop);
         bar.add(reset);
-        bar.add(new JLabel(" Delay: "));
-        bar.add(delaySpinner);
+        //bar.add(new JLabel(" Delay: "));
+       // bar.add(delaySpinner);
         bar.add(new JLabel(" Steps: "));
         bar.add(stepsSpinner);
         bar.add(new JLabel(" Time: "));
