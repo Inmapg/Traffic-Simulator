@@ -1,6 +1,6 @@
-package pr5.model;
+package pr6.model;
 
-import pr5.ini.IniSection;
+import pr6.ini.IniSection;
 
 /**
  * Creates a new most crowded junction.

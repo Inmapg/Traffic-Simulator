@@ -1,4 +1,4 @@
-package pr5.exception;
+package pr6.exception;
 
 /**
  * Creates a simulation error exception.

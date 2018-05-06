@@ -1,4 +1,4 @@
-package pr5.view.dialog;
+package pr6.view.dialog;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,9 +17,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import pr5.model.Junction;
-import pr5.model.Road;
-import pr5.model.Vehicle;
+import pr6.model.Junction;
+import pr6.model.Road;
+import pr6.model.Vehicle;
 
 public class DialogWindow extends JDialog {
 

@@ -1,4 +1,4 @@
-package pr5.control;
+package pr6.control;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

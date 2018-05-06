@@ -1,4 +1,4 @@
-package pr5.view.dialog;
+package pr6.view.dialog;
 
 import java.util.List;
 

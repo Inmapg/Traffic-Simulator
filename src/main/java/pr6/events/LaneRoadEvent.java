@@ -1,8 +1,8 @@
-package pr5.events;
+package pr6.events;
 
-import pr5.ini.IniSection;
-import pr5.model.LaneRoad;
-import pr5.model.RoadMap;
+import pr6.ini.IniSection;
+import pr6.model.LaneRoad;
+import pr6.model.RoadMap;
 
 /**
  * Creates a new lane road.

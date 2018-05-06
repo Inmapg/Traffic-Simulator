@@ -1,9 +1,9 @@
-package pr5.events;
+package pr6.events;
 
 import java.util.Map;
-import pr5.ini.IniSection;
-import pr5.model.RoadMap;
-import pr5.view.Describable;
+import pr6.ini.IniSection;
+import pr6.model.RoadMap;
+import pr6.view.Describable;
 
 /**
  * Creates and executes the different types of events.

@@ -1,8 +1,8 @@
-package pr5.model;
+package pr6.model;
 
 import java.util.List;
 import java.util.Random;
-import pr5.ini.IniSection;
+import pr6.ini.IniSection;
 
 /**
  * Defines car: a type of vehicle.

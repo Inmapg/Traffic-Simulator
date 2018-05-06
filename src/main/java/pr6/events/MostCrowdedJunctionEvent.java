@@ -1,8 +1,8 @@
-package pr5.events;
+package pr6.events;
 
-import pr5.ini.IniSection;
-import pr5.model.RoadMap;
-import pr5.model.MostCrowdedJunction;
+import pr6.ini.IniSection;
+import pr6.model.RoadMap;
+import pr6.model.MostCrowdedJunction;
 
 /**
  * Creates a new most crowded junction.

@@ -1,4 +1,4 @@
-package pr5.util;
+package pr6.util;
 
 import java.util.*;
 import java.util.stream.Collectors;

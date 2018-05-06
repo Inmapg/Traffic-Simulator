@@ -1,4 +1,4 @@
-package pr5.launcher;
+package pr6.launcher;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,10 +7,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.cli.*;
-import pr5.control.Controller;
-import pr5.view.SimWindow;
-import pr5.exception.SimulatorError;
-import pr5.ini.Ini;
+import pr6.control.Controller;
+import pr6.view.SimWindow;
+import pr6.ini.Ini;
 
 /**
  * Main class.

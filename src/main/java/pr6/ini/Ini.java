@@ -1,4 +1,4 @@
-package pr5.ini;
+package pr6.ini;
 
 import java.io.BufferedReader;
 import java.io.File;

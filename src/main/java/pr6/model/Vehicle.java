@@ -1,10 +1,10 @@
-package pr5.model;
+package pr6.model;
 // Revisar el final void
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import pr5.ini.IniSection;
+import pr6.ini.IniSection;
 
 /**
  * Defines one of the main types of Simulated Object.

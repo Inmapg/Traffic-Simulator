@@ -1,9 +1,9 @@
-package pr5.events;
+package pr6.events;
 
-import pr5.exception.SimulatorError;
-import pr5.ini.IniSection;
-import pr5.model.Car;
-import pr5.model.RoadMap;
+import pr6.exception.SimulatorError;
+import pr6.ini.IniSection;
+import pr6.model.Car;
+import pr6.model.RoadMap;
 
 /**
  * Creates a new car.

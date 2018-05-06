@@ -1,6 +1,7 @@
-package pr5.view;
+package pr6.view;
 
-import pr5.control.Controller;
+import pr6.view.graphlayout.GraphLayout;
+import pr6.control.Controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -37,19 +38,17 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import pr5.control.SimulatorAction;
-import pr5.events.Event;
-import pr5.view.dialog.DialogWindow;
-import pr5.ini.Ini;
-import pr5.model.Junction;
-import pr5.model.Road;
-import pr5.model.RoadMap;
-import pr5.view.graphlayout.*;
-import pr5.model.TrafficSimulator;
-import pr5.model.TrafficSimulator.TrafficSimulatorListener;
-import pr5.model.Vehicle;
-import pr5.view.popupmenu.PopUpLayout;
-import javax.swing.JFormattedTextField;
+import pr6.control.SimulatorAction;
+import pr6.events.Event;
+import pr6.view.dialog.DialogWindow;
+import pr6.ini.Ini;
+import pr6.model.Junction;
+import pr6.model.Road;
+import pr6.model.RoadMap;
+import pr6.model.TrafficSimulator;
+import pr6.model.TrafficSimulator.TrafficSimulatorListener;
+import pr6.model.Vehicle;
+import pr6.view.popupmenu.PopUpLayout;
 import javax.swing.text.NumberFormatter;
 
 /**

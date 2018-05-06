@@ -1,9 +1,9 @@
-package pr5.model;
+package pr6.model;
 
 import java.util.List;
 import java.util.Map;
-import pr5.ini.IniSection;
-import pr5.util.MultiTreeMap;
+import pr6.ini.IniSection;
+import pr6.util.MultiTreeMap;
 
 /**
  * Defines one of the main types of Simulated Object.

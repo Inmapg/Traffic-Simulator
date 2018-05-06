@@ -1,4 +1,4 @@
-package pr5.ini;
+package pr6.ini;
 
 /*Creates an ini error exception*/
 public class IniError extends RuntimeException {

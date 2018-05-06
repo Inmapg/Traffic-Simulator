@@ -1,4 +1,4 @@
-package pr5.model;
+package pr6.model;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import pr5.ini.IniSection;
+import pr6.ini.IniSection;
 
 /**
  * Defines one of the main types of Simulated Object.

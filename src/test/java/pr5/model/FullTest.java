@@ -1,10 +1,10 @@
 package pr5.model;
 
 import org.junit.Test;
-import pr5.launcher.Main;
+import pr6.launcher.Main;
 
 import static org.junit.Assert.fail;
-import pr5.exception.SimulatorError;
+import pr6.exception.SimulatorError;
 
 /**
  * Tests all sample inputs and outputs.

@@ -1,6 +1,6 @@
-package pr5.model;
+package pr6.model;
 
-import pr5.ini.IniSection;
+import pr6.ini.IniSection;
 
 /**
  * Defines a road with several lanes.

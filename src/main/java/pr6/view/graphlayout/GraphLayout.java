@@ -1,12 +1,12 @@
-package pr5.view.graphlayout;
+package pr6.view.graphlayout;
 
 import javax.swing.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import pr5.model.Junction;
-import pr5.model.Road;
-import pr5.model.RoadMap;
+import pr6.model.Junction;
+import pr6.model.Road;
+import pr6.model.RoadMap;
 
 @SuppressWarnings("serial")
 public class GraphLayout extends JPanel {

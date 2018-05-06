@@ -1,17 +1,17 @@
-package pr5.control;
+package pr6.control;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import pr5.events.*;
-import pr5.exception.SimulatorError;
-import pr5.ini.Ini;
-import pr5.ini.IniError;
-import pr5.ini.IniSection;
-import pr5.model.SimulatedObject;
-import pr5.model.TrafficSimulator;
+import pr6.events.*;
+import pr6.exception.SimulatorError;
+import pr6.ini.Ini;
+import pr6.ini.IniError;
+import pr6.ini.IniSection;
+import pr6.model.SimulatedObject;
+import pr6.model.TrafficSimulator;
 
 /**
  * Executes and controls the program.

@@ -1,4 +1,4 @@
-package pr5.view.popupmenu;
+package pr6.view.popupmenu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
@@ -10,8 +10,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
-import pr5.ini.Ini;
-import pr5.ini.IniSection;
+import pr6.ini.Ini;
+import pr6.ini.IniSection;
 
 public class PopUpLayout {
 

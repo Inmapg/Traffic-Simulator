@@ -1,9 +1,14 @@
 package pr5.model;
 
+import pr6.model.Car;
+import pr6.model.Road;
+import pr6.model.Vehicle;
+import pr6.model.Bike;
+import pr6.model.Junction;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import pr5.ini.IniSection;
+import pr6.ini.IniSection;
 
 public class VehicleTest {
 

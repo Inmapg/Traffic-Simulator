@@ -1,9 +1,9 @@
-package pr5.model;
+package pr6.model;
 
+import pr6.ini.IniSection;
 import java.util.Map;
 import java.util.Objects;
-import pr5.ini.*;
-import pr5.view.Describable;
+import pr6.view.Describable;
 
 /**
  * Defines different types of object for the simulator.

@@ -1,4 +1,4 @@
-package pr5.view.graphlayout;
+package pr6.view.graphlayout;
 
 import java.util.ArrayList;
 import java.util.List;

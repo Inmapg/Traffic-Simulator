@@ -1,6 +1,6 @@
-package pr5.launcher;
+package pr6.launcher;
 
-import pr5.model.TrafficSimulator;
+import pr6.model.TrafficSimulator;
 
 public enum BatchMode implements TrafficSimulator.TrafficSimulatorListener {
     INSTANCE;
