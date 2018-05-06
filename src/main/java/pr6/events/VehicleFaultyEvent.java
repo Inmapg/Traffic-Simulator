@@ -55,8 +55,7 @@ public class VehicleFaultyEvent extends Event {
                 return null;
             }
             return new VehicleFaultyEvent(
-                    parseInt(sec, "time", 0),
-                    parseStringList(sec, "vehicles"),
+                    parseInt(sec, "time", 0), parseStringList(sec, "vehicles"),
                     parseInt(sec, "duration", 1)
             );
         }

@@ -149,7 +149,8 @@ public class TimeSliceJunction extends Junction {
                     sb.append('(').
                             append(ir.road.getId()).append(',').append(ir.lightToString())
                             .append(":").append(
-                            ((TimeSliceIncomingRoad) ir).getIntervalTime() - ((TimeSliceIncomingRoad) ir).timeSpent)
+                            ((TimeSliceIncomingRoad) ir).getIntervalTime()
+                            - ((TimeSliceIncomingRoad) ir).timeSpent)
                             .append(',').append(ir.printQueue())
                             .append("),");
                 } else {
@@ -163,5 +164,4 @@ public class TimeSliceJunction extends Junction {
             sec.setValue("queues", "");
         }
     }
-
 }

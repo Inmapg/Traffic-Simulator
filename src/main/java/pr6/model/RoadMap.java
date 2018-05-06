@@ -17,27 +17,24 @@ public class RoadMap {
      *
      * @see Vehicle
      */
-    private Map<String, Vehicle> simulatedVehicles;
+    private Map<String, Vehicle> simulatedVehicles = new LinkedHashMap<>();
     /**
      * Map of simulated roads. id- road
      *
      * @see Road
      */
-    private Map<String, Road> simulatedRoads;
+    private Map<String, Road> simulatedRoads = new LinkedHashMap<>();
     /**
      * Map of simulated junctions. id - junction
      *
      * @see Junction
      */
-    private Map<String, Junction> simulatedJunctions;
+    private Map<String, Junction> simulatedJunctions = new LinkedHashMap<>();
 
     /**
      * Class constructor.
      */
     public RoadMap() {
-        simulatedVehicles = new LinkedHashMap<>();
-        simulatedRoads = new LinkedHashMap<>();
-        simulatedJunctions = new LinkedHashMap<>();
     }
 
     /**
@@ -51,9 +48,8 @@ public class RoadMap {
                 || simulatedJunctions.get(simObject.getId()) != null) {
             throw new IllegalArgumentException("The id " + simObject.getId()
                     + " has already been used to name other object in "
-                            + "the simulation, you cannot create a " + 
-                    simObject.getClass().getSimpleName()
-                    + " with this id");
+                    + "the simulation, you cannot create a "
+                    + simObject.getClass().getSimpleName() + " with this id");
         }
     }
 
@@ -68,7 +64,6 @@ public class RoadMap {
             throw new NullPointerException("Vehicle with " + vehicleId
                     + " id not found in roadmap");
         }
-
         return rslt;
     }
 
@@ -83,7 +78,6 @@ public class RoadMap {
             throw new NullPointerException("Road with " + roadId
                     + " id not found in roadmap");
         }
-
         return rslt;
     }
 
@@ -98,7 +92,6 @@ public class RoadMap {
             throw new NullPointerException("Junction with " + junctionId
                     + " id not found in roadmap");
         }
-
         return rslt;
     }
 
@@ -200,5 +193,4 @@ public class RoadMap {
         }
         return path;
     }
-
 }

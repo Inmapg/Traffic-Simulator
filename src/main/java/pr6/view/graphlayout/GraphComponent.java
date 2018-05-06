@@ -11,6 +11,9 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 
+/**
+ * Represents the component of a graph.
+ */
 public class GraphComponent extends JComponent {
 
     private static final long serialVersionUID = 1L;
@@ -18,12 +21,12 @@ public class GraphComponent extends JComponent {
     /**
      * The radius of each node
      */
-    private static final int _nodeRadius = 20;
+    private static final int nodeRadius = 20;
 
     /**
      * The radius of each dot
      */
-    private static final int _dotRadius = 5;
+    private static final int dotRadius = 5;
 
     /**
      * An inner class that represent a location of a node. Fields cX and cY are
@@ -50,7 +53,7 @@ public class GraphComponent extends JComponent {
     /**
      * The graph to layout
      */
-    private Graph _graph;
+    private Graph graph;
 
     /**
      * A map to store the location of each node
@@ -66,19 +69,20 @@ public class GraphComponent extends JComponent {
 
     GraphComponent() {
         _nodesPisitions = new HashMap<>();
-        Dimension dim = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().height/2, Toolkit.getDefaultToolkit().getScreenSize().width/3);
+        Dimension dim = new Dimension(Toolkit.getDefaultToolkit().getScreenSize().height / 2, Toolkit.getDefaultToolkit().getScreenSize().width / 3);
         setMinimumSize(dim);
         setPreferredSize(dim);
         _lastWidth = -1;
         _lastHeight = -1;
     }
 
+    @Override
     public void paint(Graphics graphics) {
         Graphics2D g = (Graphics2D) graphics;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        if (_graph == null || _graph.getNodes().size() == 0) {
+        if (graph == null || graph.getNodes().size() == 0) {
             g.setColor(Color.red);
             g.drawString("No graph yet!", getWidth() / 2 - 50, getHeight() / 2);
         } else {
@@ -98,16 +102,16 @@ public class GraphComponent extends JComponent {
         }
 
         // draw nodes
-        for (Node j : _graph.getNodes()) {
+        for (Node j : graph.getNodes()) {
             Point p = _nodesPisitions.get(j.getId());
             g.setColor(Color.blue);
-            g.fillOval(p.cX - _nodeRadius / 2, p.cY - _nodeRadius / 2, _nodeRadius, _nodeRadius);
+            g.fillOval(p.cX - nodeRadius / 2, p.cY - nodeRadius / 2, nodeRadius, nodeRadius);
             g.setColor(Color.black);
             g.drawString(j.getId(), p.tX, p.tY);
         }
 
         // draw edges
-        for (Edge e : _graph.getEdges()) {
+        for (Edge e : graph.getEdges()) {
             Point p1 = _nodesPisitions.get(e.getSource().getId());
             Point p2 = _nodesPisitions.get(e.getTarget().getId());
 
@@ -118,13 +122,13 @@ public class GraphComponent extends JComponent {
             // draw dots as circles. Dots at the same location are drawn with circles of
             // different diameter.
             int lastLocation = -1;
-            int diam = _dotRadius;
+            int diam = dotRadius;
             for (Dot d : e.getDots()) {
                 if (lastLocation != d.getLocation()) {
                     lastLocation = d.getLocation();
-                    diam = _dotRadius;
+                    diam = dotRadius;
                 } else {
-                    diam += _dotRadius;
+                    diam += dotRadius;
                 }
                 Color dotColor = d.isFaulty() ? Color.MAGENTA : Color.ORANGE;
                 drawCircleOnALine(g, p1.cX, p1.cY, p2.cX, p2.cY, e.getLength(), d.getLocation(), diam, dotColor,
@@ -139,16 +143,16 @@ public class GraphComponent extends JComponent {
      */
     private void calculateNodeCoordinates() {
 
-        int r = Math.min(_lastHeight, _lastWidth) / 2 - _nodeRadius - 50; // 50 for
+        int r = Math.min(_lastHeight, _lastWidth) / 2 - nodeRadius - 50; // 50 for
         // text
-        int tr = (r + _nodeRadius + 10);
+        int tr = (r + nodeRadius + 10);
 
         int xc = _lastWidth / 2 - 10;
         int yc = _lastHeight / 2 - 10;
 
-        double slice = 2 * Math.PI / _graph.getNodes().size();
+        double slice = 2 * Math.PI / graph.getNodes().size();
         int i = 0;
-        for (Node n : _graph.getNodes()) {
+        for (Node n : graph.getNodes()) {
 
             double angle = slice * i;
             int cX = (int) (xc + r * Math.cos(angle));
@@ -226,7 +230,7 @@ public class GraphComponent extends JComponent {
     }
 
     public void setGraph(Graph graph) {
-        _graph = graph;
+        this.graph = graph;
         calculateNodeCoordinates();
         refresh();
     }

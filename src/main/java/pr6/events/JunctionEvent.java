@@ -42,15 +42,11 @@ public class JunctionEvent extends Event {
     public static class Builder implements Event.Builder {
 
         @Override
-        public Event parse(IniSection sec){
+        public Event parse(IniSection sec) {
             if (!"new_junction".equals(sec.getTag())) {
                 return null;
             }
-            return new JunctionEvent(
-                    parseInt(sec, "time", 0),
-                    parseString(sec, "id")
-            );
+            return new JunctionEvent(parseInt(sec, "time", 0), parseString(sec, "id"));
         }
     }
-
 }

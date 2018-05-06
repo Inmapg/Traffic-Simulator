@@ -35,7 +35,7 @@ public class Controller {
     /**
      * Thread of the simulator
      */
-    Thread mainThread;
+    private Thread mainThread;
     // The order matters
     /**
      * List of Traffic Simulator's events
@@ -60,7 +60,7 @@ public class Controller {
      * @param output
      */
     public Controller(int time, OutputStream output) {
-        
+
         this.trafficSim = new TrafficSimulator(output);
         this.time = time;
         this.output = output;
@@ -126,12 +126,10 @@ public class Controller {
                 trafficSim.addEvent(newEvent);
             } catch (NullPointerException e) {
                 throw new SimulatorError("The event was not correctly defined", e);
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 throw new SimulatorError("A numeric field is not correctly filled out", e);
             }
-
         });
-
     }
 
     /**
@@ -165,23 +163,28 @@ public class Controller {
                     + " Traffic Simulator...", e);
         }
     }
-    
+
     /**
-     * Runs the program specifiying a sleep time for each execution of the
-     * main thread.  
+     * Runs the program specifiying a sleep time for each execution of the main
+     * thread.
+     *
      * @param timeLimit
-     * @param sleepTime 
+     * @param sleepTime
      */
-    public void run(int timeLimit, int sleepTime){
+    public void run(int timeLimit, int sleepTime) {
         trafficSim.setSleepTime(sleepTime);
         run(timeLimit);
     }
 
-    public void stop(){
-        if(mainThread.isAlive()){
-             mainThread.interrupt();
+    /**
+     * Stops the main thread's execution.
+     */
+    public void stop() {
+        if (mainThread.isAlive()) {
+            mainThread.interrupt();
         }
     }
+
     /**
      *
      * @return the default time value of the simulation
@@ -215,6 +218,12 @@ public class Controller {
         trafficSim.reset();
     }
 
+    /**
+     * Writes the report of a determined list of simulated object.
+     *
+     * @param ini Where the report is going to be writen
+     * @param simObjectList
+     */
     public void writeReport(Ini ini, List<? extends SimulatedObject> simObjectList) {
         trafficSim.writeReport(ini, simObjectList);
     }

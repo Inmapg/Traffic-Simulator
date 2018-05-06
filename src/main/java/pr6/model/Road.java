@@ -142,7 +142,6 @@ public class Road extends SimulatedObject {
         out.put("Target", destinationJunction.getId());
         out.put("Length", "" + length);
         out.put("Max Speed", "" + maxSpeed);
-
         StringBuilder sb = new StringBuilder();
         if (!vehiclesList.isEmpty()) {
             vehiclesList.innerValues().forEach((Vehicle v)
@@ -151,11 +150,13 @@ public class Road extends SimulatedObject {
         } else {
             out.put("Vehicles", "[]");
         }
-
     }
 
+    /**
+     *
+     * @return the list of vehicle on the road
+     */
     public List<Vehicle> getVehicleList() {
         return vehiclesList.valuesList();
     }
-
 }

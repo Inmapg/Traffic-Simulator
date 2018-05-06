@@ -21,13 +21,18 @@ import pr6.model.Junction;
 import pr6.model.Road;
 import pr6.model.Vehicle;
 
+/**
+ * Represents a dialog window.
+ */
 public class DialogWindow extends JDialog {
 
+    // Available
     private ListModel<Vehicle> vehiclesListModel = new ListModel<>();
     private ListModel<Road> roadsListModel = new ListModel<>();
     private ListModel<Junction> junctionsListModel = new ListModel<>();
 
     private int status = 0;
+    // Selected
     private JList<Vehicle> vehiclesList;
     private JList<Road> roadsList;
     private JList<Junction> junctionsList;
@@ -35,12 +40,20 @@ public class DialogWindow extends JDialog {
     static final private char clearSectionKey = 'c';
     private Border defaultBorder = BorderFactory.createLineBorder(Color.black, 1);
 
+    /**
+     * Class constructor specifying the frame.
+     *
+     * @param parent Frame where the dialog will appear
+     */
     public DialogWindow(Frame parent) {
         super(parent, true);
-        initGUI();
+        initDialog();
     }
 
-    private void initGUI() {
+    /**
+     * Creates the dialog and its functionality.
+     */
+    private void initDialog() {
         setTitle("Generate Reports");
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -129,6 +142,11 @@ public class DialogWindow extends JDialog {
         setVisible(false);
     }
 
+    /**
+     * Cancels the selection if clearSectionKey is pressed.
+     *
+     * @param list list selected
+     */
     private void addCleanSelectionListener(JList<?> list) {
         list.addKeyListener(new KeyListener() {
 
@@ -150,12 +168,23 @@ public class DialogWindow extends JDialog {
 
     }
 
+    /**
+     * Sets the content of the different lists.
+     *
+     * @param vehicles
+     * @param roads
+     * @param junctions
+     */
     public void setData(List<Vehicle> vehicles, List<Road> roads, List<Junction> junctions) {
         vehiclesListModel.setList(vehicles);
         roadsListModel.setList(roads);
         junctionsListModel.setList(junctions);
     }
 
+    /**
+     *
+     * @return the list of selected vehicles
+     */
     public List<Vehicle> getSelectedVehicles() {
         int[] indices = vehiclesList.getSelectedIndices();
         List<Vehicle> v = new ArrayList<>();//[indices.length];
@@ -165,6 +194,10 @@ public class DialogWindow extends JDialog {
         return v;
     }
 
+    /**
+     *
+     * @return the list of selected roads
+     */
     public List<Road> getSelectedRoads() {
         int[] indices = roadsList.getSelectedIndices();
         List<Road> r = new ArrayList<>();
@@ -174,6 +207,10 @@ public class DialogWindow extends JDialog {
         return r;
     }
 
+    /**
+     *
+     * @return the list of selected junctions
+     */
     public List<Junction> getSelectedJunctions() {
         int[] indices = junctionsList.getSelectedIndices();
         List<Junction> j = new ArrayList<>();
@@ -183,6 +220,10 @@ public class DialogWindow extends JDialog {
         return j;
     }
 
+    /**
+     *
+     * @return 1 if the dialog is opened, 0 if not
+     */
     public int open() {
         setLocation(getParent().getLocation().x + 50, getParent().getLocation().y + 50);
         pack();

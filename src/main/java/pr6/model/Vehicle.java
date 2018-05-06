@@ -1,5 +1,4 @@
 package pr6.model;
-// Revisar el final void
 
 import java.util.ArrayList;
 import java.util.List;

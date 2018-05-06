@@ -59,12 +59,9 @@ public class VehicleEvent extends Event {
                 return null;
             }
             return new VehicleEvent(
-                    parseInt(sec, "time", 0),
-                    parseString(sec, "id"),
-                    parseInt(sec, "max_speed", 1),
-                    parseStringList(sec, "itinerary")
+                    parseInt(sec, "time", 0), parseString(sec, "id"),
+                    parseInt(sec, "max_speed", 1), parseStringList(sec, "itinerary")
             );
         }
-
     }
 }

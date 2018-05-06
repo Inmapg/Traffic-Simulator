@@ -69,10 +69,10 @@ public abstract class Event implements Comparable<Event>, Describable {
          */
         default String parseString(IniSection sec, String key) {
             String v = sec.getValue(key);
-            if (!v.matches("[a-zA-Z0-9_]+")) { 
+            if (!v.matches("[a-zA-Z0-9_]+")) {
                 throw new IllegalArgumentException(
-                         (v.isEmpty()) ?  "Not " + key + " provided" : 
-                            v+" is not a valid " + key);
+                        (v.isEmpty()) ? "Not " + key + " provided"
+                        : v + " is not a valid " + key);
             }
             return v;
         }

@@ -9,23 +9,35 @@ import pr6.model.Road;
 import pr6.model.RoadMap;
 
 @SuppressWarnings("serial")
+/**
+ * Represents the layout of the graph.
+ */
 public class GraphLayout extends JPanel {
 
-    private GraphComponent _graphComp;
+    private GraphComponent graphComponent = new GraphComponent();
     private RoadMap roadmap;
 
+    /**
+     * Class constructor specifying the roadmap.
+     *
+     * @param roadmap
+     */
     public GraphLayout(RoadMap roadmap) {
-        // default BorderLayout 
         this.roadmap = roadmap;
         initGUI();
     }
 
+    /**
+     * Adds the graph.
+     */
     private void initGUI() {
-        _graphComp = new GraphComponent();
-        add(_graphComp);
+        add(graphComponent);
         generateGraph();
     }
 
+    /**
+     * Creates the graph.
+     */
     private void generateGraph() {
 
         Graph graph = new Graph();
@@ -39,7 +51,7 @@ public class GraphLayout extends JPanel {
         });
 
         roadmap.getRoads().forEach((r) -> {
-            Edge e = new Edge(r.getId(), junctionsMap.get(r.getSource()), 
+            Edge e = new Edge(r.getId(), junctionsMap.get(r.getSource()),
                     junctionsMap.get(r.getDestination()), r.getLength(),
                     r.getDestination().isTrafficLightOn(r));
             roadsMap.put(r, e);
@@ -50,10 +62,15 @@ public class GraphLayout extends JPanel {
             graph.addEdge(e);
         });
 
-        _graphComp.setGraph(graph);
+        graphComponent.setGraph(graph);
 
     }
 
+    /**
+     * Updates the graph and its roadmap.
+     *
+     * @param roadmap
+     */
     public void update(RoadMap roadmap) {
         this.roadmap = roadmap;
         generateGraph();

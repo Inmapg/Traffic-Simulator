@@ -67,15 +67,10 @@ public class RoadEvent extends Event {
                 return null;
             }
             return new RoadEvent(
-                    parseInt(sec, "time", 0),
-                    parseString(sec, "id"),
-                    parseString(sec, "src"),
-                    parseString(sec, "dest"),
-                    parseInt(sec, "max_speed", 1),
-                    parseInt(sec, "length", 1)
+                    parseInt(sec, "time", 0), parseString(sec, "id"),
+                    parseString(sec, "src"), parseString(sec, "dest"),
+                    parseInt(sec, "max_speed", 1), parseInt(sec, "length", 1)
             );
         }
-
     }
-
 }

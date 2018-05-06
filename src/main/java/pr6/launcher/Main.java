@@ -19,13 +19,12 @@ public class Main {
     private enum modesAvailable {
         GUI, BATCH
     }
-    private final static Integer _timeLimitDefaultValue = 10;
-    private final static String _modeDefaultValue = "batch";
+    private final static Integer TIME_LIMIT_DEFAULT_VALUE = 10;
+    private final static String MODE_DEFAULT_VALUE = "batch";
     private static Integer _timeLimit = null;
     private static String _inFile = null;
     private static String _outFile = null;
     private static modesAvailable _mode = null;
-    private static String split = System.getProperty("file.separator");
 
     /**
      * Parse a list of arguments given. The method creates a cmdLineOptions to
@@ -90,7 +89,7 @@ public class Main {
                         .desc("Output file, where reports are written.").build());
         cmdLineOptions.addOption(Option.builder("t").longOpt("ticks").hasArg()
                 .desc("Ticks to execute the simulator's main loop (default value"
-                        + " is " + _timeLimitDefaultValue + ").")
+                        + " is " + TIME_LIMIT_DEFAULT_VALUE + ").")
                 .build());
 
         return cmdLineOptions;
@@ -115,7 +114,7 @@ public class Main {
      * @throws ParseException Exception thrown when not valid mode given.
      */
     private static void parseModeOption(CommandLine line) throws ParseException {
-        String s = line.getOptionValue("m", _modeDefaultValue);
+        String s = line.getOptionValue("m", MODE_DEFAULT_VALUE);
         if ("gui".equals(s)) {
             _mode = modesAvailable.GUI;
         } else if ("batch".equals(s)) {
@@ -161,7 +160,7 @@ public class Main {
      * limit.
      */
     private static void parseStepsOption(CommandLine line) throws ParseException {
-        String t = line.getOptionValue("t", _timeLimitDefaultValue.toString());
+        String t = line.getOptionValue("t", TIME_LIMIT_DEFAULT_VALUE.toString());
         try {
             _timeLimit = Integer.parseInt(t);
             assert (_timeLimit < 0);
@@ -235,7 +234,7 @@ public class Main {
     private static void startBatchModeTest() throws Exception {
         Controller control = new Controller(_outFile == null ? System.out
                 : new FileOutputStream(_outFile));
-        control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue
+        control.run(_inFile, _timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
                 : _timeLimit);
     }
 
@@ -248,11 +247,11 @@ public class Main {
             Controller control = new Controller(_outFile == null ? System.out
                     : new FileOutputStream(_outFile));
             control.addSimulatorListener(BatchMode.INSTANCE);
-            control.run(_inFile, _timeLimit == null ? _timeLimitDefaultValue
+            control.run(_inFile, _timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
                     : _timeLimit);
         } catch (FileNotFoundException e) {
             System.err.println("Error with output file: " + _outFile);
-        } 
+        }
     }
 
     /**
@@ -262,7 +261,7 @@ public class Main {
     private static void startGUIMode() {
         try {
             new SimWindow(null == _inFile ? "" : _inFile,
-                    new Controller(_timeLimit == null ? _timeLimitDefaultValue
+                    new Controller(_timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
                             : _timeLimit,
                             _outFile == null ? System.out
                                     : new FileOutputStream(_outFile)));
@@ -287,6 +286,14 @@ public class Main {
         }
     }
 
+    /**
+     * Main method where the program begins its execution.
+     *
+     * @param args
+     * @throws IOException
+     * @throws InvocationTargetException
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws IOException,
             InvocationTargetException, InterruptedException {
         start(args);

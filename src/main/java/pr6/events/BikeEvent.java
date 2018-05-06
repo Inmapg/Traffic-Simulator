@@ -46,12 +46,9 @@ public class BikeEvent extends VehicleEvent {
                 return null;
             }
             return new BikeEvent(
-                    parseInt(sec, "time", 0),
-                    parseString(sec, "id"),
-                    parseStringList(sec, "itinerary"),
-                    parseInt(sec, "max_speed", 1)
+                    parseInt(sec, "time", 0), parseString(sec, "id"),
+                    parseStringList(sec, "itinerary"), parseInt(sec, "max_speed", 1)
             );
         }
-
     }
 }

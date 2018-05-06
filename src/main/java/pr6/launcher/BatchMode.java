@@ -38,7 +38,7 @@ public enum BatchMode implements TrafficSimulator.TrafficSimulatorListener {
 
     @Override
     public void endRunning() {
-       System.out.println("[END] The simulation is over");
+        System.out.println("[END] The simulation is over");
     }
 
 }

@@ -16,7 +16,6 @@ import pr6.util.MultiTreeMap;
  */
 public class TrafficSimulator implements Runnable {
 
-    
     private OutputStream output;
     /**
      * Map of events to be executed ordered by the time when they will be
@@ -94,16 +93,12 @@ public class TrafficSimulator implements Runnable {
         advanceEvents();
         // Invoke method advance for roads
         roadMap.getRoads().forEach((Road r) -> r.advance());
-
         // Invoke method advance for junction
         roadMap.getJunctions().forEach((Junction j) -> j.advance());
-
         // Current time increases
         ticks++;
-
         // listeners are notified
         notifyAdvanced();
-
         // Write report
         if (output != null) {
             roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
@@ -191,7 +186,7 @@ public class TrafficSimulator implements Runnable {
         });
     }
 
-   /**
+    /**
      * Notifies the listeners when the simulation is over.
      */
     private void notifyThreadDead() {
@@ -199,6 +194,7 @@ public class TrafficSimulator implements Runnable {
             l.endRunning();
         });
     }
+
     /**
      * Notifies the listeners when an error occurs during the simulation.
      */
@@ -207,41 +203,41 @@ public class TrafficSimulator implements Runnable {
             l.error(new UpdateEvent(EventType.ERROR), e.getMessage());
         });
     }
-    
-    private void advanceEvents(){
+
+    /**
+     * Advances the events for an specific time.
+     */
+    private void advanceEvents() {
         Event currentEvent = null;
-        try{  
-          ArrayList<Event> eventsList;
-          eventsList = mapOfEvents.getOrDefault(ticks, null);
-          if (eventsList != null) {
-              for(Event e : eventsList){
-                  e.execute(roadMap);
-                  currentEvent = e;
-              }
-           }
+        try {
+            ArrayList<Event> eventsList;
+            eventsList = mapOfEvents.getOrDefault(ticks, null);
+            if (eventsList != null) {
+                for (Event e : eventsList) {
+                    e.execute(roadMap);
+                    currentEvent = e;
                 }
-        catch(Exception e){ // not valid event executed
-            if(null != currentEvent){
-                  notifyError(new SimulatorError("The event " + 
-                        currentEvent.getClass().getSimpleName() 
-                        + " gets in conflict with events used") );
-                    mapOfEvents.get(ticks).remove(currentEvent);
             }
-            else{
-               notifyError(new SimulatorError("The event cannot be "
-                       + "proccesed") );
+        } catch (Exception e) { // not valid event executed
+            if (null != currentEvent) {
+                notifyError(new SimulatorError("The event "
+                        + currentEvent.getClass().getSimpleName()
+                        + " gets in conflict with events used"));
+                mapOfEvents.get(ticks).remove(currentEvent);
+            } else {
+                notifyError(new SimulatorError("The event cannot be proccesed"));
             }
         }
     }
 
-    public void setTicksToExecute(int numberOfTicks){
+    public void setTicksToExecute(int numberOfTicks) {
         this.numberOfTicks = numberOfTicks;
     }
-    
-    public void setSleepTime(int sleepTime){
+
+    public void setSleepTime(int sleepTime) {
         this.sleepTime = sleepTime;
     }
-    
+
     @Override
     public void run() {
         int timeLimit = ticks + numberOfTicks;
@@ -250,45 +246,49 @@ public class TrafficSimulator implements Runnable {
                 advance();
                 Thread.sleep(sleepTime);
             }
-        } catch(InterruptedException e){
+        } catch (InterruptedException e) {
             // stopped!
         } catch (Exception e) {
-            notifyError(new SimulatorError("Error in TrafficSimulator at " + 
-                    ticks + " time: \n-> " + e.getMessage(), e));
+            notifyError(new SimulatorError("Error in TrafficSimulator at "
+                    + ticks + " time: \n-> " + e.getMessage(), e));
         }
         notifyThreadDead();
     }
-
 
     /**
      * Interfece which provides a way of dealing with events and the execution
      * of a TrafficSimulator externally.
      */
     public interface TrafficSimulatorListener {
+
         /**
          * Used to register an event.
          *
          * @param updateEvent
          */
         public void registered(UpdateEvent updateEvent);
+
         /**
          * Used when the simulator has been reset.
          *
          * @param updateEvent
          */
         public void reset(UpdateEvent updateEvent);
+
         /**
          * Used when a new event occurs.
          *
          * @param updateEvent
          */
         public void newEvent(UpdateEvent updateEvent);
+
         /**
          * Used when the simulator has advanced.
          *
          * @param updateEvent
          */
         public void advanced(UpdateEvent updateEvent);
+
         /**
          * Used when an error occurs during the simulation.
          *
@@ -296,6 +296,7 @@ public class TrafficSimulator implements Runnable {
          * @param errorMessage
          */
         public void error(UpdateEvent updateEvent, String errorMessage);
+
         /**
          * Used when the main thread is over.
          */
@@ -348,11 +349,13 @@ public class TrafficSimulator implements Runnable {
         public List<Event> getEventQueue() {
             List<Event> list = new ArrayList(mapOfEvents.valuesList());
             int counter = 0;
-            while(counter < list.size()){
-                if(list.get(counter).getScheduleTime() >= ticks) break;
+            while (counter < list.size()) {
+                if (list.get(counter).getScheduleTime() >= ticks) {
+                    break;
+                }
                 counter++;
             }
-            return mapOfEvents.valuesList().subList(counter, 
+            return mapOfEvents.valuesList().subList(counter,
                     mapOfEvents.valuesList().size());
         }
 

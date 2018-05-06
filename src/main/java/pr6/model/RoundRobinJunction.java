@@ -31,9 +31,7 @@ public class RoundRobinJunction extends TimeSliceJunction {
 
     @Override
     protected IncomingRoad createIncomingRoadQueue(Road r) {
-        TimeSliceIncomingRoad newIncomingRoad = new TimeSliceIncomingRoad(r, maxTimeSlice);
-
-        return newIncomingRoad;
+        return (new TimeSliceIncomingRoad(r, maxTimeSlice));
     }
 
     @Override
@@ -54,16 +52,13 @@ public class RoundRobinJunction extends TimeSliceJunction {
             } else if (currentRoad.completelyUsed()) { // time completely used
                 currentRoad.setIntervalTime(Math.min(currentRoad.getIntervalTime() + 1, maxTimeSlice));
             }
-
             currentRoad.reset(); // set spent-time to zero
-
             if (nextRoad == null || !nextRoad.hasNext()) {
                 nextRoad = incomingRoadMap.keySet().iterator();
             }
             currentRoad = (TimeSliceIncomingRoad) incomingRoadMap.get(nextRoad.next());
             currentRoad.onGreenLight();
         }
-
     }
 
     @Override

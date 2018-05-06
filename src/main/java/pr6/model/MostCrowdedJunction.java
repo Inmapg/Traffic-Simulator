@@ -36,7 +36,6 @@ public class MostCrowdedJunction extends TimeSliceJunction {
             }
             currentRoad = mostCrowdedRoad;
         }
-
     }
 
     @Override
@@ -55,7 +54,6 @@ public class MostCrowdedJunction extends TimeSliceJunction {
         } else {
             currentRoad.advanceFirstVehicle();
         }
-
     }
 
     @Override

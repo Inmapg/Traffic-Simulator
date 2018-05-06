@@ -71,17 +71,13 @@ public class CarEvent extends VehicleEvent {
                 return null;
             }
             return new CarEvent(
-                    parseInt(sec, "time", 0),
-                    parseString(sec, "id"),
+                    parseInt(sec, "time", 0), parseString(sec, "id"),
                     parseStringList(sec, "itinerary"),
-                    parseInt(sec, "max_speed", 1),
-                    parseInt(sec, "resistance", 1),
+                    parseInt(sec, "max_speed", 1), parseInt(sec, "resistance", 1),
                     parseDouble(sec, "fault_probability", 0, 1),
                     parseInt(sec, "max_fault_duration", 0),
                     parseLongOrMills(sec, "seed")
             );
         }
-
     }
-
 }

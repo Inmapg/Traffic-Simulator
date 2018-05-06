@@ -57,17 +57,18 @@ import javax.swing.text.NumberFormatter;
  * mode.
  */
 public class SimWindow extends JFrame implements TrafficSimulatorListener {
+
     private static final int DEFAULT_DELAY = 500;
     /**
      * Toolkit allows us to get the screen size so size is relative to the
      * computer which executes the program Width will 3/4 of the Screen Size
      * Width
      */
-    private static final int DEFAULT_WIDTH = 3*Toolkit.getDefaultToolkit().getScreenSize().width /4;
+    private static final int DEFAULT_WIDTH = 3 * Toolkit.getDefaultToolkit().getScreenSize().width / 4;
     /**
      * Height will 9/10 of the Screen Size Height
      */
-    private static final int DEFAULT_HEIGHT = 9*Toolkit.getDefaultToolkit().getScreenSize().height/10;
+    private static final int DEFAULT_HEIGHT = 9 * Toolkit.getDefaultToolkit().getScreenSize().height / 10;
     private TrafficSimulator.UpdateEvent lastUpdateEvent;
     /**
      * Event table header
@@ -88,7 +89,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     @Override
     public void endRunning() {
-        if(reportsArea.getText().length() > 0){
+        if (reportsArea.getText().length() > 0) {
             clearReport.setEnabled(true);
             saveReport.setEnabled(true);
         }
@@ -112,8 +113,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private final JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
     private final File inFile;
     private JCheckBoxMenuItem redirect;
-    private final JSpinner delaySpinner= new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY,
-                0, 5000, 1));
+    private final JSpinner delaySpinner = new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY, 0, 5000, 1));
     private JSpinner stepsSpinner;
     private JTextField timeViewer;
     private JTextArea eventsEditorArea;
@@ -178,11 +178,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             "Exit", "exit.png", "Terminate the execution",
             KeyEvent.VK_E, "alt E", () -> System.exit(0));
     private final Action run = new SimulatorAction(
-            "Run", "play.png", "Start simulation",
-            () -> runSimWindow());
+            "Run", "play.png", "Start simulation", () -> runSimWindow());
     private final Action stop = new SimulatorAction(
-            "Stop", "stop.png", "Stop simulation",
-            () -> stop() );
+            "Stop", "stop.png", "Stop simulation", () -> stop());
     private final Action reset = new SimulatorAction(
             "Reset", "reset.png", "Reset simulation", () -> reset());
 
@@ -234,8 +232,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         addReports();
         addsSimObjectTables();
         addGraph();
-        windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel,
-                lowerPanel);
+        windowSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, lowerPanel);
         add(windowSplit);
         windowSplit.setDividerLocation(DEFAULT_HEIGHT / 4);
     }
@@ -271,8 +268,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         delaySpinner.setPreferredSize(spinnerDim);
         delaySpinner.setMinimumSize(spinnerDim);
         delaySpinner.setMaximumSize(spinnerDim);
-        stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(),
-                1, 1000, 1));
+        stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(), 1, 1000, 1));
         stepsSpinner.setPreferredSize(spinnerDim);
         stepsSpinner.setMinimumSize(spinnerDim);
         stepsSpinner.setMaximumSize(spinnerDim);
@@ -431,10 +427,10 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         reportsArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                if(!stop.isEnabled() || (stop.isEnabled() && run.isEnabled())){
+                if (!stop.isEnabled() || (stop.isEnabled() && run.isEnabled())) {
                     clearReport.setEnabled(true);
                     saveReport.setEnabled(true);
-                } 
+                }
             }
 
             @Override
@@ -495,6 +491,15 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         }
     }
 
+    /**
+     * Saves an event/report file.
+     *
+     * @param chooser File chooser
+     * @param textArea Event or report area
+     * @param componentModified Event or report panel
+     * @param name Event/Report
+     * @throws IOException
+     */
     private void saveFile(JFileChooser chooser, JTextArea textArea,
             JPanel componentModified, String name) throws IOException {
         if (JFileChooser.APPROVE_OPTION == chooser.showSaveDialog(null)) {
@@ -521,7 +526,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     }
 
     /**
-     * Reads a file.
+     * Reads a file from a filename.
      *
      * @param fileName
      * @return content of the file
@@ -548,7 +553,11 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     public void registered(TrafficSimulator.UpdateEvent ue) {
         lastUpdateEvent = ue;
     }
-    public void stop(){
+
+    /**
+     * Stops the simulation.
+     */
+    public void stop() {
         run.setEnabled(true);
         stop.setEnabled(false);
         loadEvents.setEnabled(true);
@@ -562,6 +571,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         delaySpinner.setEnabled(true);
         statusBarMessage.setText("The simulator has been stopped!");
     }
+
     @Override
     public void reset(TrafficSimulator.UpdateEvent ue) {
         updatePanelBorder(reportsPanel, "Reports");
@@ -600,7 +610,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     }
 
     @Override
-    // Finish it
     public void error(TrafficSimulator.UpdateEvent ue, String error) {
         JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
     }
@@ -649,17 +658,16 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     /**
      * Deals with the events from events editor area.
      */
-    // Finish it
     private void checkInEvents() {
-        try { 
+        try {
             controller.loadEvents(new ByteArrayInputStream(eventsEditorArea
                     .getText().getBytes()));
             reset.setEnabled(true);
             run.setEnabled(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
-                           "Error at check-in events", 
-                           JOptionPane.WARNING_MESSAGE);
+                    "Error at check-in events",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -706,7 +714,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         reset.setEnabled(false);
         stepsSpinner.setEnabled(false);
         delaySpinner.setEnabled(false);
-        controller.run((int) stepsSpinner.getValue(), 
+        controller.run((int) stepsSpinner.getValue(),
                 (int) delaySpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
@@ -725,7 +733,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * template, load, save and clear.
      */
     private void createPopup() {
-        (new PopUpLayout(loadEvents, saveEvents, clearEvents,
-                checkInEvents, eventsEditorArea)).createPopUp();
+        (new PopUpLayout(loadEvents, saveEvents, clearEvents, checkInEvents,
+                eventsEditorArea)).createPopUp();
     }
 }

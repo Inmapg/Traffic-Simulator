@@ -4,36 +4,50 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 
+/**
+ * Represents a general type of list.
+ *
+ * @param <E> Generic
+ */
 public class ListModel<E> extends DefaultListModel<E> {
 
-    List<E> _list;
+    List<E> list = null;
 
+    /**
+     * Class constructor.
+     */
     ListModel() {
-        _list = null;
     }
 
-    public void setList(List<E> l) {
-        _list = l;
+    /**
+     * Sets the content of the list.
+     *
+     * @param list
+     */
+    public void setList(List<E> list) {
+        this.list = list;
         refresh();
     }
 
     @Override
     public E get(int index) {
-        return _list.get(index);
+        return list.get(index);
     }
 
     @Override
     public E getElementAt(int index) {
-        return _list.get(index);
+        return list.get(index);
     }
 
     @Override
     public int getSize() {
-        return _list == null ? 0 : _list.size();
+        return list == null ? 0 : list.size();
     }
 
+    /**
+     * Refresh the list.
+     */
     public void refresh() {
-        fireContentsChanged(this, 0, _list.size());
+        fireContentsChanged(this, 0, list.size());
     }
-
 }

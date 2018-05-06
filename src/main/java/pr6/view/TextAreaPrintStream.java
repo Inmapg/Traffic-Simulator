@@ -5,10 +5,18 @@ import java.io.OutputStream;
 
 import javax.swing.JTextArea;
 
+/**
+ * Gives the output stream to the text area.
+ */
 public class TextAreaPrintStream extends OutputStream {
 
     private JTextArea textArea;
 
+    /**
+     * Class constructor specifying the text area.
+     *
+     * @param textArea
+     */
     public TextAreaPrintStream(JTextArea textArea) {
         this.textArea = textArea;
     }

@@ -1,26 +1,49 @@
 package pr6.view.graphlayout;
 
+/**
+ * Represents a do (vehicle) on the graph.
+ */
 public class Dot {
 
-    private final String _id;
-    private final int _location;
-    private final boolean _faulty;
+    private final String id;
+    private final int location;
+    private final boolean faulty;
+
+    /**
+     * Class constructor specifying id, location and faulty time.
+     *
+     * @param id
+     * @param location
+     * @param faulty Breakdown counter
+     */
     public Dot(String id, int location, int faulty) {
-        _id = id;
-        _location = location;
-        _faulty = (faulty > 0);
+        this.id = id;
+        this.location = location;
+        this.faulty = (faulty > 0);
     }
-    
+
+    /**
+     *
+     * @return the dot id
+     */
     public String getId() {
-        return _id;
+        return id;
     }
 
+    /**
+     *
+     * @return the location of the dot
+     */
     public int getLocation() {
-        return _location;
+        return location;
     }
 
-    public boolean isFaulty(){
-        return _faulty;
+    /**
+     *
+     * @return if the dot (vehicle) is faulty
+     */
+    public boolean isFaulty() {
+        return faulty;
     }
-    
+
 }

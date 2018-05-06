@@ -134,13 +134,13 @@ public class Junction extends SimulatedObject {
     protected IncomingRoad lastGreenLightRoad;
 
     /**
-     * Associates roads with their respective incoming roads
+     * Associates roads with their respective incoming roads. LinkedHashMap used
+     * to mantain insertion order.
      *
      * @see Road
      * @see IncomingRoad
      */
-    protected Map<Road, IncomingRoad> incomingRoadMap = new LinkedHashMap<>(); // LinkedHashMap to mantain insertion order
-
+    protected Map<Road, IncomingRoad> incomingRoadMap = new LinkedHashMap<>();
     /**
      * Associates junctions with their respective outgoing roads.
      *
@@ -159,7 +159,6 @@ public class Junction extends SimulatedObject {
         lastGreenLightRoad = null;
         currentRoad = null;
         nextRoad = null;
-
     }
 
     @Override
@@ -223,7 +222,6 @@ public class Junction extends SimulatedObject {
             }
             switchLights();
         }
-
     }
 
     /**
@@ -250,10 +248,15 @@ public class Junction extends SimulatedObject {
         lastGreenLightRoad = currentRoad;
     }
 
-    public boolean isTrafficLightOn(Road r){
-        return incomingRoadMap.get(r).isGreenLight();
+    /**
+     *
+     * @param road
+     * @return true if road's traffic light has green light, false if not
+     */
+    public boolean isTrafficLightOn(Road road) {
+        return incomingRoadMap.get(road).isGreenLight();
     }
-    
+
     @Override
     protected void fillReportDetails(IniSection sec) {
         StringBuilder sb = new StringBuilder();
@@ -276,18 +279,14 @@ public class Junction extends SimulatedObject {
         super.describe(out);
         ArrayList<String> green = new ArrayList<>();
         ArrayList<String> red = new ArrayList<>();
-
         incomingRoadMap.values().forEach(ir -> {
             if (ir.greenLight) {
                 green.add(ir.toString());
             } else {
                 red.add(ir.toString());
             }
-        }
-        );
-
+        });
         out.put("Green", "[" + String.join(",", green) + "]");
         out.put("Red", "[" + String.join(",", red) + "]");
     }
-
 }

@@ -37,8 +37,7 @@ public class MostCrowdedJunctionEvent extends JunctionEvent {
                     || !"mc".equals(sec.getValue("type"))) {
                 return null;
             }
-            return new MostCrowdedJunctionEvent(
-                    parseInt(sec, "time", 0),
+            return new MostCrowdedJunctionEvent(parseInt(sec, "time", 0),
                     parseString(sec, "id"));
         }
     }
