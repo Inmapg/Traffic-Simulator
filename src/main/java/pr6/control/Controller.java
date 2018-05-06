@@ -23,7 +23,7 @@ public class Controller {
      *
      * @see TrafficSimulator
      */
-    private TrafficSimulator trafficSim;
+    private final TrafficSimulator trafficSim;
     /**
      * Period of time in which the traffic simulator will be running
      */
@@ -36,9 +36,8 @@ public class Controller {
      * Thread of the simulator
      */
     private Thread mainThread;
-    // The order matters
     /**
-     * List of Traffic Simulator's events
+     * List of Traffic Simulator's events. The order matters.
      */
     public static Event.Builder[] availableEventBuilders = {
         new LaneRoadEvent.Builder(),

@@ -83,7 +83,7 @@ public class TrafficModelTable extends JPanel {
             if ("#".equals(fieldNames[columnIndex])) {
                 return rowIndex;
             }
-            Map output = new HashMap<String, String>();
+            Map output = new HashMap<>();
             elements.get(rowIndex).describe(output);
             return output.get(fieldNames[columnIndex]);
         }

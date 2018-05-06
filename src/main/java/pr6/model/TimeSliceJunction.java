@@ -19,9 +19,9 @@ public class TimeSliceJunction extends Junction {
     protected class TimeSliceIncomingRoad extends IncomingRoad {
 
         private int intervalTime;
-        protected int timeSpent;
-        private boolean completelyUsed;
-        private boolean used;
+        protected int timeSpent = 0;
+        private boolean completelyUsed = false;
+        private boolean used = false;
 
         /**
          * Class constructor specifying the road. The rest of attributes are
@@ -31,10 +31,7 @@ public class TimeSliceJunction extends Junction {
          */
         public TimeSliceIncomingRoad(Road road) {
             super(road);
-            timeSpent = 0;
             intervalTime = 0;
-            used = false;
-            completelyUsed = false;
         }
 
         /**
@@ -45,10 +42,7 @@ public class TimeSliceJunction extends Junction {
          */
         public TimeSliceIncomingRoad(Road road, int intervalTime) {
             super(road);
-            timeSpent = 0;
             this.intervalTime = intervalTime;
-            used = false;
-            completelyUsed = false;
         }
 
         @Override

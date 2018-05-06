@@ -1,6 +1,5 @@
-package pr5.util;
+package pr6.util;
 
-import pr6.util.MultiTreeMap;
 import org.junit.Test;
 
 import java.util.Arrays;

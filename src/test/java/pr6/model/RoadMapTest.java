@@ -1,4 +1,4 @@
-package pr5.model;
+package pr6.model;
 
 import pr6.model.Car;
 import pr6.model.Road;

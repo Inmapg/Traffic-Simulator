@@ -41,7 +41,7 @@ public class TrafficSimulator implements Runnable {
     /**
      * List of observers to be used during the GUI execution
      */
-    private List<TrafficSimulatorListener> listeners = new ArrayList<>();
+    private final List<TrafficSimulatorListener> listeners = new ArrayList<>();
 
     /**
      * Class Constructor specifying output stream.
