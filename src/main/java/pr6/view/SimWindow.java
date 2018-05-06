@@ -61,14 +61,14 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private static final int DEFAULT_DELAY = 500;
     /**
      * Toolkit allows us to get the screen size so size is relative to the
-     * computer which executes the program Width will 2/3 of the Screen Size
+     * computer which executes the program Width will 3/4 of the Screen Size
      * Width
      */
     private static final int DEFAULT_WIDTH = 3*Toolkit.getDefaultToolkit().getScreenSize().width /4;
     /**
-     * Height will 5/6 of the Screen Size Height
+     * Height will 9/10 of the Screen Size Height
      */
-    private static final int DEFAULT_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private static final int DEFAULT_HEIGHT = 9*Toolkit.getDefaultToolkit().getScreenSize().height/10;
     private TrafficSimulator.UpdateEvent lastUpdateEvent;
     /**
      * Event table header
