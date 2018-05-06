@@ -32,7 +32,10 @@ public class Controller {
      * Output stream
      */
     private OutputStream output;
-
+    /**
+     * Thread of the simulator
+     */
+    Thread mainThread;
     // The order matters
     /**
      * List of Traffic Simulator's events
@@ -57,9 +60,11 @@ public class Controller {
      * @param output
      */
     public Controller(int time, OutputStream output) {
+        
         this.trafficSim = new TrafficSimulator(output);
         this.time = time;
         this.output = output;
+        mainThread = new Thread(this.trafficSim);
     }
 
     /**
@@ -71,6 +76,7 @@ public class Controller {
         this.trafficSim = new TrafficSimulator(output);
         this.time = 0;
         this.output = output;
+        mainThread = new Thread(this.trafficSim);
     }
 
     /**
@@ -141,13 +147,7 @@ public class Controller {
             throw new SimulatorError("Error while loading events from file "
                     + input, e);
         }
-        try {
-            trafficSim.run(timeLimit);
-        } catch (SimulatorError e) {
-            throw new SimulatorError("Error when executing running method in"
-                    + " Traffic Simulator...", e);
-        }
-
+        run(timeLimit);
     }
 
     /**
@@ -157,13 +157,31 @@ public class Controller {
      */
     public void run(int timeLimit) {
         try {
-            trafficSim.run(timeLimit);
+            trafficSim.setTicksToExecute(timeLimit);
+            mainThread = new Thread(trafficSim);
+            mainThread.start();
         } catch (SimulatorError e) {
             throw new SimulatorError("Error when executing running method in"
                     + " Traffic Simulator...", e);
         }
     }
+    
+    /**
+     * Runs the program specifiying a sleep time for each execution of the
+     * main thread.  
+     * @param timeLimit
+     * @param sleepTime 
+     */
+    public void run(int timeLimit, int sleepTime){
+        trafficSim.setSleepTime(sleepTime);
+        run(timeLimit);
+    }
 
+    public void stop(){
+        if(mainThread.isAlive()){
+             mainThread.interrupt();
+        }
+    }
     /**
      *
      * @return the default time value of the simulation

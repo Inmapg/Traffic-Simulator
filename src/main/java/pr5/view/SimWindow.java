@@ -87,6 +87,18 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     private final String[] JUNCTIONS_HEADER = {"ID", "Green", "Red"};
 
+    @Override
+    public void endRunning() {
+        if(reportsArea.getText().length() > 0){
+            clearReport.setEnabled(true);
+            saveReport.setEnabled(true);
+        }
+        generateReport.setEnabled(true);
+        stepsSpinner.setEnabled(true);
+        delaySpinner.setEnabled(true);
+        run.setEnabled(true);
+    }
+
     /**
      * Two different types of output. Used to change the output stream.
      */
@@ -101,8 +113,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private final JLabel statusBarMessage = new JLabel("Welcome to the traffic simulator!");
     private final File inFile;
     private JCheckBoxMenuItem redirect;
-    private JSpinner delaySpinner= new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY,
-                1, 5000, 1));
+    private final JSpinner delaySpinner= new JSpinner(new SpinnerNumberModel(DEFAULT_DELAY,
+                0, 5000, 1));
     private JSpinner stepsSpinner;
     private JTextField timeViewer;
     private JTextArea eventsEditorArea;
@@ -171,8 +183,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             () -> runSimWindow());
     private final Action stop = new SimulatorAction(
             "Stop", "stop.png", "Stop simulation",
-            () -> JOptionPane.showMessageDialog(this, "'Stop' is not supported yet",
-                    "Warning", JOptionPane.WARNING_MESSAGE));
+            () -> stop() );
     private final Action reset = new SimulatorAction(
             "Reset", "reset.png", "Reset simulation", () -> reset());
 
@@ -421,8 +432,10 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         reportsArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                clearReport.setEnabled(true);
-                saveReport.setEnabled(true);
+                if(!stop.isEnabled() || (stop.isEnabled() && run.isEnabled())){
+                    clearReport.setEnabled(true);
+                    saveReport.setEnabled(true);
+                } 
             }
 
             @Override
@@ -536,7 +549,20 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     public void registered(TrafficSimulator.UpdateEvent ue) {
         lastUpdateEvent = ue;
     }
-
+    public void stop(){
+        run.setEnabled(true);
+        stop.setEnabled(false);
+        loadEvents.setEnabled(true);
+        checkInEvents.setEnabled(true);
+        clearEvents.setEnabled(true);
+        saveEvents.setEnabled(true);
+        generateReport.setEnabled(true);
+        reset.setEnabled(true);
+        controller.stop();
+        stepsSpinner.setEnabled(true);
+        delaySpinner.setEnabled(true);
+        statusBarMessage.setText("The simulator has been stopped!");
+    }
     @Override
     public void reset(TrafficSimulator.UpdateEvent ue) {
         updatePanelBorder(reportsPanel, "Reports");
@@ -669,9 +695,20 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Runs the simulation.
      */
     private void runSimWindow() {
+        saveReport.setEnabled(false);
+        clearReport.setEnabled(false);
+        generateReport.setEnabled(false);
+        run.setEnabled(false);
         stop.setEnabled(true);
-        generateReport.setEnabled(true);
-        controller.run((int) stepsSpinner.getValue());
+        loadEvents.setEnabled(false);
+        checkInEvents.setEnabled(false);
+        clearEvents.setEnabled(false);
+        saveEvents.setEnabled(false);
+        reset.setEnabled(false);
+        stepsSpinner.setEnabled(false);
+        delaySpinner.setEnabled(false);
+        controller.run((int) stepsSpinner.getValue(), 
+                (int) delaySpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
 

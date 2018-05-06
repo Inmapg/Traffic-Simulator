@@ -14,8 +14,9 @@ import pr5.util.MultiTreeMap;
  * Simulates a system of vehicles driving through some roads and around
  * specified junctions.
  */
-public class TrafficSimulator {
+public class TrafficSimulator implements Runnable {
 
+    
     private OutputStream output;
     /**
      * Map of events to be executed ordered by the time when they will be
@@ -23,14 +24,21 @@ public class TrafficSimulator {
      */
     private MultiTreeMap<Integer, Event> mapOfEvents = new MultiTreeMap<>((a, b) -> a - b);
     /**
-     * Internal counter
+     * Internal counter, current number of ticks executed
      */
     private int ticks = 0;
+    /**
+     * Number of ticks to be executed
+     */
+    private int numberOfTicks = 0;
     /**
      * Road map storing all the objects in the simulatation
      */
     private RoadMap roadMap = new RoadMap();
-
+    /**
+     * Time delayed in each execution of the loop
+     */
+    private int sleepTime = 0;
     /**
      * List of observers to be used during the GUI execution
      */
@@ -81,35 +89,26 @@ public class TrafficSimulator {
      *
      * @param numberOfTicks Number of repetitions
      */
-    public void run(int numberOfTicks) {
-        int timeLimit = ticks + numberOfTicks;
-        try {
-            while (ticks < timeLimit) {
-                // Execute the events for the current time
-                advanceEvents();
-                // Invoke method advance for roads
-                roadMap.getRoads().forEach((Road r) -> r.advance());
+    private void advance() {
+        // Execute the events for the current time
+        advanceEvents();
+        // Invoke method advance for roads
+        roadMap.getRoads().forEach((Road r) -> r.advance());
 
-                // Invoke method advance for junction
-                roadMap.getJunctions().forEach((Junction j) -> j.advance());
+        // Invoke method advance for junction
+        roadMap.getJunctions().forEach((Junction j) -> j.advance());
 
-                // Current time increases
-                ticks++;
+        // Current time increases
+        ticks++;
 
-                // listeners are notified
-                notifyAdvanced();
+        // listeners are notified
+        notifyAdvanced();
 
-                // Write report
-                if (output != null) {
-                    roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
-                    roadMap.getRoads().forEach((Road r) -> writeReport(r));
-                    roadMap.getVehicles().forEach((Vehicle v) -> writeReport(v));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            notifyError(new SimulatorError("Error in TrafficSimulator at " + 
-                    ticks + " time: \n-> " + e.getMessage(), e));
+        // Write report
+        if (output != null) {
+            roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
+            roadMap.getRoads().forEach((Road r) -> writeReport(r));
+            roadMap.getVehicles().forEach((Vehicle v) -> writeReport(v));
         }
     }
 
@@ -192,6 +191,14 @@ public class TrafficSimulator {
         });
     }
 
+   /**
+     * Notifies the listeners when the simulation is over.
+     */
+    private void notifyThreadDead() {
+        listeners.forEach((l) -> {
+            l.endRunning();
+        });
+    }
     /**
      * Notifies the listeners when an error occurs during the simulation.
      */
@@ -227,40 +234,61 @@ public class TrafficSimulator {
         }
     }
 
+    public void setTicksToExecute(int numberOfTicks){
+        this.numberOfTicks = numberOfTicks;
+    }
+    
+    public void setSleepTime(int sleepTime){
+        this.sleepTime = sleepTime;
+    }
+    
+    @Override
+    public void run() {
+        int timeLimit = ticks + numberOfTicks;
+        try {
+            while (ticks < timeLimit) {
+                advance();
+                Thread.sleep(sleepTime);
+            }
+        } catch(InterruptedException e){
+            // stopped!
+        } catch (Exception e) {
+            notifyError(new SimulatorError("Error in TrafficSimulator at " + 
+                    ticks + " time: \n-> " + e.getMessage(), e));
+        }
+        notifyThreadDead();
+    }
+
+
     /**
      * Interfece which provides a way of dealing with events and the execution
      * of a TrafficSimulator externally.
      */
     public interface TrafficSimulatorListener {
-
         /**
          * Used to register an event.
          *
          * @param updateEvent
          */
         public void registered(UpdateEvent updateEvent);
-
         /**
          * Used when the simulator has been reset.
          *
          * @param updateEvent
          */
         public void reset(UpdateEvent updateEvent);
-
         /**
          * Used when a new event occurs.
          *
          * @param updateEvent
          */
         public void newEvent(UpdateEvent updateEvent);
-
         /**
          * Used when the simulator has advanced.
          *
          * @param updateEvent
          */
         public void advanced(UpdateEvent updateEvent);
-
         /**
          * Used when an error occurs during the simulation.
          *
@@ -268,7 +296,10 @@ public class TrafficSimulator {
          * @param errorMessage
          */
         public void error(UpdateEvent updateEvent, String errorMessage);
-
+        /**
+         * Used when the main thread is over.
+         */
+        public void endRunning();
     }
 
     /**
