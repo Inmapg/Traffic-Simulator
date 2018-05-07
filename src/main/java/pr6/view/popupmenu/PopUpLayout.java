@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
 import pr6.ini.Ini;
@@ -59,9 +60,6 @@ public class PopUpLayout {
         Ini sec = null;
         try {
             sec = new Ini(new FileInputStream("src/main/resources/templates/templates.ini"));
-        } catch (IOException e) {
-            // TODO
-        }
         for (IniSection s : sec.getSections()) {
             JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
             s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
@@ -75,6 +73,11 @@ public class PopUpLayout {
         }
         popupMenu.add(subMenu);
         popupMenu.addSeparator();
+         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Template file wasn't found! "
+                    + "You won't be able to use them.", 
+                    "Error while loading templates", JOptionPane.ERROR_MESSAGE);
+        }
         popupMenu.add(loadOption);
         popupMenu.add(saveOption);
         popupMenu.add(clearOption);
@@ -108,5 +111,6 @@ public class PopUpLayout {
                 showPopup(e);
             }
         });
+         
     }
 }
