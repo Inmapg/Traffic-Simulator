@@ -21,10 +21,10 @@ public class Main {
     }
     private final static Integer TIME_LIMIT_DEFAULT_VALUE = 10;
     private final static String MODE_DEFAULT_VALUE = "batch";
-    private static Integer timeLimit = null;
-    private static String inFile = null;
-    private static String outFile = null;
-    private static modesAvailable mode = null;
+    private static Integer _timeLimit = null;
+    private static String _inFile = null;
+    private static String _outFile = null;
+    private static modesAvailable _mode = null;
 
     /**
      * Parse a list of arguments given. The method creates a cmdLineOptions to
@@ -116,9 +116,9 @@ public class Main {
     private static void parseModeOption(CommandLine line) throws ParseException {
         String s = line.getOptionValue("m", MODE_DEFAULT_VALUE);
         if ("gui".equals(s)) {
-            mode = modesAvailable.GUI;
+            _mode = modesAvailable.GUI;
         } else if ("batch".equals(s)) {
-            mode = modesAvailable.BATCH;
+            _mode = modesAvailable.BATCH;
         } else {
             throw new ParseException("Mode not valid given, check help command "
                     + "to see which modes are available");
@@ -133,8 +133,8 @@ public class Main {
      * limit.
      */
     private static void parseInFileOption(CommandLine line) throws ParseException {
-        inFile = line.getOptionValue("i");
-        if (inFile == null && mode != modesAvailable.GUI) {
+        _inFile = line.getOptionValue("i");
+        if (_inFile == null && _mode != modesAvailable.GUI) {
             throw new ParseException("An events file is missing");
         }
     }
@@ -148,7 +148,7 @@ public class Main {
      * limit.
      */
     private static void parseOutFileOption(CommandLine line) throws ParseException {
-        outFile = line.getOptionValue("o");
+        _outFile = line.getOptionValue("o");
     }
 
     /**
@@ -162,8 +162,8 @@ public class Main {
     private static void parseStepsOption(CommandLine line) throws ParseException {
         String t = line.getOptionValue("t", TIME_LIMIT_DEFAULT_VALUE.toString());
         try {
-            timeLimit = Integer.parseInt(t);
-            assert (timeLimit < 0);
+            _timeLimit = Integer.parseInt(t);
+            assert (_timeLimit < 0);
 
         } catch (Exception e) {
             throw new ParseException("Invalid value for time limit: " + t);
@@ -214,12 +214,12 @@ public class Main {
      */
     private static void test(String inFile, String outFile,
             String expectedOutFile, int timeLimit) throws Exception {
-        outFile = outFile;
-        inFile = inFile;
-        timeLimit = timeLimit;
+        _outFile = outFile;
+        _inFile = inFile;
+        _timeLimit = timeLimit;
         startBatchModeTest();
-        boolean equalOutput = (new Ini(outFile)).equals(new Ini(expectedOutFile));
-        System.out.println("Result for: '" + inFile + "' : "
+        boolean equalOutput = (new Ini(_outFile)).equals(new Ini(expectedOutFile));
+        System.out.println("Result for: '" + _inFile + "' : "
                 + (equalOutput ? "OK!" : ("not equal to expected output +'"
                         + expectedOutFile + "'")));
     }
@@ -232,10 +232,10 @@ public class Main {
      *
      */
     private static void startBatchModeTest() throws Exception {
-        Controller control = new Controller(outFile == null ? System.out
-                : new FileOutputStream(outFile));
-        control.run(inFile, timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
-                : timeLimit);
+        Controller control = new Controller(_outFile == null ? System.out
+                : new FileOutputStream(_outFile));
+        control.run(_inFile, _timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
+                : _timeLimit);
     }
 
     /**
@@ -244,13 +244,13 @@ public class Main {
      */
     private static void startBatchMode() {
         try {
-            Controller control = new Controller(outFile == null ? System.out
-                    : new FileOutputStream(outFile));
+            Controller control = new Controller(_outFile == null ? System.out
+                    : new FileOutputStream(_outFile));
             control.addSimulatorListener(BatchMode.INSTANCE);
-            control.run(inFile, timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
-                    : timeLimit);
+            control.run(_inFile, _timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
+                    : _timeLimit);
         } catch (FileNotFoundException e) {
-            System.err.println("Error with output file: " + outFile);
+            System.err.println("Error with output file: " + _outFile);
         }
     }
 
@@ -260,11 +260,11 @@ public class Main {
      */
     private static void startGUIMode() {
         try {
-            new SimWindow(null == inFile ? "" : inFile,
-                    new Controller(timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
-                            : timeLimit,
-                            outFile == null ? System.out
-                                    : new FileOutputStream(outFile)));
+            new SimWindow(null == _inFile ? "" : _inFile,
+                    new Controller(_timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
+                            : _timeLimit,
+                            _outFile == null ? System.out
+                                    : new FileOutputStream(_outFile)));
         } catch (FileNotFoundException ex) {
             System.err.println("File not found!");
         }
@@ -276,7 +276,7 @@ public class Main {
      */
     private static void start(String[] args) throws IOException {
         parseArgs(args);
-        switch (mode) {
+        switch (_mode) {
             case GUI:
                 startGUIMode();
                 break;

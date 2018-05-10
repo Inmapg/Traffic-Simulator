@@ -38,7 +38,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.NumberFormatter;
 import pr6.control.SimulatorAction;
 import pr6.events.Event;
 import pr6.view.dialog.DialogWindow;
@@ -50,6 +49,7 @@ import pr6.model.TrafficSimulator;
 import pr6.model.TrafficSimulator.TrafficSimulatorListener;
 import pr6.model.Vehicle;
 import pr6.view.popupmenu.PopUpLayout;
+import javax.swing.text.NumberFormatter;
 
 /**
  * SimulatedWindow object which represents a GUI interface for the user. This

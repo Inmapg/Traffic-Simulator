@@ -43,3 +43,63 @@ id = r1
 time = 3
 queues = 
 
+[junction_report]
+id = j1
+time = 4
+queues = 
+
+[junction_report]
+id = j2
+time = 4
+queues = 
+
+[junction_report]
+id = r1
+time = 4
+queues = 
+
+[junction_report]
+id = j1
+time = 5
+queues = 
+
+[junction_report]
+id = j2
+time = 5
+queues = 
+
+[junction_report]
+id = r1
+time = 5
+queues = 
+
+[junction_report]
+id = j1
+time = 6
+queues = 
+
+[junction_report]
+id = j2
+time = 6
+queues = 
+
+[junction_report]
+id = r1
+time = 6
+queues = 
+
+[junction_report]
+id = j1
+time = 7
+queues = 
+
+[junction_report]
+id = j2
+time = 7
+queues = 
+
+[junction_report]
+id = r1
+time = 7
+queues = 
+
