@@ -60,22 +60,22 @@ public class PopUpLayout {
         Ini sec = null;
         try {
             sec = new Ini(new FileInputStream("src/main/resources/templates/templates.ini"));
-        for (IniSection s : sec.getSections()) {
-            JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
-            s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
-            menuItem.addActionListener((ActionEvent e) -> {
-                eventsEditorArea.append(s.toString());
-                saveEvents.setEnabled(true);
-                clearEvents.setEnabled(true);
-                checkInEvents.setEnabled(true);
-            });
-            subMenu.add(menuItem);
-        }
-        popupMenu.add(subMenu);
-        popupMenu.addSeparator();
-         } catch (IOException e) {
+            for (IniSection s : sec.getSections()) {
+                JMenuItem menuItem = new JMenuItem(s.getValue("simulatorName"));
+                s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
+                menuItem.addActionListener((ActionEvent e) -> {
+                    eventsEditorArea.append(s.toString());
+                    saveEvents.setEnabled(true);
+                    clearEvents.setEnabled(true);
+                    checkInEvents.setEnabled(true);
+                });
+                subMenu.add(menuItem);
+            }
+            popupMenu.add(subMenu);
+            popupMenu.addSeparator();
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Template file wasn't found! "
-                    + "You won't be able to use them.", 
+                    + "You won't be able to use them.",
                     "Error while loading templates", JOptionPane.ERROR_MESSAGE);
         }
         popupMenu.add(loadOption);
@@ -111,6 +111,6 @@ public class PopUpLayout {
                 showPopup(e);
             }
         });
-         
+
     }
 }

@@ -244,7 +244,7 @@ public class TrafficSimulator implements Runnable {
         try {
             while (ticks < timeLimit) {
                 advance();
-                Thread.sleep(sleepTime);
+                Thread.sleep(sleepTime); // Hay que cambiarlo 
             }
         } catch (InterruptedException e) {
             // stopped!

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import javax.swing.SwingUtilities;
 import pr6.events.*;
 import pr6.exception.SimulatorError;
 import pr6.ini.Ini;
@@ -145,6 +146,7 @@ public class Controller {
                     + input, e);
         }
         run(timeLimit);
+        //SwingUtilities.invokeLater(()->{ run(timeLimit);});
     }
 
     /**
