@@ -14,7 +14,7 @@ import pr6.util.MultiTreeMap;
  * Simulates a system of vehicles driving through some roads and around
  * specified junctions.
  */
-public class TrafficSimulator implements Runnable {
+public class TrafficSimulator {
 
     private OutputStream output;
     /**
@@ -88,22 +88,31 @@ public class TrafficSimulator implements Runnable {
      *
      * @param numberOfTicks Number of repetitions
      */
-    private void advance() {
-        // Execute the events for the current time
-        advanceEvents();
-        // Invoke method advance for roads
-        roadMap.getRoads().forEach((Road r) -> r.advance());
-        // Invoke method advance for junction
-        roadMap.getJunctions().forEach((Junction j) -> j.advance());
-        // Current time increases
-        ticks++;
-        // listeners are notified
-        notifyAdvanced();
-        // Write report
-        if (output != null) {
-            roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
-            roadMap.getRoads().forEach((Road r) -> writeReport(r));
-            roadMap.getVehicles().forEach((Vehicle v) -> writeReport(v));
+    public void run(int numberOfTicks) {
+        int timeLimit = ticks + numberOfTicks;
+
+        try {
+            while (ticks < timeLimit) {
+                // Execute the events for the current time
+                advanceEvents();
+                // Invoke method advance for roads
+                roadMap.getRoads().forEach((Road r) -> r.advance());
+                // Invoke method advance for junction
+                roadMap.getJunctions().forEach((Junction j) -> j.advance());
+                // Current time increases
+                ticks++;
+                // listeners are notified
+                notifyAdvanced();
+                // Write report
+                if (output != null) {
+                    roadMap.getJunctions().forEach((Junction j) -> writeReport(j));
+                    roadMap.getRoads().forEach((Road r) -> writeReport(r));
+                    roadMap.getVehicles().forEach((Vehicle v) -> writeReport(v));
+                }
+            }
+        } catch (Exception e) {
+            notifyError(new SimulatorError("Error in TrafficSimulator at "
+                    + ticks + " time: \n-> " + e.getMessage(), e));
         }
     }
 
@@ -228,31 +237,6 @@ public class TrafficSimulator implements Runnable {
                 notifyError(new SimulatorError("The event cannot be proccesed"));
             }
         }
-    }
-
-    public void setTicksToExecute(int numberOfTicks) {
-        this.numberOfTicks = numberOfTicks;
-    }
-
-    public void setSleepTime(int sleepTime) {
-        this.sleepTime = sleepTime;
-    }
-
-    @Override
-    public void run() {
-        int timeLimit = ticks + numberOfTicks;
-        try {
-            while (ticks < timeLimit) {
-                advance();
-                Thread.sleep(sleepTime); // Hay que cambiarlo 
-            }
-        } catch (InterruptedException e) {
-            // stopped!
-        } catch (Exception e) {
-            notifyError(new SimulatorError("Error in TrafficSimulator at "
-                    + ticks + " time: \n-> " + e.getMessage(), e));
-        }
-        notifyThreadDead();
     }
 
     /**

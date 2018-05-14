@@ -35,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -50,6 +51,7 @@ import pr6.model.TrafficSimulator.TrafficSimulatorListener;
 import pr6.model.Vehicle;
 import pr6.view.popupmenu.PopUpLayout;
 import javax.swing.text.NumberFormatter;
+import pr6.control.Stepper;
 
 /**
  * SimulatedWindow object which represents a GUI interface for the user. This
@@ -57,7 +59,7 @@ import javax.swing.text.NumberFormatter;
  * mode.
  */
 public class SimWindow extends JFrame implements TrafficSimulatorListener {
-
+    
     private static final int DEFAULT_DELAY = 500;
     /**
      * Toolkit allows us to get the screen size so size is relative to the
@@ -86,7 +88,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Junctions table header
      */
     private final String[] JUNCTIONS_HEADER = {"ID", "Green", "Red"};
-
+    
     @Override
     public void endRunning() {
         if (reportsArea.getText().length() > 0) {
@@ -133,6 +135,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private List<Event> eventsList = new ArrayList<>();
     private TextAreaPrintStream outputReports;
     private final ByteArrayOutputStream defaultOutputSimulator = new ByteArrayOutputStream();
+    private final Stepper stepper;
     private final Action loadEvents = new SimulatorAction(
             "Load Events", "open.png", "Load events from file", KeyEvent.VK_L, "alt L",
             () -> {
@@ -193,6 +196,12 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     public SimWindow(String inFile, Controller controller) {
         super("Traffic Simulator");
         this.controller = controller;
+        stepper = new Stepper(
+                null,
+                () -> SwingUtilities.invokeLater(() -> stop()),
+                () -> SwingUtilities.invokeLater(() -> controller.run(1))
+        );
+        
         controller.setOutputStream(defaultOutputSimulator);
         this.inFile = new File(inFile);
         initGUI();
@@ -303,7 +312,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         menu.add(report);
         // Setting in MenuBar in the Window
         setJMenuBar(menu);
-
+        
         bar.add(loadEvents);
         bar.add(saveEvents);
         bar.add(clearEvents);
@@ -327,7 +336,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         bar.setFloatable(false);
         // Setting in ToolBar in the Window 
         add(bar, BorderLayout.PAGE_START);
-
+        
     }
 
     /**
@@ -375,7 +384,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 saveEvents.setEnabled(true);
                 checkInEvents.setEnabled(true);
             }
-
+            
             @Override
             public void removeUpdate(DocumentEvent e) {
                 if (e.getDocument().getLength() == 0) {
@@ -384,7 +393,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                     checkInEvents.setEnabled(false);
                 }
             }
-
+            
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // This event will not be fired as we use a PlainDocument
@@ -432,7 +441,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                     saveReport.setEnabled(true);
                 }
             }
-
+            
             @Override
             public void removeUpdate(DocumentEvent e) {
                 if (e.getDocument().getLength() == 0) {
@@ -440,7 +449,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                     saveReport.setEnabled(false);
                 }
             }
-
+            
             @Override
             public void changedUpdate(DocumentEvent e) {
                 // This event will not be fired as we use a PlainDocument
@@ -548,7 +557,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         pw.print(content);
         pw.close();
     }
-
+    
     @Override
     public void registered(TrafficSimulator.UpdateEvent ue) {
         lastUpdateEvent = ue;
@@ -557,21 +566,20 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     /**
      * Stops the simulation.
      */
-    public void stop() {
+    public final void stop() {
         run.setEnabled(true);
         stop.setEnabled(false);
         loadEvents.setEnabled(true);
         checkInEvents.setEnabled(true);
         clearEvents.setEnabled(true);
         saveEvents.setEnabled(true);
-        generateReport.setEnabled(true);
         reset.setEnabled(true);
-        controller.stop();
+        stepper.stop();
         stepsSpinner.setEnabled(true);
         delaySpinner.setEnabled(true);
         statusBarMessage.setText("The simulator has been stopped!");
     }
-
+    
     @Override
     public void reset(TrafficSimulator.UpdateEvent ue) {
         updatePanelBorder(reportsPanel, "Reports");
@@ -593,12 +601,12 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         graph.update(new RoadMap());
         statusBarMessage.setText("The simulator has been reset!");
     }
-
+    
     @Override
     public void newEvent(TrafficSimulator.UpdateEvent ue) {
         updateEventsQueue(ue.getEventQueue());
     }
-
+    
     @Override
     public void advanced(TrafficSimulator.UpdateEvent ue) {
         updateEventsQueue(ue.getEventQueue());
@@ -608,7 +616,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         timeViewer.setText(String.valueOf(ue.getCurrentTime()));
         graph.update(ue.getRoadMap());
     }
-
+    
     @Override
     public void error(TrafficSimulator.UpdateEvent ue, String error) {
         JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
@@ -704,17 +712,17 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
     private void runSimWindow() {
         saveReport.setEnabled(false);
         clearReport.setEnabled(false);
-        generateReport.setEnabled(false);
         run.setEnabled(false);
         stop.setEnabled(true);
         loadEvents.setEnabled(false);
         checkInEvents.setEnabled(false);
         clearEvents.setEnabled(false);
         saveEvents.setEnabled(false);
+        generateReport.setEnabled(true);
         reset.setEnabled(false);
         stepsSpinner.setEnabled(false);
         delaySpinner.setEnabled(false);
-        controller.run((int) stepsSpinner.getValue(),
+        stepper.start((int) stepsSpinner.getValue(),
                 (int) delaySpinner.getValue());
         statusBarMessage.setText("Advanced " + stepsSpinner.getValue() + " steps");
     }
