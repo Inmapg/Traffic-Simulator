@@ -90,7 +90,6 @@ public class TrafficSimulator {
      */
     public void run(int numberOfTicks) {
         int timeLimit = ticks + numberOfTicks;
-
         try {
             while (ticks < timeLimit) {
                 // Execute the events for the current time

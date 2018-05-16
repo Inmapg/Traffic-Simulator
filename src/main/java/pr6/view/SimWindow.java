@@ -52,6 +52,7 @@ import pr6.model.Vehicle;
 import pr6.view.popupmenu.PopUpLayout;
 import javax.swing.text.NumberFormatter;
 import pr6.control.Stepper;
+import pr6.ini.IniError;
 
 /**
  * SimulatedWindow object which represents a GUI interface for the user. This
@@ -277,7 +278,8 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         delaySpinner.setPreferredSize(spinnerDim);
         delaySpinner.setMinimumSize(spinnerDim);
         delaySpinner.setMaximumSize(spinnerDim);
-        stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(), 1, 1000, 1));
+        stepsSpinner = new JSpinner(new SpinnerNumberModel(controller.getDefaultTime(),
+                1, 1000, 1));
         stepsSpinner.setPreferredSize(spinnerDim);
         stepsSpinner.setMinimumSize(spinnerDim);
         stepsSpinner.setMaximumSize(spinnerDim);
@@ -553,9 +555,9 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * @throws IOException if file cannot be opened
      */
     private static void writeFile(File file, String content) throws IOException {
-        PrintWriter pw = new PrintWriter(file);
-        pw.print(content);
-        pw.close();
+        try (PrintWriter pw = new PrintWriter(file)) {
+            pw.print(content);
+        }
     }
     
     @Override
@@ -672,7 +674,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                     .getText().getBytes()));
             reset.setEnabled(true);
             run.setEnabled(true);
-        } catch (Exception e) {
+        } catch (IOException | IniError e) {
             JOptionPane.showMessageDialog(this, e.getMessage(),
                     "Error at check-in events",
                     JOptionPane.WARNING_MESSAGE);

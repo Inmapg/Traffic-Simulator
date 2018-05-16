@@ -1,5 +1,7 @@
 package pr6.control;
 
+import javax.swing.JOptionPane;
+
 /**
  * Stepper class.
  * <a href=https://github.com/manuel-freire>github</a>
@@ -57,9 +59,9 @@ public class Stepper {
                     Stepper.this.steps--;
                 }
             } catch (Exception e) {
-                /*log.warn("Exception while stepping, " + steps + " remaining: " +
-                        e, e);*/
-                // suponiendo que tengamos un logger
+                JOptionPane.showMessageDialog(null, "There was a problem "
+                            + "while stepping, " + steps + " remaining: " + e,
+                            "Exception while stepping!", JOptionPane.WARNING_MESSAGE);
             } finally {
                 after.run();
             }
@@ -69,7 +71,7 @@ public class Stepper {
     }
 
     /**
-     * Calls whenever the stepper needs to be stopped.
+     * Called whenever the stepper needs to be stopped.
      */
     public void stop() {
         stopRequested = true;

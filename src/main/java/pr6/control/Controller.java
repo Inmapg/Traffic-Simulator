@@ -149,10 +149,9 @@ public class Controller {
      */
     public void run(int timeLimit) {
         try {
-
             trafficSim.run(timeLimit);
         } catch (SimulatorError e) {
-            throw new SimulatorError("Error when executing running method in"
+            throw new SimulatorError("Error while executing run method in"
                     + " Traffic Simulator...", e);
         }
     }
