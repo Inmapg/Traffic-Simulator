@@ -14,7 +14,7 @@ import pr6.model.SimulatedObject;
 import pr6.model.TrafficSimulator;
 
 /**
- * Executes and controls the program.
+ * Simulates the steps of the traffic simulator.
  */
 public class Controller {
 

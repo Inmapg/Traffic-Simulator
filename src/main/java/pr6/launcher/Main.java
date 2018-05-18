@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import javax.swing.SwingUtilities;
 import org.apache.commons.cli.*;
 import pr6.control.Controller;
 import pr6.view.SimWindow;
@@ -259,15 +260,17 @@ public class Main {
      *
      */
     private static void startGUIMode() {
-        try {
-            new SimWindow(null == _inFile ? "" : _inFile,
-                    new Controller(_timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
-                            : _timeLimit,
-                            _outFile == null ? System.out
-                                    : new FileOutputStream(_outFile)));
-        } catch (FileNotFoundException ex) {
-            System.err.println("File not found!");
-        }
+        SwingUtilities.invokeLater(() -> {
+            try {
+                new SimWindow(null == _inFile ? "" : _inFile,
+                        new Controller(_timeLimit == null ? TIME_LIMIT_DEFAULT_VALUE
+                                : _timeLimit,
+                                _outFile == null ? System.out
+                                        : new FileOutputStream(_outFile)));
+            } catch (FileNotFoundException ex) {
+                System.err.println("File not found!");
+            }
+        });
     }
 
     /**

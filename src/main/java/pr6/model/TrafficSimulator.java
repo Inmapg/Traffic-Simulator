@@ -27,17 +27,9 @@ public class TrafficSimulator {
      */
     private int ticks = 0;
     /**
-     * Number of ticks to be executed
-     */
-    private int numberOfTicks = 0;
-    /**
      * Road map storing all the objects in the simulatation
      */
     private RoadMap roadMap = new RoadMap();
-    /**
-     * Time delayed in each execution of the loop
-     */
-    private int sleepTime = 0;
     /**
      * List of observers to be used during the GUI execution
      */
@@ -195,15 +187,6 @@ public class TrafficSimulator {
     }
 
     /**
-     * Notifies the listeners when the simulation is over.
-     */
-    private void notifyThreadDead() {
-        listeners.forEach((l) -> {
-            l.endRunning();
-        });
-    }
-
-    /**
      * Notifies the listeners when an error occurs during the simulation.
      */
     private void notifyError(SimulatorError e) {
@@ -279,11 +262,6 @@ public class TrafficSimulator {
          * @param errorMessage
          */
         public void error(UpdateEvent updateEvent, String errorMessage);
-
-        /**
-         * Used when the main thread is over.
-         */
-        public void endRunning();
     }
 
     /**

@@ -90,18 +90,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      */
     private final String[] JUNCTIONS_HEADER = {"ID", "Green", "Red"};
     
-    @Override
-    public void endRunning() {
-        if (reportsArea.getText().length() > 0) {
-            clearReport.setEnabled(true);
-            saveReport.setEnabled(true);
-        }
-        generateReport.setEnabled(true);
-        stepsSpinner.setEnabled(true);
-        delaySpinner.setEnabled(true);
-        run.setEnabled(true);
-    }
-
     /**
      * Two different types of output. Used to change the output stream.
      */
@@ -743,7 +731,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * template, load, save and clear.
      */
     private void createPopup() {
-        (new PopUpLayout(loadEvents, saveEvents, clearEvents, checkInEvents,
-                eventsEditorArea)).createPopUp();
+        (new PopUpLayout(eventsEditorArea, loadEvents, saveEvents, clearEvents))
+                .createPopUp();
     }
 }
