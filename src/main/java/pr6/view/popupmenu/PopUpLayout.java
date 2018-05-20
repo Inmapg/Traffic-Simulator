@@ -3,9 +3,7 @@ package pr6.view.popupmenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -27,10 +25,10 @@ public class PopUpLayout {
      * Class constructor specifying all the required actions and the text area
      * where it will be opened.
      *
-     * @param actions 
+     * @param actions
      * @param eventsEditorArea
      */
-    public PopUpLayout(JTextArea eventsEditorArea, Action ... actions) {
+    public PopUpLayout(JTextArea eventsEditorArea, Action... actions) {
         this.actions = actions;
         this.eventsEditorArea = eventsEditorArea;
     }
@@ -49,7 +47,7 @@ public class PopUpLayout {
                 s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
                 menuItem.addActionListener((ActionEvent e) -> {
                     eventsEditorArea.append(s.toString());
-                    for(Action a : actions){
+                    for (Action a : actions) {
                         a.setEnabled(true);
                     }
                 });
@@ -62,7 +60,7 @@ public class PopUpLayout {
                     + "You won't be able to use them.",
                     "Error while loading templates", JOptionPane.ERROR_MESSAGE);
         }
-        for(Action a : actions){
+        for (Action a : actions) {
             popupMenu.add(a);
         }
         // Connect the popup menu to the text eventsEditorArea

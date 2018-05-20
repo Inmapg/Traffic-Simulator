@@ -191,7 +191,7 @@ public class TrafficSimulator {
      */
     private void notifyError(SimulatorError e) {
         listeners.forEach((l) -> {
-            l.error(new UpdateEvent(EventType.ERROR), e.getMessage());
+            l.error(new UpdateEvent(EventType.ERROR), e);
         });
     }
 
@@ -200,8 +200,8 @@ public class TrafficSimulator {
      */
     private void advanceEvents() {
         Event currentEvent = null;
+        ArrayList<Event> eventsList = null;
         try {
-            ArrayList<Event> eventsList;
             eventsList = mapOfEvents.getOrDefault(ticks, null);
             if (eventsList != null) {
                 for (Event e : eventsList) {
@@ -210,11 +210,12 @@ public class TrafficSimulator {
                 }
             }
         } catch (Exception e) { // not valid event executed
+            mapOfEvents.get(ticks).remove(currentEvent);
+            eventsList.remove(currentEvent);
             if (null != currentEvent) {
                 notifyError(new SimulatorError("The event "
                         + currentEvent.getClass().getSimpleName()
                         + " gets in conflict with events used"));
-                mapOfEvents.get(ticks).remove(currentEvent);
             } else {
                 notifyError(new SimulatorError("The event cannot be proccesed"));
             }
@@ -259,9 +260,9 @@ public class TrafficSimulator {
          * Used when an error occurs during the simulation.
          *
          * @param updateEvent
-         * @param errorMessage
+         * @param e Exception
          */
-        public void error(UpdateEvent updateEvent, String errorMessage);
+        public void error(UpdateEvent updateEvent, Exception e);
     }
 
     /**

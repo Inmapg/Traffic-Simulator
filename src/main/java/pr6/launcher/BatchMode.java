@@ -31,8 +31,8 @@ public enum BatchMode implements TrafficSimulator.TrafficSimulatorListener {
     }
 
     @Override
-    public void error(TrafficSimulator.UpdateEvent updateEvent, String errorMessage) {
+    public void error(TrafficSimulator.UpdateEvent updateEvent, Exception e) {
         System.out.println("[" + updateEvent.getEvent().toString() + "] "
-                + errorMessage);
+                + e.getMessage());
     }
 }
