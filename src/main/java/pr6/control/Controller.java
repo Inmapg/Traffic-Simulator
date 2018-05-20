@@ -28,10 +28,6 @@ public class Controller {
      * Period of time in which the traffic simulator will be running
      */
     private int time;
-    /**
-     * Output stream
-     */
-    private OutputStream output;
 
     /**
      * List of Traffic Simulator's events. The order matters.
@@ -56,10 +52,8 @@ public class Controller {
      * @param output
      */
     public Controller(int time, OutputStream output) {
-
         this.trafficSim = new TrafficSimulator(output);
         this.time = time;
-        this.output = output;
     }
 
     /**
@@ -70,7 +64,6 @@ public class Controller {
     public Controller(OutputStream output) {
         this.trafficSim = new TrafficSimulator(output);
         this.time = 0;
-        this.output = output;
     }
 
     /**
@@ -93,21 +86,10 @@ public class Controller {
     /**
      * Loads events from a file.
      *
-     * @param input File name
+     * @param input input stream
      * @throws IOException If an input or output exception occurred
+     * @throws IniError ini file cannot be created from stream provided
      */
-    public void loadEvents(String input) throws IOException {
-        Ini ini = new Ini(new FileInputStream(input));
-        ini.getSections().forEach((IniSection sec) -> {
-            Event newEvent = parse(sec);
-            if (newEvent == null) {
-                throw new SimulatorError();
-            }
-            trafficSim.addEvent(newEvent);
-        });
-
-    }
-
     public void loadEvents(InputStream input) throws IOException, IniError {
         Ini ini = new Ini(input);
         ini.getSections().forEach((IniSection sec) -> {
@@ -134,7 +116,7 @@ public class Controller {
      */
     public void run(String input, int timeLimit) {
         try {
-            loadEvents(input);
+            loadEvents(new FileInputStream(input));
         } catch (IOException | SimulatorError e) {
             throw new SimulatorError("Error while loading events from file "
                     + input, e);

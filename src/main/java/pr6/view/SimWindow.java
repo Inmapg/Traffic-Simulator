@@ -235,7 +235,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Creates and adds the graph to the simulator.
      */
     private void addGraph() {
-        graph = new GraphLayout(lastUpdateEvent.getRoadMap());
+        graph = new GraphLayout(new RoadMap());
         lowerPanel.add(graph);
     }
 
@@ -446,14 +446,11 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
      * Creates and adds the different tables for the simulated objects.
      */
     private void addsSimObjectTables() {
-        roadsTable = new TrafficModelTable(ROADS_HEADER, lastUpdateEvent
-                .getRoadMap().getRoads());
+        roadsTable = new TrafficModelTable(ROADS_HEADER, new ArrayList<>());
         updateComponentBorder(roadsTable, "Roads");
-        vehiclesTable = new TrafficModelTable(VEHICLES_HEADER, lastUpdateEvent
-                .getRoadMap().getVehicles());
+        vehiclesTable = new TrafficModelTable(VEHICLES_HEADER, new ArrayList<>());
         updateComponentBorder(vehiclesTable, "Vehicles");
-        junctionsTable = new TrafficModelTable(JUNCTIONS_HEADER, lastUpdateEvent
-                .getRoadMap().getJunctions());
+        junctionsTable = new TrafficModelTable(JUNCTIONS_HEADER, new ArrayList<>());
         updateComponentBorder(junctionsTable, "Junctions");
         tablesPanel.add(vehiclesTable);
         tablesPanel.add(roadsTable);
@@ -602,7 +599,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     @Override
     public void error(TrafficSimulator.UpdateEvent ue, Exception e) {
-        e.printStackTrace();
+      //  e.printStackTrace();
         System.err.println("\n====================================\n");
         showError("Error on Traffic Simulator at time " + ue.getCurrentTime(), e);
     }
@@ -728,8 +725,17 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                 .createPopUp();
     }
 
+    /**
+     * Creates a JOptionPane showing a description of the error. Whenever an
+     * exception is caught this method is called. It shows a small panel
+     * announcing the error/exception while the execution manages the problem
+     * and continue working. 
+     * @param context message with the context where the exception was thrown
+     * @param e the exception thrown
+     */
     private void showError(String context, Exception e) {
-        StringBuilder sb = new StringBuilder(e.getMessage());
+        SwingUtilities.invokeLater(() ->{
+            StringBuilder sb = new StringBuilder(e.getMessage());
         Throwable ex = e.getCause();
         while (ex != null) {
             sb.append("\n").append(ex.getMessage());
@@ -737,5 +743,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         }
         JOptionPane.showMessageDialog(this, sb.toString(), context,
                 JOptionPane.ERROR_MESSAGE);
+        });
     }
 }

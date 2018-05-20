@@ -201,23 +201,17 @@ public class TrafficSimulator {
     private void advanceEvents() {
         Event currentEvent = null;
         ArrayList<Event> eventsList = null;
-        try {
-            eventsList = mapOfEvents.getOrDefault(ticks, null);
-            if (eventsList != null) {
-                for (Event e : eventsList) {
+        eventsList = mapOfEvents.getOrDefault(ticks, null);
+        if (eventsList != null) {
+            for (Event e : eventsList) {
+                try {
                     e.execute(roadMap);
                     currentEvent = e;
+                } catch (Exception ex) {
+                    notifyError(new SimulatorError("The event \""
+                            + e.getClass().getSimpleName()
+                            + "\" cannot be proccesed", ex));
                 }
-            }
-        } catch (Exception e) { // not valid event executed
-            mapOfEvents.get(ticks).remove(currentEvent);
-            eventsList.remove(currentEvent);
-            if (null != currentEvent) {
-                notifyError(new SimulatorError("The event "
-                        + currentEvent.getClass().getSimpleName()
-                        + " gets in conflict with events used"));
-            } else {
-                notifyError(new SimulatorError("The event cannot be proccesed"));
             }
         }
     }
