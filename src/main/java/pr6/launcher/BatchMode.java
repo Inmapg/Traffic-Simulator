@@ -2,6 +2,9 @@ package pr6.launcher;
 
 import pr6.model.TrafficSimulator;
 
+/**
+ * Traffic simulator listener for batch mode.
+ */
 public enum BatchMode implements TrafficSimulator.TrafficSimulatorListener {
     INSTANCE;
 

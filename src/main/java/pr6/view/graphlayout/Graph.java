@@ -36,7 +36,6 @@ public class Graph {
     }
 
     /**
-     *
      * @return the list of edges
      */
     public List<Edge> getEdges() {
@@ -44,7 +43,6 @@ public class Graph {
     }
 
     /**
-     *
      * @return the list of nodes
      */
     public List<Node> getNodes() {

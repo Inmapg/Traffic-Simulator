@@ -67,7 +67,7 @@ public class Controller {
     }
 
     /**
-     * Parses the event that will be created
+     * Parses the event that will be created.
      *
      * @param sec Information about the event created
      * @return New event created, null if not
@@ -109,7 +109,7 @@ public class Controller {
     }
 
     /**
-     * Runs the program.
+     * Runs the simulation.
      *
      * @param input File name
      * @param timeLimit Period of time in which the programme will be executing
@@ -125,7 +125,7 @@ public class Controller {
     }
 
     /**
-     * Runs the program. Events have been loaded previously.
+     * Runs the simulation. Events have been loaded previously.
      *
      * @param timeLimit Period of time in which the programme will be executing
      */
@@ -139,7 +139,6 @@ public class Controller {
     }
 
     /**
-     *
      * @return the default time value of the simulation
      */
     public int getDefaultTime() {

@@ -17,7 +17,6 @@ public class Node {
     }
 
     /**
-     *
      * @return the node id
      */
     public String getId() {

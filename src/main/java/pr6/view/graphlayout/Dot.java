@@ -1,7 +1,7 @@
 package pr6.view.graphlayout;
 
 /**
- * Represents a do (vehicle) on the graph.
+ * Represents a dot (vehicle) on the graph.
  */
 public class Dot {
 
@@ -23,7 +23,6 @@ public class Dot {
     }
 
     /**
-     *
      * @return the dot id
      */
     public String getId() {
@@ -31,7 +30,6 @@ public class Dot {
     }
 
     /**
-     *
      * @return the location of the dot
      */
     public int getLocation() {
@@ -39,7 +37,6 @@ public class Dot {
     }
 
     /**
-     *
      * @return if the dot (vehicle) is faulty
      */
     public boolean isFaulty() {

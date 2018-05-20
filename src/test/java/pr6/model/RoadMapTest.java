@@ -1,12 +1,5 @@
 package pr6.model;
 
-import pr6.model.Car;
-import pr6.model.Road;
-import pr6.model.DirtRoad;
-import pr6.model.Bike;
-import pr6.model.LaneRoad;
-import pr6.model.RoadMap;
-import pr6.model.Junction;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

@@ -199,20 +199,17 @@ public class TrafficSimulator {
      * Advances the events for an specific time.
      */
     private void advanceEvents() {
-        Event currentEvent = null;
-        ArrayList<Event> eventsList = null;
-        eventsList = mapOfEvents.getOrDefault(ticks, null);
+        ArrayList<Event> eventsList = mapOfEvents.getOrDefault(ticks, null);
         if (eventsList != null) {
-            for (Event e : eventsList) {
+            eventsList.forEach((e) -> {
                 try {
                     e.execute(roadMap);
-                    currentEvent = e;
                 } catch (Exception ex) {
                     notifyError(new SimulatorError("The event \""
                             + e.getClass().getSimpleName()
                             + "\" cannot be proccesed", ex));
                 }
-            }
+            });
         }
     }
 
@@ -283,7 +280,6 @@ public class TrafficSimulator {
         }
 
         /**
-         *
          * @return the type of event
          */
         public EventType getEvent() {
@@ -291,7 +287,6 @@ public class TrafficSimulator {
         }
 
         /**
-         *
          * @return the road map
          */
         public RoadMap getRoadMap() {
@@ -299,7 +294,6 @@ public class TrafficSimulator {
         }
 
         /**
-         *
          * @return the queue of events up to the current time
          */
         public List<Event> getEventQueue() {
@@ -316,7 +310,6 @@ public class TrafficSimulator {
         }
 
         /**
-         *
          * @return the current time
          */
         public int getCurrentTime() {

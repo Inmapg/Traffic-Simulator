@@ -39,6 +39,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.UIManager;
 import pr6.control.SimulatorAction;
 import pr6.events.Event;
 import pr6.view.dialog.DialogWindow;
@@ -164,7 +165,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
             "Clear", "delete_report.png", "Clear report", () -> clearReport());
     private final Action exit = new SimulatorAction(
             "Exit", "exit.png", "Terminate the execution",
-            KeyEvent.VK_E, "alt E", () -> System.exit(0));
+            KeyEvent.VK_E, "alt E", () -> exitAfterConfirmation());
     private final Action run = new SimulatorAction(
             "Run", "play.png", "Start simulation", () -> runSimWindow());
     private final Action stop = new SimulatorAction(
@@ -714,6 +715,24 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
         updatePanelBorder(eventsPanel, "Events");
         eventsEditorArea.setText("");
         controller.reset();
+    }
+    
+    /**
+     * Shows a popup asking the user for confirmation.
+     * If the user confirms, this method ends the execution of the simulator and
+     * closes the window.
+     */
+    private void exitAfterConfirmation() {
+        // Changing language to English
+        UIManager.put("OptionPane.noButtonText", "No"); 
+        UIManager.put("OptionPane.yesButtonText", "Yes");
+        int answer = JOptionPane.showOptionDialog(this,
+                "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, null, null
+        );
+        if (answer == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }
 
     /**

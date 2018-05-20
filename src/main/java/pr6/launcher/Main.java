@@ -258,7 +258,6 @@ public class Main {
 
     /**
      * Run the simulator in GUI mode.
-     *
      */
     private static void startGUIMode() {
 
@@ -278,7 +277,6 @@ public class Main {
 
     /**
      * Start the simulator choosing one of the modes available: GUI or Batch.
-     *
      */
     private static void start(String[] args) throws IOException {
         parseArgs(args);

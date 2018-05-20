@@ -43,7 +43,6 @@ public class Edge {
     }
 
     /**
-     *
      * @return the edge id
      */
     public String getId() {
@@ -51,7 +50,6 @@ public class Edge {
     }
 
     /**
-     *
      * @return the source node
      */
     public Node getSource() {
@@ -59,7 +57,6 @@ public class Edge {
     }
 
     /**
-     *
      * @return the target node
      */
     public Node getTarget() {
@@ -67,7 +64,6 @@ public class Edge {
     }
 
     /**
-     *
      * @return the length of the edge
      */
     public int getLength() {
@@ -75,7 +71,6 @@ public class Edge {
     }
 
     /**
-     *
      * @return the existing dots of the edge
      */
     public List<Dot> getDots() {
@@ -83,7 +78,6 @@ public class Edge {
     }
 
     /**
-     *
      * @return if the traffic light is on
      */
     public boolean isGreen() {

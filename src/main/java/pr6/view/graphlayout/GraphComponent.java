@@ -21,12 +21,12 @@ public class GraphComponent extends JComponent {
     /**
      * The radius of each node
      */
-    private static final int nodeRadius = 20;
+    private static final int NODE_RADIUS = 20;
 
     /**
      * The radius of each dot
      */
-    private static final int dotRadius = 5;
+    private static final int DOT_RADIUS = 5;
 
     /**
      * An inner class that represent a location of a node. Fields cX and cY are
@@ -82,7 +82,7 @@ public class GraphComponent extends JComponent {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        if (graph == null || graph.getNodes().size() == 0) {
+        if (graph == null || graph.getNodes().isEmpty()) {
             g.setColor(Color.red);
             g.drawString("No graph yet!", getWidth() / 2 - 50, getHeight() / 2);
         } else {
@@ -102,16 +102,16 @@ public class GraphComponent extends JComponent {
         }
 
         // draw nodes
-        for (Node j : graph.getNodes()) {
+        graph.getNodes().forEach((j) -> {
             Point p = _nodesPisitions.get(j.getId());
             g.setColor(Color.blue);
-            g.fillOval(p.cX - nodeRadius / 2, p.cY - nodeRadius / 2, nodeRadius, nodeRadius);
+            g.fillOval(p.cX - NODE_RADIUS / 2, p.cY - NODE_RADIUS / 2, NODE_RADIUS, NODE_RADIUS);
             g.setColor(Color.black);
             g.drawString(j.getId(), p.tX, p.tY);
-        }
+        });
 
         // draw edges
-        for (Edge e : graph.getEdges()) {
+        graph.getEdges().forEach((e) -> {
             Point p1 = _nodesPisitions.get(e.getSource().getId());
             Point p2 = _nodesPisitions.get(e.getTarget().getId());
 
@@ -122,19 +122,19 @@ public class GraphComponent extends JComponent {
             // draw dots as circles. Dots at the same location are drawn with circles of
             // different diameter.
             int lastLocation = -1;
-            int diam = dotRadius;
+            int diam = DOT_RADIUS;
             for (Dot d : e.getDots()) {
                 if (lastLocation != d.getLocation()) {
                     lastLocation = d.getLocation();
-                    diam = dotRadius;
+                    diam = DOT_RADIUS;
                 } else {
-                    diam += dotRadius;
+                    diam += DOT_RADIUS;
                 }
                 Color dotColor = d.isFaulty() ? Color.MAGENTA : Color.ORANGE;
                 drawCircleOnALine(g, p1.cX, p1.cY, p2.cX, p2.cY, e.getLength(), d.getLocation(), diam, dotColor,
                         d.getId());
             }
-        }
+        });
     }
 
     /**
@@ -143,9 +143,9 @@ public class GraphComponent extends JComponent {
      */
     private void calculateNodeCoordinates() {
 
-        int r = Math.min(_lastHeight, _lastWidth) / 2 - nodeRadius - 50; // 50 for
+        int r = Math.min(_lastHeight, _lastWidth) / 2 - NODE_RADIUS - 50; // 50 for
         // text
-        int tr = (r + nodeRadius + 10);
+        int tr = (r + NODE_RADIUS + 10);
 
         int xc = _lastWidth / 2 - 10;
         int yc = _lastHeight / 2 - 10;
@@ -238,5 +238,4 @@ public class GraphComponent extends JComponent {
     public void refresh() {
         repaint();
     }
-
 }
