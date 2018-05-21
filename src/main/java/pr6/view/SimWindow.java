@@ -600,8 +600,6 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
 
     @Override
     public void error(TrafficSimulator.UpdateEvent ue, Exception e) {
-      //  e.printStackTrace();
-        System.err.println("\n====================================\n");
         showError("Error on Traffic Simulator at time " + ue.getCurrentTime(), e);
     }
 
