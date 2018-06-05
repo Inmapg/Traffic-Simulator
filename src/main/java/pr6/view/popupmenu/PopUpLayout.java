@@ -47,9 +47,6 @@ public class PopUpLayout {
                 s.erase("simulatorName"); // Remove it because it is an additional section which is not showed on the events area
                 menuItem.addActionListener((ActionEvent e) -> {
                     eventsEditorArea.append(s.toString());
-                    for (Action a : actions) {
-                        a.setEnabled(true);
-                    }
                 });
                 subMenu.add(menuItem);
             }
