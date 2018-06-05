@@ -53,6 +53,7 @@ import pr6.model.Vehicle;
 import pr6.view.popupmenu.PopUpLayout;
 import javax.swing.text.NumberFormatter;
 import pr6.control.Stepper;
+import pr6.exception.SimulatorError;
 import pr6.ini.IniError;
 
 /**
@@ -653,7 +654,7 @@ public class SimWindow extends JFrame implements TrafficSimulatorListener {
                     .getText().getBytes()));
             reset.setEnabled(true);
             run.setEnabled(true);
-        } catch (IOException | IniError e) {
+        } catch (IOException | IniError | SimulatorError e) {
             showError("Error at check-in events", e);
         }
     }
